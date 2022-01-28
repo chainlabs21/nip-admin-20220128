@@ -17,6 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { mainListItems, secondaryListItems } from './ListItems'
+import LogoutIcon from '@mui/icons-material/Logout'
 import Chart from './Chart'
 import Deposits from './Deposits'
 import Orders from './Orders'
@@ -129,6 +130,10 @@ function DashboardContent() {
             >
               NIP
             </Typography>
+
+            <IconButton color="inherit">
+              <LogoutIcon />
+            </IconButton>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
