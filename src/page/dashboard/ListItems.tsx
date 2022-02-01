@@ -9,22 +9,27 @@ import PeopleIcon from '@mui/icons-material/People'
 import BarChartIcon from '@mui/icons-material/BarChart'
 import LayersIcon from '@mui/icons-material/Layers'
 import AssignmentIcon from '@mui/icons-material/Assignment'
+import { Link } from 'react-router-dom'
 
 export const mainListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="사용자 정보" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/">
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="대시보드" />
+      </ListItem>
+    </Link>
 
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="없음" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/users">
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="사용자 정보" />
+      </ListItem>
+    </Link>
 
     <ListItem button>
       <ListItemIcon>
