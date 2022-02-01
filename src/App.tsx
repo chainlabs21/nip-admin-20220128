@@ -7,8 +7,8 @@ const App = () => {
   // if logged in => Dashboard, else => Sign in
   return (
     <section>
-      <SignIn />
-      {/*<Dashboard />*/}
+      {/*<SignIn />*/}
+      <Dashboard />
     </section>
   )
 }
