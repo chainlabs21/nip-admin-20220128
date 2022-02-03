@@ -12,12 +12,16 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Modal,
   Paper,
   Select,
 } from '@mui/material'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import BasicTextFields from '../../components/input/search/SearchField'
 import ContainedButton from '../../components/input/button/ContainedButton'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import SignUp from '../sign-up/SignUp'
 
 function createData(
   id: number,
@@ -126,9 +130,40 @@ const rows = [
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '30%',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
+
 const Users = () => {
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   return (
     <>
+      {/* Create owner modal */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            관리자 등록
+          </Typography>
+          <SignUp />
+        </Box>
+      </Modal>
+
       <Title>관리자 계정 관리</Title>
       <Paper
         sx={{
@@ -166,7 +201,7 @@ const Users = () => {
 
           <article style={{ display: 'flex', alignItems: 'center' }}>
             <BasicTextFields label={'Search'} />
-            <ContainedButton subject={'등록'} />
+            <ContainedButton handleOpen={handleOpen} subject={'등록'} />
           </article>
         </article>
 

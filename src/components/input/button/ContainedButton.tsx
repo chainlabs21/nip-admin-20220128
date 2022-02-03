@@ -4,12 +4,15 @@ import Stack from '@mui/material/Stack'
 
 interface ButtonProps {
   subject: string
+  handleOpen?: () => void
 }
 
-export default function ContainedButton({ subject }: ButtonProps) {
+export default function ContainedButton({ subject, handleOpen }: ButtonProps) {
   return (
     <Stack direction="row" spacing={2}>
-      <Button variant="contained">{subject}</Button>
+      <Button onClick={handleOpen} variant="contained">
+        {subject}
+      </Button>
     </Stack>
   )
 }
