@@ -16,3 +16,12 @@ code {
   text-decoration: none;
   color: #000000;
 }
+
+.common-label {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.common-text {
+  font-size: 20px;
+}

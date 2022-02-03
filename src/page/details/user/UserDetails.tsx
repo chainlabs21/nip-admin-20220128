@@ -1,45 +1,113 @@
-import React from 'react'
+import * as React from 'react'
+import Paper from '@mui/material/Paper'
 import Title from '../../dashboard/Title'
-import { Paper } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import TableBody from '@mui/material/TableBody'
-import Table from '@mui/material/Table'
+import List from '@mui/material/List'
+import { Divider, ListItem, ListItemText } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import { styled } from '@mui/material/styles'
+import ContainedButton from '../../../components/input/button/ContainedButton'
 
-const UserDetails = () => {
+const style = {
+  width: '100%',
+  maxWidth: 360,
+  bgcolor: 'background.paper',
+}
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}))
+
+export default function UserDetails() {
   const params = useParams()
 
   return (
     <>
-      <Title>{params.nickname} 정보</Title>
-      <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
+      <Title>회원 정보 {params.nickname}</Title>
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Item>
+            <List sx={style} component="nav" aria-label="mailbox folders">
+              <ListItem>
+                <ListItemText primary="아이디" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider />
+              <ListItem divider>
+                <ListItemText primary="마켓명" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="이메일" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <ListItemText primary="이메일 인증 일시" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <ListItemText primary="프로필 이미지" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <ListItemText primary="계정 활성" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+            </List>
+          </Item>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Item>
+            <List sx={style} component="nav" aria-label="mailbox folders">
+              <ListItem>
+                <ListItemText primary="지갑주소" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider />
+              <ListItem divider>
+                <ListItemText primary="지갑 연동일" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <ListItem>
+                <ListItemText primary="등록 아이템 수" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <ListItemText primary="구매 아이템 수" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <ListItemText primary="배경 이미지" />
+                <ListItemText secondary="sefsfes" />
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <ListItemText primary="-" />
+                <ListItemText secondary="-" />
+              </ListItem>
+            </List>
+          </Item>
+        </Grid>
+      </Grid>
+
+      <div
+        style={{
+          float: 'right',
+          marginTop: '1rem',
         }}
       >
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>번호</TableCell>
-              <TableCell>닉네임</TableCell>
-              <TableCell>스토어</TableCell>
-              <TableCell>이메일</TableCell>
-              <TableCell>등록 아이템</TableCell>
-              <TableCell>보유 아이템</TableCell>
-              <TableCell>지갑주소</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody></TableBody>
-        </Table>
-        {params.nickname}
-      </Paper>
+        <ContainedButton subject="저장" />
+      </div>
     </>
   )
 }
-
-export default UserDetails
