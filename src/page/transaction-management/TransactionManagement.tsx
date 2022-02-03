@@ -8,8 +8,11 @@ import TableBody from '@mui/material/TableBody'
 import Link from '@mui/material/Link'
 import Paginating from '../../components/paginating/Paginating'
 import {
+  Divider,
   FormControl,
   InputLabel,
+  ListItem,
+  ListItemText,
   MenuItem,
   Modal,
   Paper,
@@ -22,6 +25,19 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import SignUp from '../sign-up/SignUp'
 import { Link as Router } from 'react-router-dom'
+import List from '@mui/material/List'
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '30%',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
 
 function createData(
   id: number,
@@ -149,8 +165,95 @@ const rows = [
 ]
 
 const TransactionManagement = () => {
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   return (
     <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            거래세부
+          </Typography>
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="거래일시" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <Divider />
+          <ListItem divider>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="마켓" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="구분" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <Divider light />
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="판매자" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <Divider light />
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="구매자" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <Divider light />
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="결제 토큰 및 금액" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <Divider light />
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="아이템 제목" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+          <Divider light />
+          <ListItem>
+            <article style={{ width: '40%' }}>
+              <ListItemText primary="아이템 고유번호" />
+            </article>
+            <article style={{ width: '60%' }}>
+              <ListItemText secondary="sefsfes" />
+            </article>
+          </ListItem>
+        </Box>
+      </Modal>
+
       <Title>거래관리</Title>
       <Paper
         sx={{
@@ -209,7 +312,7 @@ const TransactionManagement = () => {
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.kind}</TableCell>
+                <TableCell onClick={handleOpen}>{row.kind}</TableCell>
                 <TableCell>{row.market}</TableCell>
                 <TableCell>{row.divide}</TableCell>
                 <TableCell>{row.item}</TableCell>

@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61e8de17-a260-4244-b886-06f4d1421105" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/page/transaction-management/TransactionManagement.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Routers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Routers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/page/dashboard/ListItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/dashboard/ListItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/transaction-management/TransactionManagement.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/transaction-management/TransactionManagement.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +69,7 @@
       <workItem from="1643514328657" duration="966000" />
       <workItem from="1643710253569" duration="4351000" />
       <workItem from="1643851298174" duration="13021000" />
-      <workItem from="1643873284898" duration="1612000" />
+      <workItem from="1643873284898" duration="2174000" />
     </task>
     <servers />
   </component>
