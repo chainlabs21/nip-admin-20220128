@@ -31,12 +31,14 @@ export const mainListItems = (
       </ListItem>
     </Link>
 
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="없음" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/privilege">
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="관리자 권한 관리" />
+      </ListItem>
+    </Link>
 
     <ListItem button>
       <ListItemIcon>
