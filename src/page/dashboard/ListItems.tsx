@@ -49,12 +49,14 @@ export const mainListItems = (
       </ListItem>
     </Link>
 
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="없음" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/transaction-management">
+      <ListItem button>
+        <ListItemIcon>
+          <LayersIcon />
+        </ListItemIcon>
+        <ListItemText primary="거래관리" />
+      </ListItem>
+    </Link>
   </div>
 )
 

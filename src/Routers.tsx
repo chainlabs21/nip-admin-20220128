@@ -5,6 +5,7 @@ import Owners from './page/owners/Owners'
 import Privilege from './page/privilege/Privilege'
 import Users from './page/users/Users'
 import UserDetails from './page/details/user/UserDetails'
+import TransactionManagement from './page/transaction-management/TransactionManagement'
 
 const Routers = () => {
   return (
@@ -14,6 +15,10 @@ const Routers = () => {
       <Route path="/privilege" element={<Privilege />} />
       <Route path="/users" element={<Users />} />
       <Route path="/user/:nickname" element={<UserDetails />} />
+      <Route
+        path="/transaction-management"
+        element={<TransactionManagement />}
+      />
     </Routes>
   )
 }
