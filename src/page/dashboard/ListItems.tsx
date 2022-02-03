@@ -27,7 +27,7 @@ export const mainListItems = (
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="사용자 정보" />
+        <ListItemText primary="관리자 계정 관리" />
       </ListItem>
     </Link>
 

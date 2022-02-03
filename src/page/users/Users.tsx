@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import Link from '@mui/material/Link'
-import Paginating from '../dashboard/Paginating'
+import Paginating from '../../components/paginating/Paginating'
 import {
   Checkbox,
   FormControl,
@@ -15,7 +15,9 @@ import {
   Paper,
   Select,
 } from '@mui/material'
-import Box from '@mui/material/Box'
+import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
+import BasicTextFields from '../../components/input/search/SearchField'
+import ContainedButton from '../../components/input/button/ContainedButton'
 
 function createData(
   id: number,
@@ -87,6 +89,39 @@ const rows = [
     '2022-02-01',
     '2022-02-02',
   ),
+  createData(
+    5,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    6,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    7,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
 ]
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -103,22 +138,37 @@ const Users = () => {
           height: '100%',
         }}
       >
-        <FormControl
-          sx={{
-            width: 150,
+        <article
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <InputLabel id="demo-simple-select-label">10개씩 보기</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
+          <FormControl
+            sx={{
+              width: 150,
+            }}
           >
-            <MenuItem value={10}>10개씩</MenuItem>
-            <MenuItem value={20}>20개씩</MenuItem>
-            <MenuItem value={30}>30개씩</MenuItem>
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-label">10개씩 보기</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+            >
+              <MenuItem value={10}>10개씩</MenuItem>
+              <MenuItem value={20}>20개씩</MenuItem>
+              <MenuItem value={30}>30개씩</MenuItem>
+            </Select>
+          </FormControl>
+
+          <BasicDateRangePicker />
+
+          <article style={{ display: 'flex', alignItems: 'center' }}>
+            <BasicTextFields label={'Search'} />
+            <ContainedButton subject={'등록'} />
+          </article>
+        </article>
 
         <Table size="small">
           <TableHead>

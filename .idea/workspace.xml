@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61e8de17-a260-4244-b886-06f4d1421105" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/page/main/Main.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/page/users/Users.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/date-range/DateRangePicker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/input/search/SearchField.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Routers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Routers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/dashboard/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/dashboard/Dashboard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/page/dashboard/ListItems.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/dashboard/ListItems.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/dashboard/Orders.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/dashboard/Orders.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/dashboard/Paginating.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/paginating/Paginating.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/page/users/Users.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/page/users/Users.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +59,11 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/paginating" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,7 +75,8 @@
       <workItem from="1643342985876" duration="15757000" />
       <workItem from="1643511332636" duration="583000" />
       <workItem from="1643514328657" duration="966000" />
-      <workItem from="1643710253569" duration="3923000" />
+      <workItem from="1643710253569" duration="4351000" />
+      <workItem from="1643851298174" duration="2335000" />
     </task>
     <servers />
   </component>
