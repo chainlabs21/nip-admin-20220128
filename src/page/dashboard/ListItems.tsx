@@ -22,7 +22,7 @@ export const mainListItems = (
       </ListItem>
     </Link>
 
-    <Link className="text-decorator-none" to="/users">
+    <Link className="text-decorator-none" to="/owners">
       <ListItem button>
         <ListItemIcon>
           <PeopleIcon />
@@ -40,12 +40,14 @@ export const mainListItems = (
       </ListItem>
     </Link>
 
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="없음" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/users">
+      <ListItem button>
+        <ListItemIcon>
+          <BarChartIcon />
+        </ListItemIcon>
+        <ListItemText primary="회원관리" />
+      </ListItem>
+    </Link>
 
     <ListItem button>
       <ListItemIcon>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Title from '../dashboard/Title'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -8,6 +8,7 @@ import TableBody from '@mui/material/TableBody'
 import Link from '@mui/material/Link'
 import Paginating from '../../components/paginating/Paginating'
 import {
+  Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
@@ -21,38 +22,113 @@ import ContainedButton from '../../components/input/button/ContainedButton'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import SignUp from '../sign-up/SignUp'
-import { Link as Router } from 'react-router-dom'
 
 function createData(
   id: number,
-  nickname: string,
-  store: string,
-  email: string,
-  registerItem: string,
-  myItem: string,
-  walletAddress: string,
+  accountId: string,
+  name: string,
+  group: string,
+  use: string,
+  owner: string,
+  fixer: string,
+  createAt: string,
+  updateAt: string,
 ) {
-  return {
-    id,
-    nickname,
-    store,
-    email,
-    registerItem,
-    myItem,
-    walletAddress,
-  }
+  return { id, accountId, name, group, use, owner, fixer, createAt, updateAt }
 }
 
 const rows = [
-  createData(0, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(1, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(2, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(3, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(4, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(5, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(6, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
-  createData(7, 'soefjseojf', 'store', 's@gmail.com', 'SS', 'ZZZZ', 'Ox'),
+  createData(
+    0,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    1,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    2,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    3,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    4,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    5,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    6,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
+  createData(
+    7,
+    'soefjseojf',
+    '2022.01.28',
+    '기타관리자',
+    'Y',
+    '동웅',
+    '동웅',
+    '2022-02-01',
+    '2022-02-02',
+  ),
 ]
+
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -66,14 +142,14 @@ const style = {
   p: 4,
 }
 
-const Users = () => {
+const Owners = () => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   return (
     <>
-      {/* Create myItem modal */}
+      {/* Create owner modal */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -125,40 +201,46 @@ const Users = () => {
 
           <article style={{ display: 'flex', alignItems: 'center' }}>
             <BasicTextFields label={'Search'} />
-            <ContainedButton subject={'찾기'} />
+            <ContainedButton handleOpen={handleOpen} subject={'등록'} />
           </article>
         </article>
 
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>번호</TableCell>
-              <TableCell>닉네임</TableCell>
-              <TableCell>스토어</TableCell>
-              <TableCell>이메일</TableCell>
-              <TableCell>등록 아이템</TableCell>
-              <TableCell>보유 아이템</TableCell>
-              <TableCell>지갑주소</TableCell>
+              <TableCell>
+                <Checkbox
+                  {...label}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                />
+                ID
+              </TableCell>
+              <TableCell>사용자명</TableCell>
+              <TableCell>그룹명</TableCell>
+              <TableCell>사용</TableCell>
+              <TableCell>등록자</TableCell>
+              <TableCell>수정자</TableCell>
+              <TableCell>등록일</TableCell>
+              <TableCell>수정일</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id + 1}</TableCell>
                 <TableCell>
-                  <Router
-                    className="text-decorator-none"
-                    style={{ color: 'blue' }}
-                    to={`/user/${row.nickname}`}
-                  >
-                    {row.nickname}
-                  </Router>
+                  <Checkbox
+                    {...label}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                  />
+                  {row.accountId}
                 </TableCell>
-                <TableCell>{row.store}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.registerItem}</TableCell>
-                <TableCell>{row.myItem}</TableCell>
-                <TableCell>{row.walletAddress}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.group}</TableCell>
+                <TableCell>{row.use}</TableCell>
+                <TableCell>{row.owner}</TableCell>
+                <TableCell>{row.fixer}</TableCell>
+                <TableCell>{row.createAt}</TableCell>
+                <TableCell>{row.updateAt}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -179,4 +261,4 @@ const Users = () => {
     </>
   )
 }
-export default Users
+export default Owners
