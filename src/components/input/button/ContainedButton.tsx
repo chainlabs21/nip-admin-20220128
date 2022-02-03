@@ -10,7 +10,13 @@ interface ButtonProps {
 export default function ContainedButton({ subject, handleOpen }: ButtonProps) {
   return (
     <Stack direction="row" spacing={2}>
-      <Button onClick={handleOpen} variant="contained">
+      <Button
+        sx={{
+          height: 55.1,
+        }}
+        onClick={handleOpen}
+        variant="contained"
+      >
         {subject}
       </Button>
     </Stack>

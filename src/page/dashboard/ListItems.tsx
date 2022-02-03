@@ -75,12 +75,16 @@ export const userAccount = (
 export const margetManagement = (
   <div>
     <ListSubheader inset>마켓 관리</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AddIcon />
-      </ListItemIcon>
-      <ListItemText primary="아이템 등록 현황" />
-    </ListItem>
+
+    <Link className="text-decorator-none" to="/register-items">
+      <ListItem button>
+        <ListItemIcon>
+          <AddIcon />
+        </ListItemIcon>
+        <ListItemText primary="아이템 등록 현황" />
+      </ListItem>
+    </Link>
+
     <ListItem button>
       <ListItemIcon>
         <StoreIcon />

@@ -295,7 +295,7 @@ const TransactionManagement = () => {
           </article>
         </article>
 
-        <Table size="small">
+        <Table size="medium">
           <TableHead>
             <TableRow>
               <TableCell>종류</TableCell>

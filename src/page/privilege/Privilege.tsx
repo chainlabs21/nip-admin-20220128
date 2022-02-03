@@ -84,7 +84,7 @@ const Privilege = () => {
           style={{
             marginBottom: '1rem',
           }}
-          size="small"
+          size="medium"
         >
           <TableHead>
             <TableRow>

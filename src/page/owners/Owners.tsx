@@ -205,7 +205,7 @@ const Owners = () => {
           </article>
         </article>
 
-        <Table size="small">
+        <Table size="medium">
           <TableHead>
             <TableRow>
               <TableCell>
