@@ -14,7 +14,12 @@ import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { mainListItems, secondaryListItems } from './ListItems'
+import {
+  dashboard,
+  margetManagement,
+  ownerAccount,
+  userAccount,
+} from './ListItems'
 import LogoutIcon from '@mui/icons-material/Logout'
 import Routers from '../../Routers'
 
@@ -152,8 +157,10 @@ function DashboardContent() {
             </IconButton>
           </Toolbar>
 
-          <List>{mainListItems}</List>
-          <List>{secondaryListItems}</List>
+          <List>{dashboard}</List>
+          <List>{ownerAccount}</List>
+          <List>{userAccount}</List>
+          <List>{margetManagement}</List>
         </Drawer>
         <Box
           component="main"

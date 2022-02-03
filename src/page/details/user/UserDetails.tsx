@@ -33,32 +33,56 @@ export default function UserDetails() {
           <Item>
             <List sx={style} component="nav" aria-label="mailbox folders">
               <ListItem>
-                <ListItemText primary="아이디" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="아이디" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
               <Divider />
               <ListItem divider>
-                <ListItemText primary="마켓명" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="마켓명" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
               <ListItem>
-                <ListItemText primary="이메일" />
-                <ListItemText secondary="sefsfes" />
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary="이메일 인증 일시" />
-                <ListItemText secondary="sefsfes" />
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary="프로필 이미지" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="이메일" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
               <Divider light />
               <ListItem>
-                <ListItemText primary="계정 활성" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="이메일 인증 일시" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="프로필 이미지" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="계정 활성" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
             </List>
           </Item>
@@ -68,32 +92,56 @@ export default function UserDetails() {
           <Item>
             <List sx={style} component="nav" aria-label="mailbox folders">
               <ListItem>
-                <ListItemText primary="지갑주소" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="지갑주소" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
               <Divider />
               <ListItem divider>
-                <ListItemText primary="지갑 연동일" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="지갑 연동일" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
               <ListItem>
-                <ListItemText primary="등록 아이템 수" />
-                <ListItemText secondary="sefsfes" />
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary="구매 아이템 수" />
-                <ListItemText secondary="sefsfes" />
-              </ListItem>
-              <Divider light />
-              <ListItem>
-                <ListItemText primary="배경 이미지" />
-                <ListItemText secondary="sefsfes" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="등록 아이템 수" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
               </ListItem>
               <Divider light />
               <ListItem>
-                <ListItemText primary="-" />
-                <ListItemText secondary="-" />
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="구매 아이템 수" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="배경 이미지" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="sefsfes" />
+                </article>
+              </ListItem>
+              <Divider light />
+              <ListItem>
+                <article style={{ width: '50%' }}>
+                  <ListItemText primary="-" />
+                </article>
+                <article style={{ width: '50%' }}>
+                  <ListItemText secondary="-" />
+                </article>
               </ListItem>
             </List>
           </Item>

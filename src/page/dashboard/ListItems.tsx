@@ -6,22 +6,29 @@ import ListSubheader from '@mui/material/ListSubheader'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import PeopleIcon from '@mui/icons-material/People'
-import BarChartIcon from '@mui/icons-material/BarChart'
-import LayersIcon from '@mui/icons-material/Layers'
-import AssignmentIcon from '@mui/icons-material/Assignment'
 import { Link } from 'react-router-dom'
+import AddIcon from '@mui/icons-material/Add'
+import StoreIcon from '@mui/icons-material/Store'
+import StorefrontIcon from '@mui/icons-material/Storefront'
+import PaidIcon from '@mui/icons-material/Paid'
 
-export const mainListItems = (
+export const dashboard = (
   <div>
     <Link className="text-decorator-none" to="/">
       <ListItem button>
         <ListItemIcon>
-          <ShoppingCartIcon />
+          <DashboardIcon />
         </ListItemIcon>
+
         <ListItemText primary="대시보드" />
       </ListItem>
     </Link>
+  </div>
+)
 
+export const ownerAccount = (
+  <div>
+    <ListSubheader inset>관리자 계정 관리</ListSubheader>
     <Link className="text-decorator-none" to="/owners">
       <ListItem button>
         <ListItemIcon>
@@ -34,16 +41,21 @@ export const mainListItems = (
     <Link className="text-decorator-none" to="/privilege">
       <ListItem button>
         <ListItemIcon>
-          <DashboardIcon />
+          <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="관리자 권한 관리" />
       </ListItem>
     </Link>
+  </div>
+)
 
+export const userAccount = (
+  <div>
+    <ListSubheader inset>회원 관리</ListSubheader>
     <Link className="text-decorator-none" to="/users">
       <ListItem button>
         <ListItemIcon>
-          <BarChartIcon />
+          <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="회원관리" />
       </ListItem>
@@ -52,7 +64,7 @@ export const mainListItems = (
     <Link className="text-decorator-none" to="/transaction-management">
       <ListItem button>
         <ListItemIcon>
-          <LayersIcon />
+          <ShoppingCartIcon />
         </ListItemIcon>
         <ListItemText primary="거래관리" />
       </ListItem>
@@ -60,26 +72,32 @@ export const mainListItems = (
   </div>
 )
 
-export const secondaryListItems = (
+export const margetManagement = (
   <div>
-    <ListSubheader inset>기타</ListSubheader>
+    <ListSubheader inset>마켓 관리</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AddIcon />
       </ListItemIcon>
-      <ListItemText primary="없음" />
+      <ListItemText primary="아이템 등록 현황" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <StoreIcon />
       </ListItemIcon>
-      <ListItemText primary="없음" />
+      <ListItemText primary="NIP 마켓 설정" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <StorefrontIcon />
       </ListItemIcon>
-      <ListItemText primary="없음" />
+      <ListItemText primary="ETC 마켓 설정" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <PaidIcon />
+      </ListItemIcon>
+      <ListItemText primary="결제 토큰 관리" />
     </ListItem>
   </div>
 )

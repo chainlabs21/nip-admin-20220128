@@ -312,7 +312,11 @@ const TransactionManagement = () => {
           <TableBody>
             {rows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell onClick={handleOpen}>{row.kind}</TableCell>
+                <TableCell onClick={handleOpen}>
+                  <span style={{ color: 'blue', cursor: 'pointer' }}>
+                    {row.kind}
+                  </span>
+                </TableCell>
                 <TableCell>{row.market}</TableCell>
                 <TableCell>{row.divide}</TableCell>
                 <TableCell>{row.item}</TableCell>
