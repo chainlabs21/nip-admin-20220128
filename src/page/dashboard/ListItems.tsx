@@ -85,18 +85,24 @@ export const margetManagement = (
       </ListItem>
     </Link>
 
-    <ListItem button>
-      <ListItemIcon>
-        <StoreIcon />
-      </ListItemIcon>
-      <ListItemText primary="NIP 마켓 설정" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <StorefrontIcon />
-      </ListItemIcon>
-      <ListItemText primary="ETC 마켓 설정" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/nip-market-config">
+      <ListItem button>
+        <ListItemIcon>
+          <StoreIcon />
+        </ListItemIcon>
+        <ListItemText primary="NIP 마켓 설정" />
+      </ListItem>
+    </Link>
+
+    <Link className="text-decorator-none" to="/etc-market-config">
+      <ListItem button>
+        <ListItemIcon>
+          <StorefrontIcon />
+        </ListItemIcon>
+        <ListItemText primary="ETC 마켓 설정" />
+      </ListItem>
+    </Link>
+
     <ListItem button>
       <ListItemIcon>
         <PaidIcon />

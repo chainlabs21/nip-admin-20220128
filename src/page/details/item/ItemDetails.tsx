@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Paper from '@mui/material/Paper'
 import Title from '../../dashboard/Title'
-import { Link as Router, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import List from '@mui/material/List'
 import {
   Checkbox,
@@ -33,8 +33,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }))
-
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
 const rows = [
   {

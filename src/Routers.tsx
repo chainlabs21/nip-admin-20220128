@@ -8,6 +8,8 @@ import UserDetails from './page/details/user/UserDetails'
 import TransactionManagement from './page/transaction-management/TransactionManagement'
 import ItemsManagement from './page/items-management/ItemsManagement'
 import ItemDetails from './page/details/item/ItemDetails'
+import NipMarketConfig from './page/market-config/nip-market-config/NipMarketConfig'
+import EtcMarketConfig from './page/market-config/etc-market-config/EtcMarketConfig'
 
 const Routers = () => {
   return (
@@ -23,6 +25,8 @@ const Routers = () => {
         element={<TransactionManagement />}
       />
       <Route path="/register-items" element={<ItemsManagement />} />
+      <Route path="/nip-market-config" element={<NipMarketConfig />} />
+      <Route path="/etc-market-config" element={<EtcMarketConfig />} />
     </Routes>
   )
 }
