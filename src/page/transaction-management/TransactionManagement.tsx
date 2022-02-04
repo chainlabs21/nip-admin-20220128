@@ -23,7 +23,7 @@ import BasicTextFields from '../../components/input/search/SearchField'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import SignUp from '../sign-up/SignUp'
+import SignUp from '../../modals/sign-up/SignUp'
 import { Link as Router } from 'react-router-dom'
 import List from '@mui/material/List'
 

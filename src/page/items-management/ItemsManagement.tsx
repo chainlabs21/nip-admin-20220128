@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import Title from '../dashboard/Title'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -19,10 +19,10 @@ import {
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import BasicTextFields from '../../components/input/search/SearchField'
 import ContainedButton from '../../components/input/button/ContainedButton'
+import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import SignUp from '../sign-up/SignUp'
-import Button from '@mui/material/Button'
+import RegisterItem from '../../modals/register-item/RegisterItem'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
@@ -38,9 +38,27 @@ const style = {
   p: 4,
 }
 
-const RegisterItems = () => {
+const ItemsManagement = () => {
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   return (
     <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            아이템 등록
+          </Typography>
+          <RegisterItem />
+        </Box>
+      </Modal>
+
       <Title>아이템 등록 현황</Title>
       <Paper
         sx={{
@@ -94,7 +112,7 @@ const RegisterItems = () => {
 
           <article style={{ display: 'flex', alignItems: 'center' }}>
             <BasicTextFields label={'Search'} />
-            <ContainedButton subject={'등록'} />
+            <ContainedButton handleOpen={handleOpen} subject={'등록'} />
           </article>
         </article>
 
@@ -136,4 +154,4 @@ const RegisterItems = () => {
     </>
   )
 }
-export default RegisterItems
+export default ItemsManagement
