@@ -7,6 +7,7 @@ import Users from './page/users/Users'
 import UserDetails from './page/details/user/UserDetails'
 import TransactionManagement from './page/transaction-management/TransactionManagement'
 import ItemsManagement from './page/items-management/ItemsManagement'
+import ItemDetails from './page/details/item/ItemDetails'
 
 const Routers = () => {
   return (
@@ -16,6 +17,7 @@ const Routers = () => {
       <Route path="/privilege" element={<Privilege />} />
       <Route path="/users" element={<Users />} />
       <Route path="/user/:nickname" element={<UserDetails />} />
+      <Route path="/item/:title" element={<ItemDetails />} />
       <Route
         path="/transaction-management"
         element={<TransactionManagement />}

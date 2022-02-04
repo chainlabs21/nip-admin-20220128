@@ -163,18 +163,18 @@ const Users = () => {
             ))}
           </TableBody>
         </Table>
-        <Link
-          color="primary"
-          href="#"
-          sx={{
-            mt: 3,
+
+        <div
+          style={{
+            marginTop: '2rem',
+            marginBottom: '1rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
           <Paginating />
-        </Link>
+        </div>
       </Paper>
     </>
   )

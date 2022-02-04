@@ -23,6 +23,7 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import RegisterItem from '../../modals/register-item/RegisterItem'
+import { Link as Router } from 'react-router-dom'
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
@@ -42,6 +43,7 @@ function createData(
   id: number,
   role: string,
   title: string,
+  itemNumber: string,
   owner: string,
   date: string,
   token: string,
@@ -54,6 +56,7 @@ function createData(
     id,
     role,
     title,
+    itemNumber,
     owner,
     date,
     token,
@@ -69,6 +72,7 @@ const rows = [
     0,
     '경매',
     'aaaa',
+    'qwertyu12',
     '동웅',
     '2022.02.04 - 2022.03.04',
     'etc',
@@ -81,6 +85,7 @@ const rows = [
     1,
     '일반',
     'bbbb',
+    'qwertyu12',
     '동웅',
     '2022.02.04 - 2022.03.04',
     'etc',
@@ -199,7 +204,16 @@ const ItemsManagement = () => {
                   />
                 </TableCell>
                 <TableCell>{row.role}</TableCell>
-                <TableCell>{row.title}</TableCell>
+                <TableCell>
+                  <Router
+                    className="text-decorator-none"
+                    style={{ color: 'blue' }}
+                    to={`/item/${row.title}`}
+                  >
+                    {row.title}
+                  </Router>
+                  <article>{row.itemNumber}</article>
+                </TableCell>
                 <TableCell>{row.owner}</TableCell>
                 <TableCell>{row.date}</TableCell>
                 <TableCell>{row.token}</TableCell>
