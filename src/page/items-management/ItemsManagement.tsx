@@ -38,6 +38,59 @@ const style = {
   p: 4,
 }
 
+function createData(
+  id: number,
+  role: string,
+  title: string,
+  owner: string,
+  date: string,
+  token: string,
+  price: string,
+  totalPrice: string,
+  status: string,
+  hide: string,
+) {
+  return {
+    id,
+    role,
+    title,
+    owner,
+    date,
+    token,
+    price,
+    totalPrice,
+    status,
+    hide,
+  }
+}
+
+const rows = [
+  createData(
+    0,
+    '경매',
+    'aaaa',
+    '동웅',
+    '2022.02.04 - 2022.03.04',
+    'etc',
+    '234',
+    '555',
+    'sss',
+    'off',
+  ),
+  createData(
+    1,
+    '일반',
+    'bbbb',
+    '동웅',
+    '2022.02.04 - 2022.03.04',
+    'etc',
+    '234',
+    '555',
+    'sss',
+    'off',
+  ),
+]
+
 const ItemsManagement = () => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
@@ -136,7 +189,27 @@ const ItemsManagement = () => {
               <TableCell>숨김</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody></TableBody>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>
+                  <Checkbox
+                    {...label}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                  />
+                </TableCell>
+                <TableCell>{row.role}</TableCell>
+                <TableCell>{row.title}</TableCell>
+                <TableCell>{row.owner}</TableCell>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{row.token}</TableCell>
+                <TableCell>{row.price}</TableCell>
+                <TableCell>{row.totalPrice}</TableCell>
+                <TableCell>{row.status}</TableCell>
+                <TableCell>{row.hide}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
         <Link
           color="primary"
