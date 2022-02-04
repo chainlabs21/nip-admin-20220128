@@ -103,11 +103,13 @@ export const margetManagement = (
       </ListItem>
     </Link>
 
-    <ListItem button>
-      <ListItemIcon>
-        <PaidIcon />
-      </ListItemIcon>
-      <ListItemText primary="결제 토큰 관리" />
-    </ListItem>
+    <Link className="text-decorator-none" to="/pay-token-config">
+      <ListItem button>
+        <ListItemIcon>
+          <PaidIcon />
+        </ListItemIcon>
+        <ListItemText primary="결제 토큰 관리" />
+      </ListItem>
+    </Link>
   </div>
 )
