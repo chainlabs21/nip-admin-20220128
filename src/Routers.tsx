@@ -11,6 +11,7 @@ import ItemDetails from './page/details/item/ItemDetails'
 import NipMarketConfig from './page/market-config/nip-market-config/NipMarketConfig'
 import EtcMarketConfig from './page/market-config/etc-market-config/EtcMarketConfig'
 import PayTokenManagement from './page/payment/PayTokenManagement'
+import Notice from './page/consumer-management/Notice'
 
 const Routers = () => {
   return (
@@ -29,6 +30,7 @@ const Routers = () => {
       <Route path="/nip-market-config" element={<NipMarketConfig />} />
       <Route path="/etc-market-config" element={<EtcMarketConfig />} />
       <Route path="/pay-token-config" element={<PayTokenManagement />} />
+      <Route path="/notice" element={<Notice />} />
     </Routes>
   )
 }

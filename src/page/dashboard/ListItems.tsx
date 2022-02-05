@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add'
 import StoreIcon from '@mui/icons-material/Store'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import PaidIcon from '@mui/icons-material/Paid'
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 export const dashboard = (
   <div>
@@ -112,4 +113,21 @@ export const margetManagement = (
       </ListItem>
     </Link>
   </div>
+)
+
+export const consumerManagement = (
+    <div>
+        <ListSubheader inset>고객지원 관리</ListSubheader>
+
+        <Link className="text-decorator-none" to="/notice">
+            <ListItem button>
+                <ListItemIcon>
+                    <EventNoteIcon />
+                </ListItemIcon>
+                <ListItemText primary="공지사항" />
+            </ListItem>
+        </Link>
+
+
+    </div>
 )

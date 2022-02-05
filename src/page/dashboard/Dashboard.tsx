@@ -15,6 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import {
+  consumerManagement,
   dashboard,
   margetManagement,
   ownerAccount,
@@ -161,6 +162,7 @@ function DashboardContent() {
           <List>{ownerAccount}</List>
           <List>{userAccount}</List>
           <List>{margetManagement}</List>
+          <List>{consumerManagement}</List>
         </Drawer>
         <Box
           component="main"

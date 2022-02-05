@@ -5,13 +5,7 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import {
-  FormControl, FormControlLabel,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select, Switch,
-} from '@mui/material'
+import { FormControlLabel, InputAdornment, Switch } from '@mui/material'
 
 const theme = createTheme()
 

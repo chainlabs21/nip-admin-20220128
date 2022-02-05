@@ -75,7 +75,6 @@ const PayTokenManagement = () => {
 
   return (
     <>
-      {/* Create myItem modal */}
       <Modal
         open={open}
         onClose={handleClose}
