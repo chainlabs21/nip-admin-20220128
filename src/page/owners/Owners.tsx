@@ -62,12 +62,25 @@ const style = {
   p: 4,
 }
 
+interface IOwner {
+  id: number
+  accountId: string
+  name: string
+  group: string
+  use: string
+  owner: string
+  fixer: string
+  createAt: string
+  updateAt: string
+  isChecked?: boolean
+}
+
 const Owners = () => {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const [users, setUsers] = useState<any>([])
+  const [users, setUsers] = useState<IOwner[]>([])
 
   useEffect(() => {
     setUsers(rows)
@@ -75,9 +88,9 @@ const Owners = () => {
 
   const onCheckHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target
-    let tempUser: any = []
+    let tempUser: IOwner[] = []
     if (name === 'allSelect') {
-      tempUser = users.map((user: any) => {
+      tempUser = users.map((user: IOwner) => {
         return {
           ...user,
           isChecked: checked,
@@ -85,7 +98,7 @@ const Owners = () => {
       })
       setUsers(tempUser)
     } else {
-      tempUser = users.map((user: any) =>
+      tempUser = users.map((user: IOwner) =>
         user.name === name ? { ...user, isChecked: checked } : user,
       )
       setUsers(tempUser)
@@ -172,7 +185,7 @@ const Owners = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user: any) => (
+            {users.map((user: IOwner) => (
               <TableRow key={user.id}>
                 <TableCell>
                   <Checkbox
