@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Title from '../dashboard/Title'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -23,109 +23,29 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import SignUp from '../../modals/sign-up/SignUp'
 
-function createData(
-  id: number,
-  accountId: string,
-  name: string,
-  group: string,
-  use: string,
-  owner: string,
-  fixer: string,
-  createAt: string,
-  updateAt: string,
-) {
-  return { id, accountId, name, group, use, owner, fixer, createAt, updateAt }
-}
-
 const rows = [
-  createData(
-    0,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    1,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    2,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    3,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    4,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    5,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    6,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
-  createData(
-    7,
-    'soefjseojf',
-    '2022.01.28',
-    '기타관리자',
-    'Y',
-    '동웅',
-    '동웅',
-    '2022-02-01',
-    '2022-02-02',
-  ),
+  {
+    id: 0,
+    accountId: 'ossososo',
+    name: 'woong',
+    group: '기타 관리자',
+    use: 'Y',
+    owner: 'dd',
+    fixer: 'dd',
+    createAt: '2022-02-01',
+    updateAt: '2022-02-02',
+  },
+  {
+    id: 1,
+    accountId: 'sssss',
+    name: 'wwwww',
+    group: '기타 관리자',
+    use: 'Y',
+    owner: 'dd',
+    fixer: 'dd',
+    createAt: '2022-02-01',
+    updateAt: '2022-02-02',
+  },
 ]
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -143,9 +63,34 @@ const style = {
 }
 
 const Owners = () => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  const [users, setUsers] = useState<any>([])
+
+  useEffect(() => {
+    setUsers(rows)
+  }, [])
+
+  const onCheckHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target
+    let tempUser: any = []
+    if (name === 'allSelect') {
+      tempUser = users.map((user: any) => {
+        return {
+          ...user,
+          isChecked: checked,
+        }
+      })
+      setUsers(tempUser)
+    } else {
+      tempUser = users.map((user: any) =>
+        user.name === name ? { ...user, isChecked: checked } : user,
+      )
+      setUsers(tempUser)
+    }
+  }
 
   return (
     <>
@@ -212,6 +157,8 @@ const Owners = () => {
                 <Checkbox
                   {...label}
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                  name="allSelect"
+                  onChange={onCheckHandler}
                 />
                 ID
               </TableCell>
@@ -225,22 +172,25 @@ const Owners = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id}>
+            {users.map((user: any) => (
+              <TableRow key={user.id}>
                 <TableCell>
                   <Checkbox
                     {...label}
                     sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                    checked={user?.isChecked || false}
+                    name={user.name}
+                    onChange={onCheckHandler}
                   />
-                  {row.accountId}
+                  {user.accountId}
                 </TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.group}</TableCell>
-                <TableCell>{row.use}</TableCell>
-                <TableCell>{row.owner}</TableCell>
-                <TableCell>{row.fixer}</TableCell>
-                <TableCell>{row.createAt}</TableCell>
-                <TableCell>{row.updateAt}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.group}</TableCell>
+                <TableCell>{user.use}</TableCell>
+                <TableCell>{user.owner}</TableCell>
+                <TableCell>{user.fixer}</TableCell>
+                <TableCell>{user.createAt}</TableCell>
+                <TableCell>{user.updateAt}</TableCell>
               </TableRow>
             ))}
           </TableBody>
