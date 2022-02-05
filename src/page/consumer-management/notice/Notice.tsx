@@ -1,16 +1,17 @@
 import React from 'react'
-import Title from '../dashboard/Title'
+import Title from '../../dashboard/Title'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import Link from '@mui/material/Link'
-import Paginating from '../../components/paginating/Paginating'
+import Paginating from '../../../components/paginating/Paginating'
 import { FormControl, InputLabel, MenuItem, Paper, Select } from '@mui/material'
-import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
-import BasicTextFields from '../../components/input/search/SearchField'
-import ContainedButton from '../../components/input/button/ContainedButton'
+import BasicDateRangePicker from '../../../components/date-range/DateRangePicker'
+import BasicTextFields from '../../../components/input/search/SearchField'
+import ContainedButton from '../../../components/input/button/ContainedButton'
+import { useNavigate } from 'react-router-dom'
 
 const rows = [
   {
@@ -23,9 +24,13 @@ const rows = [
   },
 ]
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
-
 const Notice = () => {
+  const navigate = useNavigate()
+
+  const handleOpen = () => {
+    navigate('/notice/register')
+  }
+
   return (
     <>
       <Title>공지사항</Title>
@@ -65,7 +70,7 @@ const Notice = () => {
 
           <article style={{ display: 'flex', alignItems: 'center' }}>
             <BasicTextFields label={'Search'} />
-            <ContainedButton subject={'등록'} />
+            <ContainedButton handleOpen={handleOpen} subject={'등록'} />
           </article>
         </article>
 
