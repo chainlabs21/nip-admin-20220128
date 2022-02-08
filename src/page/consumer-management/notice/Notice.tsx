@@ -9,7 +9,7 @@ import Link from '@mui/material/Link'
 import Paginating from '../../../components/paginating/Paginating'
 import { FormControl, InputLabel, MenuItem, Paper, Select } from '@mui/material'
 import BasicDateRangePicker from '../../../components/date-range/DateRangePicker'
-import BasicTextFields from '../../../components/input/search/SearchField'
+import BasicTextFields from '../../../components/input/search/BasicTextFields'
 import ContainedButton from '../../../components/input/button/ContainedButton'
 import { useNavigate } from 'react-router-dom'
 

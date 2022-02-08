@@ -4,9 +4,10 @@ import TextField from '@mui/material/TextField'
 
 interface SearchProps {
   label: string
+  disable?: boolean
 }
 
-export default function BasicTextFields({ label }: SearchProps) {
+export default function BasicTextFields({ label, disable }: SearchProps) {
   return (
     <Box
       component="form"
@@ -16,7 +17,12 @@ export default function BasicTextFields({ label }: SearchProps) {
       noValidate
       autoComplete="off"
     >
-      <TextField id="outlined-basic" label={label} variant="outlined" />
+      <TextField
+        disabled={disable}
+        id="outlined-basic"
+        label={label}
+        variant="outlined"
+      />
     </Box>
   )
 }

@@ -17,7 +17,7 @@ import {
   Select,
 } from '@mui/material'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
-import BasicTextFields from '../../components/input/search/SearchField'
+import BasicTextFields from '../../components/input/search/BasicTextFields'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'

@@ -18,6 +18,11 @@ import AdminAccountManaging from './page/admin-account-managing/AdminAccountMana
 import AdminAccountAuthority from './page/admin-account-authority/AdminAccountAuthority'
 import UserManaging from './page/user-managing/UserManaging'
 import UserTranSaction from './page/user-transaction/UserTransaction'
+import NftRegister from './page/nft-register/NftRegister'
+import NftRegisterOne from './page/nft-register/one/NftRegisterOne'
+import NftRegisterMore from './page/nft-register/more/NftRegisterMore'
+import NftManaging from './page/nft-managing/NftManaging'
+import FeesManaging from './page/fees-managing/FeesManaging'
 
 const Routers = () => {
   return (
@@ -37,6 +42,16 @@ const Routers = () => {
       <Route path="/user-managing" element={<UserManaging />} />
 
       <Route path="/user-transaction" element={<UserTranSaction />} />
+
+      <Route path="/nft-register" element={<NftRegister />} />
+
+      <Route path="/nft-register/one" element={<NftRegisterOne />} />
+
+      <Route path="/nft-register/more" element={<NftRegisterMore />} />
+
+      <Route path="/nft-managing" element={<NftManaging />} />
+
+      <Route path="/fees-managing" element={<FeesManaging />} />
 
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />

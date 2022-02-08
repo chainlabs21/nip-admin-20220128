@@ -16,7 +16,7 @@ import {
   Select,
   Switch,
 } from '@mui/material'
-import BasicTextFields from '../../components/input/search/SearchField'
+import BasicTextFields from '../../components/input/search/BasicTextFields'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
