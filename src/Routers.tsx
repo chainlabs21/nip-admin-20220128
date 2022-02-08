@@ -29,6 +29,8 @@ import MatchingStatus from './page/matching-status/MatchingStatus'
 import NotMatchingList from './page/not-matching-list/NotMatchingList'
 import AbleMatchingList from './page/able-matching-list/AbleMatchingList'
 import SwapStatus from './page/swap-status/SwapStatus'
+import RoiPaymentDetails from './page/roi-payment-details/RoiPaymentDetails'
+import RoiManaging from './page/roi-managing/RoiManaging'
 
 const Routers = () => {
   return (
@@ -46,30 +48,24 @@ const Routers = () => {
       />
 
       <Route path="/user-managing" element={<UserManaging />} />
-
       <Route path="/user-transaction" element={<UserTranSaction />} />
 
       <Route path="/nft-register" element={<NftRegister />} />
-
       <Route path="/nft-register/one" element={<NftRegisterOne />} />
-
       <Route path="/nft-register/more" element={<NftRegisterMore />} />
-
       <Route path="/nft-managing" element={<NftManaging />} />
-
       <Route path="/fees-managing" element={<FeesManaging />} />
 
       <Route path="/auction-list" element={<AuctionList />} />
-
       <Route path="/matching-list" element={<MatchingStatus />} />
-
       <Route path="/not-matching-list" element={<NotMatchingList />} />
-
       <Route path="/matching-able-list" element={<AbleMatchingList />} />
 
       <Route path="/staking-status" element={<StakingStatus />} />
-
       <Route path="/swap-status" element={<SwapStatus />} />
+
+      <Route path="/roi-payment-details" element={<RoiPaymentDetails />} />
+      <Route path="/roi-managing" element={<RoiManaging />} />
 
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />
