@@ -12,7 +12,8 @@ export default function ContainedButton({ subject, handleOpen }: ButtonProps) {
     <Stack direction="row" spacing={2}>
       <Button
         sx={{
-          height: 55.1,
+          width: '162px',
+          height: '55.1px',
         }}
         onClick={handleOpen}
         variant="contained"

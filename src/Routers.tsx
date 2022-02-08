@@ -13,10 +13,31 @@ import EtcMarketConfig from './page/market-config/etc-market-config/EtcMarketCon
 import PayTokenManagement from './page/payment/PayTokenManagement'
 import Notice from './page/consumer-management/notice/Notice'
 import RegisterNotice from './page/consumer-management/notice/RegisterNotice'
+import SiteManagement from './page/site-management/SiteManagement'
+import AdminAccountManaging from './page/admin-account-managing/AdminAccountManaging'
+import AdminAccountAuthority from './page/admin-account-authority/AdminAccountAuthority'
 
 const Routers = () => {
   return (
     <Routes>
+      <Route path="/site-managing" element={<SiteManagement />} />
+
+      <Route
+        path="/admin-account-managing"
+        element={<AdminAccountManaging />}
+      />
+
+      <Route
+        path="/admin-authority-managing"
+        element={<AdminAccountAuthority />}
+      />
+
+
+
+        <Route
+            path="/user-managing"
+            element={<AdminAccountAuthority />}
+        />
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />
       <Route path="/privilege" element={<Privilege />} />

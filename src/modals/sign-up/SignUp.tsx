@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import SelectViewer from '../../components/select-viewer/SelectViewer'
 
 const theme = createTheme()
 
@@ -34,11 +35,8 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            관리자 등록
           </Typography>
           <Box
             component="form"
@@ -52,7 +50,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="accountId"
-                  label="사용자 ID"
+                  label="사용자 계정"
                   name="accountId"
                   autoComplete="off"
                 />
@@ -71,9 +69,9 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="name"
-                  label="사용자명"
-                  name="name"
+                  id="password"
+                  label="비밀번호"
+                  name="password"
                   autoComplete="off"
                 />
               </Grid>
@@ -88,33 +86,21 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="email"
-                  label="이메일"
-                  id="email"
-                  autoComplete="off"
+                <SelectViewer
+                  title="사용여부 *"
+                  menu={[
+                    { value: true, label: 'Y' },
+                    { value: false, label: 'N' },
+                  ]}
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="use"
-                  label="사용여부"
-                  id="use"
-                  autoComplete="off"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="useGroup"
-                  label="사용자 그룹"
-                  id="useGroup"
-                  autoComplete="off"
+                <SelectViewer
+                  title="사용자 그룹 *"
+                  menu={[
+                    { value: '1111', label: '최고관리자' },
+                    { value: '2222', label: '일반관리자' },
+                  ]}
                 />
               </Grid>
             </Grid>
@@ -124,7 +110,7 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              등록
             </Button>
           </Box>
         </Box>

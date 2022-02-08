@@ -177,11 +177,12 @@ function DashboardContent() {
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
+            width: '100%',
           }}
         >
           <Toolbar />
 
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container sx={{ mt: 4, mb: 4, width: '100%', maxWidth: '1526px' }}>
             <Routers />
             <Copyright sx={{ pt: 4 }} />
           </Container>
