@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ListItem } from '@mui/material'
 import { ListItemText } from '@mui/material'
 import up_arrow_icon from '../../assets/icon/up-arrow-icon.svg'
+import { Link } from 'react-router-dom'
 
 interface IDrawer {
   title: string
@@ -54,30 +55,37 @@ const DrawerField: React.FC<IDrawer> = ({
 
       {open &&
         childItems.map((item: any, index: number) => (
-          <ListItem
-            key={index}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
+          <Link
+            style={{
+              textDecoration: 'none',
             }}
-            button
+            to={item.params}
           >
-            <div
-              style={{
+            <ListItem
+              key={index}
+              sx={{
                 display: 'flex',
+                justifyContent: 'space-between',
               }}
+              button
             >
-              <ListItemText
-                sx={{
-                  marginLeft: '4.5rem',
-                  color: '#5B5B5B',
-                  fontSize: '16px',
-                  textAlign: 'center',
+              <div
+                style={{
+                  display: 'flex',
                 }}
-                primary={item.title}
-              />
-            </div>
-          </ListItem>
+              >
+                <ListItemText
+                  sx={{
+                    marginLeft: '4.5rem',
+                    color: '#5B5B5B',
+                    fontSize: '16px',
+                    textAlign: 'center',
+                  }}
+                  primary={item.title}
+                />
+              </div>
+            </ListItem>
+          </Link>
         ))}
     </div>
   )

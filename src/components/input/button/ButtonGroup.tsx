@@ -9,10 +9,10 @@ interface ButtonTitles {
 const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
   return (
     <>
-      <Button variant="contained">{first}</Button>
       <Button sx={{ marginLeft: '8px' }} variant="outlined">
-        {second}
+        {first}
       </Button>
+      <Button variant="contained">{second}</Button>
     </>
   )
 }
