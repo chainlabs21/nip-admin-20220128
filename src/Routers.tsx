@@ -31,6 +31,7 @@ import AbleMatchingList from './page/able-matching-list/AbleMatchingList'
 import SwapStatus from './page/swap-status/SwapStatus'
 import RoiPaymentDetails from './page/roi-payment-details/RoiPaymentDetails'
 import RoiManaging from './page/roi-managing/RoiManaging'
+import PaymentDetails from './page/payment-details/payment-details'
 
 const Routers = () => {
   return (
@@ -66,6 +67,8 @@ const Routers = () => {
 
       <Route path="/roi-payment-details" element={<RoiPaymentDetails />} />
       <Route path="/roi-managing" element={<RoiManaging />} />
+
+      <Route path="/payment-details" element={<PaymentDetails />} />
 
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />
