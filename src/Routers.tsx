@@ -23,6 +23,12 @@ import NftRegisterOne from './page/nft-register/one/NftRegisterOne'
 import NftRegisterMore from './page/nft-register/more/NftRegisterMore'
 import NftManaging from './page/nft-managing/NftManaging'
 import FeesManaging from './page/fees-managing/FeesManaging'
+import AuctionList from './page/auction-list/AuctionList'
+import StakingStatus from './page/staking-status/StakingStatus'
+import MatchingStatus from './page/matching-status/MatchingStatus'
+import NotMatchingList from './page/not-matching-list/NotMatchingList'
+import AbleMatchingList from './page/able-matching-list/AbleMatchingList'
+import SwapStatus from './page/swap-status/SwapStatus'
 
 const Routers = () => {
   return (
@@ -52,6 +58,18 @@ const Routers = () => {
       <Route path="/nft-managing" element={<NftManaging />} />
 
       <Route path="/fees-managing" element={<FeesManaging />} />
+
+      <Route path="/auction-list" element={<AuctionList />} />
+
+      <Route path="/matching-list" element={<MatchingStatus />} />
+
+      <Route path="/not-matching-list" element={<NotMatchingList />} />
+
+      <Route path="/matching-able-list" element={<AbleMatchingList />} />
+
+      <Route path="/staking-status" element={<StakingStatus />} />
+
+      <Route path="/swap-status" element={<SwapStatus />} />
 
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />

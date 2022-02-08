@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
 interface IPapers {
-  title: string
+  title?: string
 }
 
 const Papers: React.FC<IPapers> = ({ children, title }) => {
