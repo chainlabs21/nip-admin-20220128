@@ -162,7 +162,7 @@ const AdminAccountManaging = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'flex-end',
-                width: '100%',
+                width: '700px',
               }}
             >
               <SelectViewer title="Email" menu={emailViewers} />

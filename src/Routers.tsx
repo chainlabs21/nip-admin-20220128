@@ -16,6 +16,8 @@ import RegisterNotice from './page/consumer-management/notice/RegisterNotice'
 import SiteManagement from './page/site-management/SiteManagement'
 import AdminAccountManaging from './page/admin-account-managing/AdminAccountManaging'
 import AdminAccountAuthority from './page/admin-account-authority/AdminAccountAuthority'
+import UserManaging from './page/user-managing/UserManaging'
+import UserTranSaction from './page/user-transaction/UserTransaction'
 
 const Routers = () => {
   return (
@@ -32,12 +34,10 @@ const Routers = () => {
         element={<AdminAccountAuthority />}
       />
 
+      <Route path="/user-managing" element={<UserManaging />} />
 
+      <Route path="/user-transaction" element={<UserTranSaction />} />
 
-        <Route
-            path="/user-managing"
-            element={<AdminAccountAuthority />}
-        />
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />
       <Route path="/privilege" element={<Privilege />} />

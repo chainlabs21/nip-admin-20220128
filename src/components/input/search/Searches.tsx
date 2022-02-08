@@ -7,7 +7,7 @@ const Searches = () => {
     <TextField
       label="검색"
       id="outlined-start-adornment"
-      sx={{ m: 1, width: '100%' }}
+      sx={{ m: 1, width: '50%' }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

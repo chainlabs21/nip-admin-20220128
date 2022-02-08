@@ -25,7 +25,7 @@ export const drawerFields = [
     arrow: down_arrow_icon,
     child: [
       { title: '회원관리', params: 'user-managing' },
-      { title: '회원상세', params: 'user-details' },
+      { title: '회원상세', params: 'user-transaction' },
     ],
   },
   {

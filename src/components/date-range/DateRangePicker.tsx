@@ -11,8 +11,8 @@ export default function BasicDateRangePicker() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DateRangePicker
-        startText="체크인"
-        endText="체크아웃"
+        startText="2022/02/02"
+        endText="2022/02/03"
         value={value}
         onChange={(newValue) => {
           setValue(newValue)
@@ -20,7 +20,7 @@ export default function BasicDateRangePicker() {
         renderInput={(startProps, endProps) => (
           <React.Fragment>
             <TextField {...startProps} />
-            <Box sx={{ mx: 2 }}> 부터 </Box>
+            <Box sx={{ mx: 2 }}>-</Box>
             <TextField {...endProps} />
           </React.Fragment>
         )}
