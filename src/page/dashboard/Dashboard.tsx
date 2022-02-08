@@ -8,21 +8,14 @@ import Toolbar from '@mui/material/Toolbar'
 import List from '@mui/material/List'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
-import Badge from '@mui/material/Badge'
 import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import {
-  consumerManagement,
-  dashboard,
-  margetManagement,
-  ownerAccount,
-  userAccount,
-} from './ListItems'
-import LogoutIcon from '@mui/icons-material/Logout'
 import Routers from '../../Routers'
+import nip_logo from '../../assets/icon/nip-logo.svg'
+import DrawerField from '../../components/drawer-items/DrawerField'
+import { drawerFields } from '../../components/drawer-items/items/drawer-fields'
 
 function Copyright(props: any) {
   return (
@@ -104,7 +97,7 @@ function DashboardContent() {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
 
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" open={open} sx={{ background: '#FFFFFF' }}>
           <Toolbar
             sx={{
               pr: '24px',
@@ -120,26 +113,29 @@ function DashboardContent() {
                 ...(open && { display: 'none' }),
               }}
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: '#000000' }} />
             </IconButton>
             <Typography
               component="h1"
               variant="h6"
-              color="inherit"
+              color="#000000"
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              NIP
+              {open ? (
+                ''
+              ) : (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <img src={nip_logo} alt="nip-logo" />
+                  <span style={{ marginLeft: '6px' }}>NIP</span>
+                </div>
+              )}
             </Typography>
-
-            <IconButton color="inherit">
-              <LogoutIcon />
-            </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
 
@@ -152,18 +148,25 @@ function DashboardContent() {
               px: [1],
             }}
           >
-            <h1>NIP</h1>
+            <img src={nip_logo} alt="nip-logo" />
+            <h1 style={{ marginLeft: '6px' }}>NIP</h1>
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
 
-          <List>{dashboard}</List>
-          <List>{ownerAccount}</List>
-          <List>{userAccount}</List>
-          <List>{margetManagement}</List>
-          <List>{consumerManagement}</List>
+          {drawerFields.map((field, index) => (
+            <List key={index}>
+              <DrawerField
+                title={field.title}
+                setting_icon={field.icon}
+                down_arrow_icon={field.arrow}
+                childItems={field.child}
+              />
+            </List>
+          ))}
         </Drawer>
+
         <Box
           component="main"
           sx={{

@@ -3,13 +3,7 @@ import Paper from '@mui/material/Paper'
 import Title from '../../dashboard/Title'
 import { useParams } from 'react-router-dom'
 import List from '@mui/material/List'
-import {
-  Checkbox,
-  Divider,
-  ListItem,
-  ListItemText,
-  Switch,
-} from '@mui/material'
+import { Divider, ListItem, ListItemText, Switch } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import TableHead from '@mui/material/TableHead'

@@ -1,0 +1,73 @@
+import setting_icon from '../../../assets/icon/setting-icon.svg'
+import down_arrow_icon from '../../../assets/icon/down-arrow-icon.svg'
+import user_setting_icon from '../../../assets/icon/user-setting-icon.svg'
+import NFT_setting_icon from '../../../assets/icon/NFT-setting-icon.svg'
+import matching_icon from '../../../assets/icon/matching-icon.svg'
+import staking_icon from '../../../assets/icon/staking-icon.svg'
+import roi_icon from '../../../assets/icon/roi-icon.svg'
+import referrals_icon from '../../../assets/icon/referrals-icon.svg'
+import page_setting_icon from '../../../assets/icon/page-setting-icon.svg'
+
+export const drawerFields = [
+  {
+    title: '설정',
+    icon: setting_icon,
+    arrow: down_arrow_icon,
+    child: [
+      { title: '사이트 관리' },
+      { title: '관리자 계정 관리' },
+      { title: '관리자 권한 관리' },
+    ],
+  },
+  {
+    title: '회원설정',
+    icon: user_setting_icon,
+    arrow: down_arrow_icon,
+    child: [{ title: '회원관리' }, { title: '회원상세' }],
+  },
+  {
+    title: 'NFT 관리',
+    icon: NFT_setting_icon,
+    arrow: down_arrow_icon,
+    child: [
+      { title: 'NFT 등록' },
+      { title: 'NFT 관리' },
+      { title: '수수료 관리' },
+    ],
+  },
+  {
+    title: '매칭',
+    icon: matching_icon,
+    arrow: down_arrow_icon,
+    child: [
+      { title: '입찰참여 리스트' },
+      { title: '매칭현황 리스트' },
+      { title: '미매칭건 리스트' },
+      { title: '매칭가능 리스트' },
+    ],
+  },
+  {
+    title: '스테이킹&스왑',
+    icon: staking_icon,
+    arrow: down_arrow_icon,
+    child: [{ title: '스테이킹 현황' }, { title: '스왑 현황' }],
+  },
+  {
+    title: 'Roi',
+    icon: roi_icon,
+    arrow: down_arrow_icon,
+    child: [{ title: 'Roi 지급내역' }, { title: 'Roi 관리' }],
+  },
+  {
+    title: '추천인',
+    icon: referrals_icon,
+    arrow: down_arrow_icon,
+    child: [{ title: '지급내역' }],
+  },
+  {
+    title: '페이지 설정',
+    icon: page_setting_icon,
+    arrow: down_arrow_icon,
+    child: [{ title: '배너관리' }],
+  },
+]
