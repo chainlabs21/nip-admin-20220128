@@ -16,6 +16,7 @@ import Routers from '../../Routers'
 import nip_logo from '../../assets/icon/nip-logo.svg'
 import DrawerField from '../../components/drawer-items/DrawerField'
 import { drawerFields } from '../../components/drawer-items/items/drawer-fields'
+import navi_logo from '../../assets/images/navi-logo.png'
 
 function Copyright(props: any) {
   return (
@@ -136,6 +137,8 @@ function DashboardContent() {
                 </div>
               )}
             </Typography>
+
+            <img src={navi_logo} alt="navi-logo" />
           </Toolbar>
         </AppBar>
 
