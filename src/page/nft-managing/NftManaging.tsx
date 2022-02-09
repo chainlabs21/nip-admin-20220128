@@ -7,8 +7,7 @@ import SelectViewer from '../../components/select-viewer/SelectViewer'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
-import TableDefault from '../../components/table/TableDefault'
-import ex_image from '../../assets/images/ex-image.png'
+import eg_image from '../../assets/images/ex-image.png'
 
 const fields_01 = [
   {
@@ -109,96 +108,6 @@ const fields_02 = [
         </div>
       )
     },
-  },
-]
-
-const tableSet = [
-  {
-    field: '순서',
-  },
-  {
-    field: '이미지',
-  },
-  {
-    field: '종류',
-  },
-  {
-    field: '취급 토큰',
-  },
-  {
-    field: '스테이킹 지급 일수',
-  },
-  {
-    field: '스왑시 지급 토큰',
-  },
-  {
-    field: '스테이킹 지급 토큰',
-  },
-  {
-    field: '매칭 대기기간',
-  },
-  {
-    field: '상태',
-  },
-  {
-    field: '몬스터 가격',
-  },
-  {
-    field: '거래 가격',
-  },
-  {
-    field: '수익률',
-  },
-  {
-    field: '설정된 수익률',
-  },
-  {
-    field: '입찰 참여 시작일',
-  },
-  {
-    field: '입찰 참여 종료일',
-  },
-  {
-    field: '생성일',
-  },
-  {
-    field: '다음 매칭일',
-  },
-]
-
-const testField = [
-  {
-    field: '1',
-  },
-  {
-    field: '이미지',
-  },
-  {
-    field: '168 USDT',
-  },
-  {
-    field: '경매',
-  },
-  {
-    field: '완료',
-  },
-  {
-    field: '211 USDT',
-  },
-  {
-    field: '0.7 USDT',
-  },
-  {
-    field: '0.3 USDT',
-  },
-  {
-    field: '0xb6..2x',
-  },
-  {
-    field: '0xb6..2x',
-  },
-  {
-    field: '2022-02-02',
   },
 ]
 
@@ -325,7 +234,99 @@ const NftManaging = () => {
             </section>
 
             <div>
-              <TableDefault columns={tableSet} testFields={testField} />
+              <table className="nft-table">
+                <thead className="nft-th">
+                  <tr>
+                    <td className="nft-td" rowSpan={2}>
+                      순서
+                    </td>
+                    <td className="nft-td" rowSpan={2}>
+                      이미지
+                    </td>
+                    <td className="nft-td" rowSpan={2}>
+                      종류
+                    </td>
+                    <td className="nft-td">취급 토큰</td>
+                    <td className="nft-td">스왑시 지급 토큰</td>
+                    <td className="nft-td">매칭 대기기간</td>
+                    <td className="nft-td">몬스터 가격</td>
+                    <td className="nft-td">수익률</td>
+                    <td className="nft-td">입찰 참여 시작일</td>
+                    <td className="nft-td">생성일</td>
+                  </tr>
+                  <tr>
+                    <td className="nft-td">스테이킹 지급 일수</td>
+                    <td className="nft-td">스테이킹 지급 토큰</td>
+                    <td className="nft-td">상태</td>
+                    <td className="nft-td">거래 가격</td>
+                    <td className="nft-td">설정된 수익률</td>
+                    <td className="nft-td">입찰 참여 종료일</td>
+                    <td className="nft-td">다음 매칭</td>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td className="nft-td" rowSpan={2}>
+                      1
+                    </td>
+                    <td className="nft-td" rowSpan={2}>
+                      <img src={eg_image} alt="eg_image" />
+                    </td>
+                    <td className="nft-td" rowSpan={2}>
+                      0xb6..2ef0
+                    </td>
+                    <td className="nft-td">NIP</td>
+                    <td className="nft-td">100</td>
+                    <td className="nft-td">3</td>
+                    <td className="nft-td">126</td>
+                    <td className="nft-td">8%</td>
+                    <td className="nft-td">
+                      <input
+                        type="date"
+                        id="start"
+                        name="trip-start"
+                        value="2022-02-02"
+                        min="2022-02-02"
+                        max="2022-03-03"
+                        style={{
+                          width: '100%',
+                          height: '40px',
+                          borderRadius: '12px',
+                          border: '1px solid #D9D9D9',
+                          textAlign: 'center',
+                        }}
+                      />
+                    </td>
+                    <td className="nft-td">다음 매칭</td>
+                  </tr>
+                  <tr>
+                    <td className="nft-td">100</td>
+                    <td className="nft-td">100</td>
+                    <td className="nft-td">Stay</td>
+                    <td className="nft-td">136</td>
+                    <td className="nft-td">8%</td>
+                    <td className="nft-td">
+                      <input
+                        type="date"
+                        id="start"
+                        name="trip-start"
+                        value="2022-02-02"
+                        min="2022-02-02"
+                        max="2022-03-03"
+                        style={{
+                          width: '100%',
+                          height: '40px',
+                          borderRadius: '12px',
+                          border: '1px solid #D9D9D9',
+                          textAlign: 'center',
+                        }}
+                      />
+                    </td>
+                    <td className="nft-td">2022-02-02</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </section>
         </Papers>
