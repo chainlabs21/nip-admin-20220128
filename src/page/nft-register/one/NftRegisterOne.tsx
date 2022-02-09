@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel'
 import { styled } from '@mui/material/styles'
 import ButtonGroup from '../../../components/input/button/ButtonGroup'
 
-const Android12Switch = styled(Switch)(({ theme }) => ({
+export const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
   '& .MuiSwitch-track': {
     borderRadius: 22 / 2,

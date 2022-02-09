@@ -32,6 +32,7 @@ import SwapStatus from './page/swap-status/SwapStatus'
 import RoiPaymentDetails from './page/roi-payment-details/RoiPaymentDetails'
 import RoiManaging from './page/roi-managing/RoiManaging'
 import PaymentDetails from './page/payment-details/payment-details'
+import BannerManagement from './page/banner-management/BannerManagement'
 
 const Routers = () => {
   return (
@@ -69,6 +70,8 @@ const Routers = () => {
       <Route path="/roi-managing" element={<RoiManaging />} />
 
       <Route path="/payment-details" element={<PaymentDetails />} />
+
+      <Route path="/banner-management" element={<BannerManagement />} />
 
       <Route path="/" element={<Main />} />
       <Route path="/owners" element={<Owners />} />
