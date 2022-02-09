@@ -17,6 +17,7 @@ import nip_logo from '../../assets/icon/nip-logo.svg'
 import DrawerField from '../../components/drawer-items/DrawerField'
 import { drawerFields } from '../../components/drawer-items/items/drawer-fields'
 import navi_logo from '../../assets/images/navi-logo.png'
+import { useNavigate } from 'react-router-dom'
 
 function Copyright(props: any) {
   return (
@@ -88,9 +89,14 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme()
 
 function DashboardContent() {
+  const navigate = useNavigate()
   const [open, setOpen] = React.useState(true)
   const toggleDrawer = () => {
     setOpen(!open)
+  }
+
+  const onClickGoRootPage = () => {
+    navigate('/')
   }
 
   return (
@@ -133,7 +139,12 @@ function DashboardContent() {
                   }}
                 >
                   <img src={nip_logo} alt="nip-logo" />
-                  <span style={{ marginLeft: '6px' }}>NIP</span>
+                  <span
+                    onClick={onClickGoRootPage}
+                    style={{ marginLeft: '6px', cursor: 'pointer' }}
+                  >
+                    NIP
+                  </span>
                 </div>
               )}
             </Typography>
@@ -152,7 +163,12 @@ function DashboardContent() {
             }}
           >
             <img src={nip_logo} alt="nip-logo" />
-            <h1 style={{ marginLeft: '6px' }}>NIP</h1>
+            <h1
+              onClick={onClickGoRootPage}
+              style={{ marginLeft: '6px', cursor: 'pointer' }}
+            >
+              NIP
+            </h1>
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
