@@ -8,6 +8,7 @@ import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import eg_image from '../../assets/images/ex-image.png'
+import { Pagination } from '@mui/material'
 
 const fields_01 = [
   {
@@ -327,6 +328,15 @@ const NftManaging = () => {
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                margin: '20px 0 0 0',
+              }}
+            >
+              <Pagination count={10} showFirstButton showLastButton />
             </div>
           </section>
         </Papers>

@@ -5,6 +5,7 @@ import ContainedButton from '../../components/input/button/ContainedButton'
 import TableDefault from '../../components/table/TableDefault'
 import Papers from '../../components/paper/Papers'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
+import { Pagination } from '@mui/material'
 
 const tableSet = [
   {
@@ -141,6 +142,15 @@ const UserTranSaction = () => {
 
           <div>
             <TableDefault columns={tableSet} testFields={testField} />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '20px 0 0 0',
+            }}
+          >
+            <Pagination count={10} showFirstButton showLastButton />
           </div>
         </section>
       </Papers>

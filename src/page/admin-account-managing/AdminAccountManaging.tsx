@@ -10,6 +10,7 @@ import SignUp from '../../modals/sign-up/SignUp'
 import { Modal } from '@mui/material'
 import Box from '@mui/material/Box'
 import CheckBox from '../../components/input/check-box/CheckBox'
+import Pagination from '@mui/material/Pagination'
 
 const countViewers = [
   {
@@ -173,6 +174,16 @@ const AdminAccountManaging = () => {
 
           <div>
             <TableDefault columns={tableSet} testFields={testField} />
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '20px 0 0 0',
+            }}
+          >
+            <Pagination count={10} showFirstButton showLastButton />
           </div>
         </section>
       </Papers>

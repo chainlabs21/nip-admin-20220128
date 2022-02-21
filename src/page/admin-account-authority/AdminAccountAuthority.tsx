@@ -5,6 +5,7 @@ import Papers from '../../components/paper/Papers'
 import ButtonGroup from '../../components/input/button/ButtonGroup'
 import Radio from '@mui/material/Radio'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { Pagination } from '@mui/material'
 
 const countViewers = [
   {
@@ -162,6 +163,16 @@ const AdminAccountAuthority = () => {
 
           <div>
             <TableDefault columns={tableSet} checkFields={testField} />
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '20px 0 0 0',
+            }}
+          >
+            <Pagination count={10} showFirstButton showLastButton />
           </div>
         </section>
       </Papers>

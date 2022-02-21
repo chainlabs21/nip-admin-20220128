@@ -9,7 +9,7 @@ import TableBody from '@mui/material/TableBody'
 import TableRow from '@mui/material/TableRow'
 import TableHead from '@mui/material/TableHead'
 import Table from '@mui/material/Table'
-import { Modal, TableCell } from '@mui/material'
+import { Modal, Pagination, TableCell } from '@mui/material'
 import banner_pc from '../../assets/images/banner-pc.png'
 import banner_mobile from '../../assets/images/banner-mobile.png'
 import { FormControlLabel } from '@mui/material'
@@ -136,6 +136,16 @@ const BannerManagement = () => {
                 </TableRow>
               </TableBody>
             </Table>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '20px 0 0 0',
+            }}
+          >
+            <Pagination count={10} showFirstButton showLastButton />
           </div>
         </section>
       </Papers>

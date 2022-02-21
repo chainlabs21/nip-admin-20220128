@@ -2,7 +2,7 @@ import React from 'react'
 import Papers from '../../components/paper/Papers'
 import Box from '@mui/material/Box'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
+import { Pagination, Tab } from '@mui/material'
 import TableDefault from '../../components/table/TableDefault'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
@@ -133,15 +133,54 @@ const AuctionList = () => {
             </div>
             <TabPanel value="1">
               <TableDefault columns={tableSet} testFields={testField} />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  margin: '20px 0 0 0',
+                }}
+              >
+                <Pagination count={10} showFirstButton showLastButton />
+              </div>
             </TabPanel>
+            
             <TabPanel value="2">
               <TableDefault columns={tableSet} testFields={testField} />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  margin: '20px 0 0 0',
+                }}
+              >
+                <Pagination count={10} showFirstButton showLastButton />
+              </div>
             </TabPanel>
+
             <TabPanel value="3">
               <TableDefault columns={tableSet} testFields={testField} />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  margin: '20px 0 0 0',
+                }}
+              >
+                <Pagination count={10} showFirstButton showLastButton />
+              </div>
             </TabPanel>
+
             <TabPanel value="4">
               <TableDefault columns={tableSet} testFields={testField} />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  margin: '20px 0 0 0',
+                }}
+              >
+                <Pagination count={10} showFirstButton showLastButton />
+              </div>
             </TabPanel>
           </TabContext>
         </Box>

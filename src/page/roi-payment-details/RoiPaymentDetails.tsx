@@ -5,6 +5,7 @@ import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import TableDefault from '../../components/table/TableDefault'
 import CheckBox from '../../components/input/check-box/CheckBox'
+import { Pagination } from '@mui/material'
 
 const countViewers = [
   {
@@ -147,6 +148,16 @@ const RoiPaymentDetails = () => {
 
           <div>
             <TableDefault columns={tableSet} testFields={testField} />
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '20px 0 0 0',
+            }}
+          >
+            <Pagination count={10} showFirstButton showLastButton />
           </div>
         </section>
       </Papers>
