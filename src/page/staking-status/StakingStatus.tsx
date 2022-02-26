@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect , useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import Box from '@mui/material/Box'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -8,6 +8,10 @@ import SelectViewer from '../../components/select-viewer/SelectViewer'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
+import { API } from '../../configs/api';
+import axios from 'axios'
+
+const LOGGER=console.log
 
 const tableSet = [
   {
@@ -130,11 +134,23 @@ const swapField = [
 ]
 
 const StakingStatus = () => {
-  const [value, setValue] = React.useState('1')
-
+	const [value, setValue] = React.useState('1')
+	let [ testField , settestField ]= useState ( [] )
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
-  }
+	}
+	useEffect (()=>{
+		const fetchdata=async()=>{
+			let resp = await axios.get(API.API_TXS_STAKE + `/0/10/id/DESC`)
+			LOGGER('' , resp.data )
+			let { status , list  }=resp.data 
+			if ( status =='OK'){
+				settestField ( list )
+			}
+		}
+		fetchdata()
+	}
+	,	[] )
   return (
     <>
       <Papers>
