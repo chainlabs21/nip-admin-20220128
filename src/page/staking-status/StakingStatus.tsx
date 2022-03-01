@@ -141,8 +141,9 @@ const StakingStatus = () => {
 	}
 	useEffect (()=>{
 		const fetchdata=async()=>{
-			let resp = await axios.get(API.API_TXS_STAKE + `/0/10/id/DESC`)
-			LOGGER('' , resp.data )
+			let url=API.API_TXS_STAKE + `/0/10/id/DESC`
+			let resp = await axios.get( url )
+			LOGGER( '', url , resp.data )
 			let { status , list  }=resp.data 
 			if ( status =='OK'){
 				settestField ( list )
