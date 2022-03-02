@@ -3,150 +3,69 @@ import Papers from '../../components/paper/Papers'
 import Box from '@mui/material/Box'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Pagination, Tab } from '@mui/material'
-import TableDefault from '../../components/table/TableDefault'
+// import TableDe fault from '../../components/table/TableD efault'
+import TableDefaultListlist from '../../components/table/TableDefaultListlist'
+
 import SelectViewer from '../../components/select-viewer/SelectViewer'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import { API } from '../../configs/api';
 import axios from 'axios'
+import { strDot } from '../../utils/common';
 
 const LOGGER=console.log
-
 const tableSet = [
-  {
-    field: '순서',
-  },
-  {
-    field: '몬스터 이름',
-  },
-  {
-    field: '계정',
-  },
-  {
-    field: '지갑주소',
-  },
-  {
-    field: '스테이킹 기간',
-  },
-  {
-    field: '스테이킹 가격',
-  },
-  {
-    field: 'Roi',
-  },
-  {
-    field: '스테이킹 시작일',
-  },
-  {
-    field: '스테이킹 마감일',
-  },
+  {    field: 'id',  }, // 0
+  {    field: 'createdat',  }, // 1
+  {    field: 'amount',  }, // 2
+  {    field: 'currency',  }, // 3
+  {    field: 'currency-addr',  }, // 4
+	{    field: 'status',  }, // 5
+	{	field : 'txhash'},
+	{ field : 'net'}
+//  {    field: 'Roi',  },
+  //{    field: '스테이킹 시작일',  },
+//  {    field: '스테이킹 마감일',  },
 ]
-
 const testField = [
-  {
-    field: '1',
-  },
-  {
-    field: 'Moong #11',
-  },
-  {
-    field: 'soejf@gmail.com',
-  },
-  {
-    field: '0xb6...2ef0',
-  },
-  {
-    field: '100일',
-  },
-  {
-    field: '100 USDT',
-  },
-  {
-    field: '30%',
-  },
-  {
-    field: '2022-02-02',
-  },
-  {
-    field: '2022-02-02',
-  },
+  {    field: '1',  },
+  {    field: 'Moong #11',  },
+  {    field: 'soejf@gmail.com',  },
+  {    field: '0xb6...2ef0',  },
+  {    field: '100일',  },
+  {    field: '100 USDT',  },
+  {    field: '30%',  },
+  {    field: '2022-02-02',  },
+  {    field: '2022-02-02',  },
 ]
-
-const swapSet = [
-  {
-    field: '순서',
-  },
-  {
-    field: '몬스터 이름',
-  },
-  {
-    field: '계정',
-  },
-  {
-    field: '지갑주소',
-  },
-  {
-    field: '상태',
-  },
-  {
-    field: '-',
-  },
-  {
-    field: '-',
-  },
-  {
-    field: '-',
-  },
-  {
-    field: '날짜',
-  },
-]
-
-const swapField = [
-  {
-    field: '1',
-  },
-  {
-    field: 'Moong #11',
-  },
-  {
-    field: 'soejf@gmail.com',
-  },
-  {
-    field: '0xb6...2ef0',
-  },
-  {
-    field: 'Swap',
-  },
-  {
-    field: '-',
-  },
-  {
-    field: '-',
-  },
-  {
-    field: '-',
-  },
-  {
-    field: '2022-02-02',
-  },
-]
-
 const StakingStatus = () => {
 	const [value, setValue] = React.useState('1')
-	let [ testField , settestField ]= useState ( [] )
+//	let [ test Field , settes tField ]= useState ( [] )
+	let [ listlist , setlistlist ] = useState( [] )
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
 	}
 	useEffect (()=>{
-		const fetchdata=async()=>{
+		const fetchdata = async()=>{
 			let url=API.API_TXS_STAKE + `/0/10/id/DESC`
 			let resp = await axios.get( url )
 			LOGGER( '', url , resp.data )
-			let { status , list  }=resp.data 
-			if ( status =='OK'){
-				settestField ( list )
+			let { status , list : list_raw  }=resp.data 
+			if ( status =='OK'){ //				settest Field ( list )
+				let list = list_raw.map ( (elem : any) => {
+					return [ { field : elem['id'] } // 0
+						, { field : elem['createdat']?.split('.')[0] } // 1
+						, { field : elem['amount'] } // 2
+						, { field : elem['currency'] } // 3 
+						, { field : strDot(elem['currencyaddress'], 20, 0) } // 4
+						, { field : elem['status']==1? 'Ok':'Err' } // 5
+						, { field : strDot(elem['txhash'] , 20, 0 )  } // 6
+						, { field : elem['nettype'] } // 7
+					]
+				})
+				LOGGER('F4wjxixHX2' , list )
+				setlistlist( list )
 			}
 		}
 		fetchdata()
@@ -163,7 +82,11 @@ const StakingStatus = () => {
                 aria-label="lab API tabs example"
               >
                 <Tab label="스테이킹 현황" value="1" />
-                <Tab label="스왑 현황" value="2" />
+                <Tab label="스왑 현황" value="2" onClick={(
+									evt:any
+								)=>{evt.preventDefault()
+									evt.stopPropagation()
+									LOGGER('abc')}}/>
               </TabList>
             </Box>
 
@@ -219,7 +142,9 @@ const StakingStatus = () => {
               </article>
             </section>
             <TabPanel value="1">
-              <TableDefault columns={tableSet} testFields={testField} />
+              <TableDefaultListlist columns={tableSet} testFields={testField} 
+							listlist= { listlist } 
+							/>
               <div
             style={{
               display: 'flex',
@@ -231,7 +156,7 @@ const StakingStatus = () => {
           </div>
             </TabPanel>
             <TabPanel value="2">
-              <TableDefault columns={swapSet} testFields={swapField} />
+              <TableDefaultListlist columns={swapSet} testFields={swapField} />
               <div
             style={{
               display: 'flex',
@@ -250,3 +175,25 @@ const StakingStatus = () => {
 }
 
 export default StakingStatus
+const swapSet = [
+  {    field: '순서',  },
+  {    field: '몬스터 이름',  },
+  {    field: '계정',  },
+  {    field: '지갑주소',  },
+  {    field: '상태',  },
+  {    field: '-',  },
+  {    field: '-',  },
+  {    field: '-',  },
+  {    field: '날짜',  },
+]
+const swapField = [
+  {    field: '1',  },
+  {    field: 'Moong #11',  },
+  {    field: 'soejf@gmail.com',  },
+  {    field: '0xb6...2ef0',  },
+  {    field: 'Swap',  },
+  {    field: '-',  },
+  {    field: '-',  },
+  {    field: '-',  },
+  {    field: '2022-02-02',  },
+]

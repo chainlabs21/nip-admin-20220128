@@ -11,7 +11,8 @@ interface ITableDefault {
 	checkFields?: any[]
 	listlist? : any[]
 }
-const TableDefault: React.FC<ITableDefault> = ({
+
+const TableDefaultUserManaging : React.FC<ITableDefault> = ({
   columns,
   testFields,
 	checkFields,
@@ -30,19 +31,22 @@ const TableDefault: React.FC<ITableDefault> = ({
         </TableRow>
       </TableHead>
 
-      {testFields && (
+      {listlist && (
         <TableBody>
-          <TableRow>
-            {testFields.map((column: any, index: number) => (
-              <React.Fragment key={index}>
-                {column.checkBox && <TableCell>{column.checkBox()}</TableCell>}
-                <TableCell>{column.field}</TableCell>
-              </React.Fragment>
-            ))}
-          </TableRow>
-        </TableBody>
+					{listlist.map ((list : any , idx : number )=>(
+						<TableRow key={idx }>
+							{list.map((column: any, index: number) => (
+								<React.Fragment key={index}>
+									{column.checkBox && <TableCell>{column.checkBox()}</TableCell>}
+									<TableCell>{column.field}</TableCell>
+								</React.Fragment>
+							))}
+						</TableRow>					
+					)) 
+					}
+				</TableBody>
       )}
-
+					
       {checkFields && (
         <TableBody>
           <TableRow>
@@ -59,4 +63,4 @@ const TableDefault: React.FC<ITableDefault> = ({
   )
 }
 
-export default TableDefault
+export default TableDefaultUserManaging

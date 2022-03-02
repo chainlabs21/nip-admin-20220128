@@ -3,17 +3,21 @@ import SelectViewer from '../../components/select-viewer/SelectViewer'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import TableDefault from '../../components/table/TableDefault'
+import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import Papers from '../../components/paper/Papers'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import { Pagination } from '@mui/material'
 import axios from 'axios'
 import { API} from '../../configs/api'
 import { LOGGER} from '../../utils/common'
+// import moment from 'moment'
 const tableSet = [
 		{ field : 'id'}
 	, { field : 'username'}
 	, { field : 'email'}
 	, { field : 'staked'}
+	, { field : 'myreferercode' }
+	, { field : '가입일'}
 /** 	{    field: '순서',  },
   {    field: '계정',  },
   {    field: '지갑주소',  },
@@ -29,7 +33,7 @@ const testField = [
   {    field: 'seofij@gmail.com',  },
   {    field: '0xb6.2ef0',  },
   {    field: 'Success',  },
-  {    field: '100 USDT',  },
+	{    field: '100 USDT',  },
   {    field: '1548 USDT',  },
   {    field: '122 NIP',  },
   {    field: '일반',  },
@@ -37,15 +41,26 @@ const testField = [
 ]
 const UserManaging = () => {
 //	let [ testField , settestField ]=useState( [] )
+	let [ listlist , setlistlist] = useState( [] )
 	useEffect(()=>{
 		const fetchdata=async ()=>{
-			axios.get(API.API_USERS + `/0/10/id/DESC` ).then(resp=>{				LOGGER (resp.data )
-				let { status , list }=resp.data
-				if ( status =='OK' ){
-			//		settestField ( list )
+			axios.get(API.API_USERS + `/0/10/id/DESC` ).then(resp=>{				LOGGER ('' , resp.data )
+				let { status , list : list_raw }=resp.data
+				if ( status =='OK' ){			//		settestField ( list )
+					let list = list_raw.map ( (elem : any) =>{
+						return [ {field: elem['id']} 
+							, {field : elem['username'] } 
+							, {field : elem['email'] } 
+							, { field: elem['isstaked'] }
+							, {field : elem['myreferercode']}
+							, {field : elem['createdat']?.split('.')[0] }
+						] }
+					)
+					LOGGER( '' , list )
+					setlistlist ( list )			
 				}
 			})
-		}	
+		}
 		fetchdata()
 	} , [] )
   return (
@@ -96,7 +111,7 @@ const UserManaging = () => {
           </div>
 
           <div>
-            <TableDefault columns={tableSet} testFields={testField} />
+            <TableDefaultUserManaging listlist={ listlist } columns={tableSet} testFields={testField} />
           </div>
           <div
             style={{
