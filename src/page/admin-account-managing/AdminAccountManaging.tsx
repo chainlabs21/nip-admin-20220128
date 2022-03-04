@@ -167,7 +167,7 @@ const AdminAccountManaging = () => {
               }}
             >
               <SelectViewer title="Email" menu={emailViewers} />
-              <Searches />
+              <Searches searchState={e=>console.log(e)}/>
               <ContainedButton subject="등록" handleOpen={handleOpen} />
             </article>
           </div>

@@ -58,7 +58,7 @@ const NftRegister = () => {
                       fontSize: '14px',
                     }}
                   >
-                    생설할 수 있는 몬스터의 수는 97마리 입니다.
+                    생성할 수 있는 몬스터의 수는 97마리 입니다.
                   </span>
                 </span>
               </RadioGroup>

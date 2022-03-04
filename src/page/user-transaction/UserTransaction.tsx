@@ -134,8 +134,8 @@ const UserTranSaction = () => {
                 width: '700px',
               }}
             >
-              <BasicDateRangePicker />
-              <Searches />
+              <BasicDateRangePicker dateState={value=>{console.log(value)}} />
+              <Searches searchState={e=>console.log(e)}/>
               <ContainedButton subject="EXCEL" />
             </article>
           </section>

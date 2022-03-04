@@ -155,7 +155,7 @@ const Owners = () => {
             </Select>
           </FormControl>
 
-          <BasicDateRangePicker />
+          <BasicDateRangePicker dateState={value=>{console.log(value)}} />
 
           <article style={{ display: 'flex', alignItems: 'center' }}>
             <BasicTextFields label={'Search'} />

@@ -141,7 +141,7 @@ const RoiPaymentDetails = () => {
               }}
             >
               <SelectViewer title="Email" menu={emailViewers} />
-              <Searches />
+              <Searches searchState={e=>console.log(e)}/>
               <ContainedButton subject="EXCEL" />
             </article>
           </div>

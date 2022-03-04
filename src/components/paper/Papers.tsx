@@ -12,7 +12,7 @@ const Papers: React.FC<IPapers> = ({ children, title }) => {
       sx={{
         p: 2,
         maxWidth: '1800px',
-        maxHeight: '1200px',
+        maxHeight: '2000px',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
