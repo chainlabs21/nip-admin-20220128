@@ -21,7 +21,7 @@ import RoiPaymentDetails from './page/roi-payment-details/RoiPaymentDetails'
 import RoiManaging from './page/roi-managing/RoiManaging'
 import PaymentDetails from './page/payment-details/payment-details'
 import BannerManagement from './page/banner-management/BannerManagement'
-
+import ManageAuction from './page/nft-managing/ManageAuction'
 const Routers = () => {
   return (
     <Routes>
@@ -60,6 +60,7 @@ const Routers = () => {
       <Route path="/payment-details" element={<PaymentDetails />} />
 
       <Route path="/banner-management" element={<BannerManagement />} />
+			<Route path='/manage-auction' element={<ManageAuction />} />
 
       <Route path="/" element={<Main />} />
     </Routes>

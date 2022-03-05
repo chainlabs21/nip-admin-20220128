@@ -263,9 +263,9 @@ const NftManaging = () => {
                       이미지
                     </td>
                     <td className="nft-td" rowSpan={2}>
-                      종류
+                      일련번호
                     </td>
-                    <td className="nft-td">취급 토큰</td>
+                    <td className="nft-td">그룹</td>
                     <td className="nft-td">스왑시 지급 토큰</td>
                     <td className="nft-td">매칭 대기기간</td>
                     <td className="nft-td">몬스터 가격</td>
@@ -294,9 +294,9 @@ const NftManaging = () => {
 											<img src={elem.url } style={{height:'50px'}} alt="eg_image" />
 										</td>
 										<td className="nft-td" rowSpan={1}>
-											0xb6..2ef0
+											{elem.titlename }
 										</td>
-										<td className="nft-td">NIP</td>
+										<td className="nft-td"> { elem.group_ } </td>
 										<td className="nft-td">100</td>
 										<td className="nft-td">3</td>
 										<td className="nft-td">126</td>

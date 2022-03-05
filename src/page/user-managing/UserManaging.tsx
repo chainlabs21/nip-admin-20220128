@@ -15,6 +15,7 @@ const tableSet = [
 		{ field : 'id'}
 	, { field : 'username'}
 	, { field : 'email'}
+	, { field : 'nickname'}
 	, { field : 'staked'}
 	, { field : 'myreferercode' }
 	, { field : '가입일'}
@@ -51,6 +52,7 @@ const UserManaging = () => {
 						return [ {field: elem['id']} 
 							, {field : elem['username'] } 
 							, {field : elem['email'] } 
+							, {field : elem['nickname'] } 
 							, { field: elem['isstaked'] }
 							, {field : elem['myreferercode']}
 							, {field : elem['createdat']?.split('.')[0] }

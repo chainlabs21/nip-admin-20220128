@@ -33,9 +33,10 @@ export const drawerFields = [
     icon: NFT_setting_icon,
     arrow: down_arrow_icon,
     child: [
-      { title: 'NFT 등록', params: 'nft-register' },
-      { title: 'NFT 관리', params: 'nft-managing' },
-      { title: '수수료 관리', params: 'fees-managing' },
+			{ title : '경매일정' , params : 'manage-auction' } ,
+      { title : 'NFT 등록', params: 'nft-register' },
+      { title : 'NFT 관리', params: 'nft-managing' },
+      { title : '수수료 관리', params: 'fees-managing' },
     ],
   },
   {
