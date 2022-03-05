@@ -21,7 +21,8 @@ const LOGGER=console.log
 const tableSet = [
   {    field: 'id',  }, // 0
   {    field: 'createdat',  }, // 1
-  {    field: 'amount',  }, // 2
+	{    field: 'amount',  }, // 2
+	{	field : 'username'} ,
   {    field: 'currency',  }, // 3
   {    field: 'currency-addr',  }, // 4
 	{    field: 'status',  }, // 5
@@ -70,9 +71,10 @@ const StakingStatus = () => {
       let list = list_raw.map ( (elem : any) => {
         return [ { field : elem['id'] } // 0
           , { field : elem['createdat']?.split('.')[0] } // 1
-          , { field : elem['amount'] } // 2
+					, { field : elem['amount'] } // 2
+					, { field : strDot(elem['username'] , 20 , 0)}	
           , { field : elem['currency'] } // 3 
-          , { field : strDot(elem['currencyaddress'], 20, 0) } // 4
+          , { field : strDot(elem['currencyaddress'], 8, 0) } // 4
           , { field : elem['status']==1? 'Ok':'Err' } // 5
           , { field : strDot(elem['txhash'] , 20, 0 )  } // 6
           , { field : elem['nettype'] } // 7

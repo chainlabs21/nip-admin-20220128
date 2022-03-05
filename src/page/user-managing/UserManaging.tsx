@@ -11,7 +11,7 @@ import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import { Pagination } from '@mui/material'
 import axios from 'axios'
 import { API} from '../../configs/api'
-import { LOGGER} from '../../utils/common'
+import { LOGGER, strDot} from '../../utils/common'
 import { Select, MenuItem } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material'
 // import moment from 'moment'
@@ -68,8 +68,9 @@ const UserManaging = () => {
       if ( status =='OK' ){			//		settestField ( list )
         let list = list_raw.map ( (elem : any) =>{
           return [ {field: elem['id']} 
-            , {field : elem['username'] } 
-            , {field : elem['email'] } 
+            , {field : strDot(elem['username'] , 20, 0 )  } 
+						, {field : elem['email'] } 
+						, {field : elem['nickname'] } 
             , { field: elem['isstaked'] }
             , {field : elem['myreferercode']}
             , {field : elem['createdat']?.split('.')[0] }
