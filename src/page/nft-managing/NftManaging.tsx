@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography'
 import Papers from '../../components/paper/Papers'
 import PaperBodyContent from '../../components/paper/PaperBodyContent'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
+import { Select, MenuItem } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
@@ -119,18 +121,40 @@ const fields_02 = [
 
 const NftManaging = () => {
 	let [ list , setlist] = useState( [] )
+  const [totalPages, setTotalPages] = useState(0)
+  const [page, setPage] = useState<number>(1)
+  const [rows, setRows] = useState<any>(20)
+  const [count, setCount] = useState<number>(0)
+  const countdata=()=>{
+    axios.get(`${API.API_COUNT}/items`)
+    .then(resp=>{
+      LOGGER('COUNT', resp)
+      setCount(resp.data.payload.count)
+    })
+  }
 	const fetchdata=()=>{
-		axios.get(API.API_COMMONITEMS + `/items/group_/kong/0/32/id/DESC` ).then(resp=>{	
+		axios.get(API.API_COMMONITEMS + `/items/group_/kong/${page * rows}/${rows}/id/DESC` ).then(resp=>{	
 			LOGGER('' , resp.data )
 			let { status , list }=resp.data
 			if ( status =='OK'){
-				setlist ( list.slice(0,10) )
+        setCount(resp.data.payload.count as number)
+        setTotalPages(Math.ceil(resp.data.payload.count /rows))
+				setlist ( list )
 			}
 		})
 	}
+  const handleRows=(event: SelectChangeEvent<{value: any}>)=>{
+   setRows(event.target.value)
+  }
 	useEffect(()=>{
+    //countdata()
+    
 		fetchdata()
 	} , [] )
+  useEffect(()=>{
+    setTotalPages(Math.ceil(count/rows))
+    fetchdata()
+  },[page, rows])
   return (
     <>
       <div
@@ -214,7 +238,18 @@ const NftManaging = () => {
                 }}
               >
                 <article style={{ width: '100%' }}>
-                  <SelectViewer
+                  <Select
+                  id="RowsSelectLabel"
+                  value={rows}
+                  onChange={handleRows}
+
+                  >
+                    
+                      <MenuItem value={10}>10개씩 보기</MenuItem>
+                      <MenuItem value={20}>20개씩 보기</MenuItem>
+                    
+                  </Select>
+                  {/*<SelectViewer
                     title="10개씩 보기"
                     menu={[
                       {
@@ -223,7 +258,7 @@ const NftManaging = () => {
                       },
                       { value: 20, label: '20개씩 보기' },
                     ]}
-                  />
+                  />*/}
                 </article>
 
                 <article style={{ width: '100%', marginLeft: '8px' }}>
@@ -246,8 +281,8 @@ const NftManaging = () => {
                   width: '700px',
                 }}
               >
-                <BasicDateRangePicker />
-                <Searches />
+                {/*<BasicDateRangePicker dateState={value=>{console.log(value)}} />*/}
+                <Searches searchState={e=>console.log(e)}/>
                 <ContainedButton subject="등록" />
               </article>
             </section>
@@ -285,8 +320,9 @@ const NftManaging = () => {
                 </thead>
 
                 <tbody>
-									{list.map((elem:any , idx : number)=>(
-										<tr>
+									{
+                  list.map((elem:any , idx : number)=>(
+										<tr key={idx}>
 										<td className="nft-td" rowSpan={1}>
 											{elem.id}
 										</td>
@@ -303,22 +339,33 @@ const NftManaging = () => {
 										<td className="nft-td">8%</td>
 										<td className="nft-td">
 											<input
-												type="date"                        id="start"
-												name="trip-start"                        value="2022-02-02"
-												min="2022-02-02"                        max="2022-03-03"
-												style={{                          width: '100%',
-													height: '40px',                          borderRadius: '12px',
-													border: '1px solid #D9D9D9',                          textAlign: 'center',
+												type="date"
+                        id="start"
+												name="trip-start"
+                        value="2022-02-02"
+												min="2022-02-02"
+                        max="2022-03-03"
+												style={{
+                          width: '100%',
+													height: '40px',
+                          borderRadius: '12px',
+													border: '1px solid #D9D9D9',
+                          textAlign: 'center',
 												}}
 											/>
 										</td>
 										<td className="nft-td" rowSpan={1}>
 											<Toggle
-		defaultChecked={false}
-		disabled={false } icons={false} /><br/><span>On sale</span>
+                        defaultChecked={false}
+                        disabled={false } 
+                        icons={false} 
+                      />
+                      <br/>
+                      <span>On sale</span>
 										</td>
 									</tr>
 									))}
+                  
 {/**                   <tr>
                     <td className="nft-td" rowSpan={1}>
                       1
@@ -386,7 +433,7 @@ const NftManaging = () => {
                 margin: '20px 0 0 0',
               }}
             >
-              <Pagination count={10} showFirstButton showLastButton />
+              {totalPages>1?(<Pagination onChange={(e, v)=>{setPage(v)}} count={totalPages} showFirstButton showLastButton />):""}
             </div>
           </section>
         </Papers>

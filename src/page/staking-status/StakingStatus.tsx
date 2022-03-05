@@ -1,4 +1,5 @@
 import React, { useEffect , useState } from 'react'
+import DateRangePicker, {DateRange} from '@mui/lab/DateRangePicker'
 import Papers from '../../components/paper/Papers'
 import Box from '@mui/material/Box'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -7,6 +8,8 @@ import { Pagination, Tab } from '@mui/material'
 import TableDefaultListlist from '../../components/table/TableDefaultListlist'
 
 import SelectViewer from '../../components/select-viewer/SelectViewer'
+import { Select, MenuItem } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
@@ -40,37 +43,55 @@ const testField = [
   {    field: '2022-02-02',  },
 ]
 const StakingStatus = () => {
+  const [count, setCount] = useState(0)
+  const [page, setPage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [rows, setRows] = useState<any>(10)
+  const [datevalue, setDateValue] = useState<DateRange<Date>>([null, null])
 	const [value, setValue] = React.useState('1')
 //	let [ test Field , settes tField ]= useState ( [] )
 	let [ listlist , setlistlist ] = useState( [] )
+  const [searchkey, setSearchKey]=useState<String>('');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
 	}
+  const handleRows=(event: SelectChangeEvent<{value: any}>)=>{
+    setRows(event.target.value)
+   }
+  const fetchdata = async()=>{
+    let url=API.API_TXS_STAKE + `/0/10/id/DESC`
+    let resp = await axios.get( `${API.API_TXS_STAKE}/${page * rows}/${rows}/id/DESC`, {params:{date0: datevalue[0], date1: datevalue[1], searchkey}} )
+    LOGGER( '', url , resp.data )
+    
+    let { status , list : list_raw  }=resp.data 
+    if ( status =='OK'){ //				settest Field ( list )
+      setCount(resp.data.payload.count as number)
+    setTotalPages(resp.data.payload.count /rows)
+      let list = list_raw.map ( (elem : any) => {
+        return [ { field : elem['id'] } // 0
+          , { field : elem['createdat']?.split('.')[0] } // 1
+          , { field : elem['amount'] } // 2
+          , { field : elem['currency'] } // 3 
+          , { field : strDot(elem['currencyaddress'], 20, 0) } // 4
+          , { field : elem['status']==1? 'Ok':'Err' } // 5
+          , { field : strDot(elem['txhash'] , 20, 0 )  } // 6
+          , { field : elem['nettype'] } // 7
+        ]
+      })
+      LOGGER('F4wjxixHX2' , list )
+      setlistlist( list )
+    }
+  }
 	useEffect (()=>{
-		const fetchdata = async()=>{
-			let url=API.API_TXS_STAKE + `/0/10/id/DESC`
-			let resp = await axios.get( url )
-			LOGGER( '', url , resp.data )
-			let { status , list : list_raw  }=resp.data 
-			if ( status =='OK'){ //				settest Field ( list )
-				let list = list_raw.map ( (elem : any) => {
-					return [ { field : elem['id'] } // 0
-						, { field : elem['createdat']?.split('.')[0] } // 1
-						, { field : elem['amount'] } // 2
-						, { field : elem['currency'] } // 3 
-						, { field : strDot(elem['currencyaddress'], 20, 0) } // 4
-						, { field : elem['status']==1? 'Ok':'Err' } // 5
-						, { field : strDot(elem['txhash'] , 20, 0 )  } // 6
-						, { field : elem['nettype'] } // 7
-					]
-				})
-				LOGGER('F4wjxixHX2' , list )
-				setlistlist( list )
-			}
-		}
 		fetchdata()
 	}
 	,	[] )
+  useEffect(()=>{
+    setTotalPages(count/rows)
+    fetchdata()
+    console.log(totalPages)
+
+  },[page, rows, datevalue, searchkey])
   return (
     <>
       <Papers>
@@ -104,16 +125,17 @@ const StakingStatus = () => {
                 }}
               >
                 <article style={{ width: '100%' }}>
-                  <SelectViewer
-                    title="10개씩 보기"
-                    menu={[
-                      {
-                        value: 10,
-                        label: '10개씩 보기',
-                      },
-                      { value: 20, label: '20개씩 보기' },
-                    ]}
-                  />
+                <Select
+                  id="RowsSelectLabel"
+                  value={rows}
+                  onChange={handleRows}
+
+                  >
+                    
+                      <MenuItem value={10}>10개씩 보기</MenuItem>
+                      <MenuItem value={20}>20개씩 보기</MenuItem>
+                    
+                  </Select>
                 </article>
 
                 <article style={{ width: '100%', marginLeft: '8px' }}>
@@ -136,8 +158,8 @@ const StakingStatus = () => {
                   width: '700px',
                 }}
               >
-                <BasicDateRangePicker />
-                <Searches />
+                <BasicDateRangePicker dateState={value=>{setDateValue(value)}} />
+                <Searches searchState={e=>setSearchKey(e)}/>
                 <ContainedButton subject="등록" />
               </article>
             </section>
@@ -152,7 +174,7 @@ const StakingStatus = () => {
               margin: '20px 0 0 0',
             }}
           >
-            <Pagination count={10} showFirstButton showLastButton />
+            {totalPages>1?(<Pagination onChange={(e, v)=>{setPage(v)}} count={totalPages} showFirstButton showLastButton />):""}
           </div>
             </TabPanel>
             <TabPanel value="2">

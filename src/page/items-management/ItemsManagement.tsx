@@ -166,7 +166,7 @@ const ItemsManagement = () => {
           >
             숨김 해제
           </Button>
-          <BasicDateRangePicker />
+          <BasicDateRangePicker dateState={value=>{console.log(value)}} />
 
           <article style={{ display: 'flex', alignItems: 'center' }}>
             <BasicTextFields label={'Search'} />

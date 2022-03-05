@@ -5,8 +5,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import Box from '@mui/material/Box'
 
-export default function BasicDateRangePicker() {
+type ChildProps = {
+  dateState: (value: DateRange<Date>) => void;
+ }
+ 
+const BasicDateRangePicker: React.FC<ChildProps>=(props)=> {
   const [value, setValue] = React.useState<DateRange<Date>>([null, null])
+  //props.toggleState = (value: DateRange<Date>) => void;
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -16,6 +22,7 @@ export default function BasicDateRangePicker() {
         value={value}
         onChange={(newValue) => {
           setValue(newValue)
+          props.dateState(newValue)
         }}
         renderInput={(startProps, endProps) => (
           <React.Fragment>
@@ -28,3 +35,5 @@ export default function BasicDateRangePicker() {
     </LocalizationProvider>
   )
 }
+
+export default BasicDateRangePicker;
