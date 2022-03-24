@@ -3,7 +3,8 @@ import Button from '@mui/material/Button'
 
 interface ButtonTitles {
   first: string
-  second: string
+  second?: string
+  style?: any
 }
 
 const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
@@ -17,6 +18,57 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
         variant="contained"
       >
         {second}
+      </Button>
+    </>
+  )
+}
+export const ButtonGroupSeconed: React.FC<ButtonTitles> = ({
+  first,
+  second,
+  style,
+}) => {
+  return (
+    <>
+      <Button
+        sx={{
+          width: '162px',
+          height: '44px',
+          bgcolor: 'text.disabled',
+          color: 'black',
+        }}
+        variant="contained"
+      >
+        {first}
+      </Button>
+      <Button
+        sx={{
+          marginLeft: '8px',
+          width: '162px',
+          height: '44px',
+          bgcolor: 'text.disabled',
+          color: 'black',
+        }}
+        variant="contained"
+      >
+        {second}
+      </Button>
+    </>
+  )
+}
+export const ButtonGroupThird: React.FC<ButtonTitles> = ({ first }) => {
+  return (
+    <>
+      <Button
+        sx={{
+          cursor: 'none',
+          width: '162px',
+          height: '44px',
+          bgcolor: 'text.disabled',
+          color: 'black',
+        }}
+        variant="contained"
+      >
+        {first}
       </Button>
     </>
   )
