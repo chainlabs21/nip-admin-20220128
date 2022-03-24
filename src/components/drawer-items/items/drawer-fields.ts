@@ -33,7 +33,6 @@ export const drawerFields = [
     icon: NFT_setting_icon,
     arrow: down_arrow_icon,
     child: [
-			{ title : '경매일정' , params : 'manage-auction' } ,
       { title : 'NFT 등록', params: 'nft-register' },
       { title : 'NFT 관리', params: 'nft-managing' },
       { title : '수수료 관리', params: 'fees-managing' },
@@ -44,6 +43,7 @@ export const drawerFields = [
     icon: matching_icon,
     arrow: down_arrow_icon,
     child: [
+			{ title : '경매관리' , params : 'manage-auction' } ,
       { title: '입찰참여 리스트', params: 'auction-list' },
       { title: '매칭현황 리스트', params: 'matching-list' },
       { title: '미매칭건 리스트', params: 'not-matching-list' },

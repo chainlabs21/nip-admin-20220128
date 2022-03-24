@@ -167,7 +167,7 @@ const StakingStatus = () => {
             </section>
             <TabPanel value="1">
               <TableDefaultListlist columns={tableSet} testFields={testField} 
-							listlist= { listlist } 
+							listlist= { listlist }
 							/>
               <div
             style={{
