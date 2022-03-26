@@ -13,8 +13,8 @@ import eg_image from '../../assets/images/ex-image.png'
 import { Pagination } from '@mui/material'
 import Toggle from 'react-toggle'
 import 'react-toggle/style.css'
-import { API } from '../../configs/api';
-import { LOGGER } from '../../utils/common';
+import { API } from '../../configs/api'
+import { LOGGER } from '../../utils/common'
 import axios from 'axios'
 
 const fields_01 = [
@@ -120,41 +120,48 @@ const fields_02 = [
 ]
 
 const NftManaging = () => {
-	let [ list , setlist] = useState( [] )
+  let [list, setlist] = useState([])
   const [totalPages, setTotalPages] = useState(0)
   const [page, setPage] = useState<number>(1)
   const [rows, setRows] = useState<any>(20)
   const [count, setCount] = useState<number>(0)
-  const countdata=()=>{
-    axios.get(`${API.API_COUNT}/items`)
-    .then(resp=>{
+  const countdata = () => {
+    axios.get(`${API.API_COUNT}/items`).then((resp) => {
       LOGGER('COUNT', resp)
       setCount(resp.data.payload.count)
     })
   }
-	const fetchdata=()=>{
-		axios.get(API.API_COMMONITEMS + `/items/group_/kong/${page * rows}/${rows}/id/DESC` ).then(resp=>{	
-			LOGGER('' , resp.data )
-			let { status , list }=resp.data
-			if ( status =='OK'){
-        setCount(resp.data.payload.count as number)
-        setTotalPages(Math.ceil(resp.data.payload.count /rows))
-				setlist ( list )
-			}
-		})
-	}
-  const handleRows=(event: SelectChangeEvent<{value: any}>)=>{
-   setRows(event.target.value)
+  const fetchdata = () => {
+    axios
+      .get(
+        API.API_COMMONITEMS +
+          `/items/group_/kong/${page * rows}/${rows}/id/DESC`,
+      )
+      .then((resp) => {
+        LOGGER('', resp.data)
+        let { status, list } = resp.data
+        if (status == 'OK') {
+          setCount(resp.data.payload.count as number)
+          setTotalPages(Math.ceil(resp.data.payload.count / rows))
+          setlist(list)
+        }
+      })
   }
-	useEffect(()=>{
+  const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
+    setRows(event.target.value)
+  }
+  useEffect(() => {
     //countdata()
-    
-		fetchdata()
-	} , [] )
-  useEffect(()=>{
-    setTotalPages(Math.ceil(count/rows))
+
     fetchdata()
-  },[page, rows])
+  }, [])
+  useEffect(() => {
+    setTotalPages(Math.ceil(count / rows))
+    fetchdata()
+  }, [page, rows])
+
+  console.log('list')
+  console.log(list)
   return (
     <>
       <div
@@ -239,15 +246,12 @@ const NftManaging = () => {
               >
                 <article style={{ width: '100%' }}>
                   <Select
-                  id="RowsSelectLabel"
-                  value={rows}
-                  onChange={handleRows}
-
+                    id="RowsSelectLabel"
+                    value={rows}
+                    onChange={handleRows}
                   >
-                    
-                      <MenuItem value={10}>10개씩 보기</MenuItem>
-                      <MenuItem value={20}>20개씩 보기</MenuItem>
-                    
+                    <MenuItem value={10}>10개씩 보기</MenuItem>
+                    <MenuItem value={20}>20개씩 보기</MenuItem>
                   </Select>
                   {/*<SelectViewer
                     title="10개씩 보기"
@@ -282,7 +286,7 @@ const NftManaging = () => {
                 }}
               >
                 {/*<BasicDateRangePicker dateState={value=>{console.log(value)}} />*/}
-                <Searches searchState={e=>console.log(e)}/>
+                <Searches searchState={(e) => console.log(e)} />
                 <ContainedButton subject="등록" />
               </article>
             </section>
@@ -304,11 +308,11 @@ const NftManaging = () => {
                     <td className="nft-td">스왑시 지급 토큰</td>
                     <td className="nft-td">매칭 대기기간</td>
                     <td className="nft-td">몬스터 가격</td>
-                    <td className="nft-td">수익률</td>
+                    <td className="nft-td">유통상태</td>
                     <td className="nft-td">입찰 참여 시작일</td>
                     <td className="nft-td">생성일</td>
                   </tr>
-{/**                   <tr>
+                  {/**                   <tr>
                     <td className="nft-td">스테이킹 지급 일수</td>
                     <td className="nft-td">스테이킹 지급 토큰</td>
                     <td className="nft-td">상태</td>
@@ -320,53 +324,64 @@ const NftManaging = () => {
                 </thead>
 
                 <tbody>
-									{
-                  list.map((elem:any , idx : number)=>(
-										<tr key={idx}>
-										<td className="nft-td" rowSpan={1}>
-											{elem.id}
-										</td>
-										<td className="nft-td" rowSpan={1}>
-											<img src={elem.url } style={{height:'50px'}} alt="eg_image" />
-										</td>
-										<td className="nft-td" rowSpan={1}>
-											{elem.titlename }
-										</td>
-										<td className="nft-td"> { elem.group_ } </td>
-										<td className="nft-td">100</td>
-										<td className="nft-td">3</td>
-										<td className="nft-td">126</td>
-										<td className="nft-td">8%</td>
-										<td className="nft-td">
-											<input
-												type="date"
-                        id="start"
-												name="trip-start"
-                        value="2022-02-02"
-												min="2022-02-02"
-                        max="2022-03-03"
-												style={{
-                          width: '100%',
-													height: '40px',
-                          borderRadius: '12px',
-													border: '1px solid #D9D9D9',
-                          textAlign: 'center',
-												}}
-											/>
-										</td>
-										<td className="nft-td" rowSpan={1}>
-											<Toggle
-                        defaultChecked={false}
-                        disabled={false } 
-                        icons={false} 
-                      />
-                      <br/>
-                      <span>On sale</span>
-										</td>
-									</tr>
-									))}
-                  
-{/**                   <tr>
+                  {list.map((elem: any, idx: number) => (
+                    <tr key={idx}>
+                      <td className="nft-td" rowSpan={1}>
+                        {elem.id}
+                      </td>
+                      <td className="nft-td" rowSpan={1}>
+                        <img
+                          src={elem.url}
+                          style={{ height: '50px' }}
+                          alt="eg_image"
+                        />
+                      </td>
+                      <td className="nft-td" rowSpan={1}>
+                        {elem.titlename}
+                      </td>
+                      <td className="nft-td"> {elem.group_} </td>
+                      <td className="nft-td">100</td>
+                      <td className="nft-td">3</td>
+                      <td className="nft-td">126</td>
+                      <td className="nft-td">
+                        {elem.salesstatusstr === 'on_reserve'
+                          ? '예약'
+                          : elem.salesstatusstr === 'assigned'
+                          ? '할당'
+                          : elem.salesstatusstr === 'user_owned'
+                          ? '유저소유'
+                          : ''}
+                      </td>
+                      <td className="nft-td">
+                        <input
+                          type="date"
+                          id="start"
+                          name="trip-start"
+                          value="2022-02-02"
+                          min="2022-02-02"
+                          max="2022-03-03"
+                          style={{
+                            width: '100%',
+                            height: '40px',
+                            borderRadius: '12px',
+                            border: '1px solid #D9D9D9',
+                            textAlign: 'center',
+                          }}
+                        />
+                      </td>
+                      <td className="nft-td" rowSpan={1}>
+                        <Toggle
+                          defaultChecked={false}
+                          disabled={false}
+                          icons={false}
+                        />
+                        <br />
+                        <span>On sale</span>
+                      </td>
+                    </tr>
+                  ))}
+
+                  {/**                   <tr>
                     <td className="nft-td" rowSpan={1}>
                       1
                     </td>
@@ -398,7 +413,7 @@ const NftManaging = () => {
     disabled={false } icons={false} /><br/><span>On sale</span>
 										</td>
                   </tr>*/}
-{/**                   <tr>
+                  {/**                   <tr>
                     <td className="nft-td">100</td>
                     <td className="nft-td">100</td>
                     <td className="nft-td">Stay</td>
@@ -433,7 +448,18 @@ const NftManaging = () => {
                 margin: '20px 0 0 0',
               }}
             >
-              {totalPages>1?(<Pagination onChange={(e, v)=>{setPage(v)}} count={totalPages} showFirstButton showLastButton />):""}
+              {totalPages > 1 ? (
+                <Pagination
+                  onChange={(e, v) => {
+                    setPage(v)
+                  }}
+                  count={totalPages}
+                  showFirstButton
+                  showLastButton
+                />
+              ) : (
+                ''
+              )}
             </div>
           </section>
         </Papers>
