@@ -19,7 +19,7 @@ import moment from 'moment'
 
 const ManageAuction = () => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
-  const [putData, setPutData] = useState({
+  const [putData, setPutData] = useState<any>({
     BALLOT_NEXT_ROUND_START: '',
     BALLOT_NEXT_ROUND_PAYMENT_DUE: '',
     BALLOT_NEXT_ROUND_CLOSE: '',
@@ -53,8 +53,13 @@ const ManageAuction = () => {
     fetchData()
   }, [])
 
+  const onReset = () => {
+    setPutData('')
+    window.location.replace('/manage-auction')
+  }
+
   console.log('getBALLOT')
-  console.log(getBALLOT)
+  console.log(putData)
 
   const fields = [
     {
@@ -546,11 +551,26 @@ const ManageAuction = () => {
             justifyContent: 'center',
             padding: 30,
           }}
-          onClick={() => {
-            onclickSubmitBtn()
-          }}
         >
-          <ButtonGroupSeconed first="저장" second="취소" />
+          <button
+            style={{
+              width: '7rem',
+              marginRight: '2rem',
+            }}
+            onClick={() => {
+              onclickSubmitBtn()
+            }}
+          >
+            저장
+          </button>
+          <button
+            style={{
+              width: '7rem',
+            }}
+            onClick={onReset}
+          >
+            취소
+          </button>
         </div>
         <div
           style={{

@@ -40,18 +40,6 @@ export const ButtonGroupSeconed: React.FC<ButtonTitles> = ({
       >
         {first}
       </Button>
-      <Button
-        sx={{
-          marginLeft: '8px',
-          width: '162px',
-          height: '44px',
-          bgcolor: 'text.disabled',
-          color: 'black',
-        }}
-        variant="contained"
-      >
-        {second}
-      </Button>
     </>
   )
 }
