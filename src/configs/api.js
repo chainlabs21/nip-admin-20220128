@@ -1,16 +1,15 @@
+const URL = 'https://nftinfinity.world:34825' // nips1.net:34815'
 
-const URL='https://nftinfinity.world:34825' // nips1.net:34815'
-
-const API={
-	API_TXS_STAKE		: URL + '/queries/rows/transactions/typestr/STAKE' // /:offset/:limit/:orderkey/:orderval
-	, API_USERS			: URL + '/queries/rows/users/active/1' // /:offset/:limit/:orderkey/:orderval
-	, API_COMMONITEMS	: URL + '/queries/rows'
-	, API_COUNT			: URL + '/queries/count'
+const API = {
+  API_TXS_STAKE: URL + '/queries/rows/transactions/typestr/STAKE', // /:offset/:limit/:orderkey/:orderval
+  API_USERS: URL + '/queries/rows/users/active/1', // /:offset/:limit/:orderkey/:orderval
+  API_COMMONITEMS: URL + '/queries/rows',
+  API_COUNT: URL + '/queries/count',
+  API_BALLOT: URL + '/queries/rows/jsonobject/settings/key_/value_',
+  API_PUTTIME: URL + '/queries/update-or-create-rows/settings',
 }
 
-export {
-	API
-}
+export { API }
 
 // const URL='http://nip s1.net:348 15'
 // const URL='http://3.35. 117.87:34 815'
