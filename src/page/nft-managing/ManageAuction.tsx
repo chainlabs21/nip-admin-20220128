@@ -295,12 +295,252 @@ const fields = [
       )
     },
   },
+  { content: () => <hr /> },
+  {
+    content: () => (
+      <h1 style={{ padding: '10px' }}>현재 라운드 / 배분 및 할 당</h1>
+    ),
+  },
+
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>시작 및 시각 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>할당받은 계정 수</article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>분배된 아이템 수 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  { content: () => <hr /> },
+  {
+    content: () => <h1 style={{ padding: '10px' }}>현재 라운드 / 결제 마감</h1>,
+  },
+
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>마감시각 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>결제된 아이템 수 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>미결제 계정 수 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  { content: () => <hr /> },
+  {
+    content: () => (
+      <h1 style={{ padding: '10px' }}>다음 라운드 / 배분 및 할당</h1>
+    ),
+  },
+
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>시작시간 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>결제 / 마감시각</article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  {
+    content: () => {
+      return (
+        <div style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}>
+          <article style={{ width: '30%' }}>라운드종료시각 / 종료시각 </article>
+          <article style={{ width: '70%' }}>
+            <OutlinedInput
+              value={'2 days'}
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+            />
+          </article>
+        </div>
+      )
+    },
+  },
+  { content: () => <hr /> },
 ]
 
 const ManageAuction = () => {
   return (
     <>
       <ButtonGroupThird first="진행중" />
+      <ButtonGroupThird first="Round:" />
+      <ButtonGroupThird first="중지중" />
+
       <Papers title="경매관리">
         <PaperBodyContent fields={fields} />
         <div
@@ -329,6 +569,7 @@ const ManageAuction = () => {
             </FormControl>
           </article>
         </div>
+
         <div
           style={{
             width: '100%',

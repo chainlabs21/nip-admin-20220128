@@ -65,6 +65,7 @@ export const ButtonGroupThird: React.FC<ButtonTitles> = ({ first }) => {
           height: '44px',
           bgcolor: 'text.disabled',
           color: 'black',
+          marginRight: '30px',
         }}
         variant="contained"
       >
