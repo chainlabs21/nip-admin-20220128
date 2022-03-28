@@ -1,5 +1,7 @@
 import React from 'react'
 import Button from '@mui/material/Button'
+import axios from 'axios'
+import { API } from '../../../configs/api'
 
 interface ButtonTitles {
   first: string
@@ -8,12 +10,28 @@ interface ButtonTitles {
 }
 
 const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
+  const onclickPutStartBtn = () => {
+    axios.put(API.API_PUTTIME, {}).then((resp) => {
+      console.log(resp)
+    })
+  }
+  const onclickPutStopBtn = () => {
+    axios.put(API.API_PUTTIME, {}).then((resp) => {
+      console.log(resp)
+    })
+  }
+
   return (
     <>
-      <Button sx={{ width: '162px', height: '44px' }} variant="outlined">
+      <Button
+        onClick={onclickPutStartBtn}
+        sx={{ width: '162px', height: '44px' }}
+        variant="outlined"
+      >
         {first}
       </Button>
       <Button
+        onClick={onclickPutStopBtn}
         sx={{ marginLeft: '8px', width: '162px', height: '44px' }}
         variant="contained"
       >

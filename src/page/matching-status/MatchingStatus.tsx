@@ -1,41 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import Box from '@mui/material/Box'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
+import { Pagination, Tab } from '@mui/material'
 import TableDefault from '../../components/table/TableDefault'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
+import axios from 'axios'
+import { API } from '../../configs/api'
+import { LOGGER } from '../../utils/common'
+import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 
 const tableSet = [
   {
-    field: '순서',
+    field: 'id',
   },
   {
-    field: '몬스터 이름',
+    field: 'createdat',
   },
   {
-    field: '가격',
+    field: 'username',
   },
   {
-    field: '상태',
+    field: 'itemid',
   },
   {
-    field: '신청자 수',
+    field: 'amount',
   },
   {
-    field: 'URL',
+    field: 'currency',
   },
   {
-    field: '몬스터 생성일',
+    field: 'statusstr',
   },
   {
-    field: '입찰 시작일',
+    field: 'roundnumber',
   },
   {
-    field: '입찰 종료일',
+    field: 'txhash',
   },
 ]
 
@@ -70,7 +74,47 @@ const testField = [
 ]
 
 const MatchingStatus = () => {
-  const [value, setValue] = React.useState('2')
+  const [value, setValue] = React.useState('1')
+  let [listlist, setlistlist] = useState([])
+  const [count, setCount] = useState(0)
+  const [page, setPage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [rows, setRows] = useState<any>(10)
+  const [searchkey, setSearchKey] = useState<any>('')
+
+  const fetchData = () => {
+    axios
+      .get(API.API_LOGSALES + `/${page * rows}/${rows}/id/DESC`, {
+        params: { date0: value[0], date1: value[1], searchkey },
+      })
+      .then((resp) => {
+        LOGGER('', resp.data)
+        // setCount(resp.data.payload.count as number)
+        let { status, list: list_raw } = resp.data
+        console.log(list_raw)
+        if (status == 'OK') {
+          let list = list_raw.map((elem: any, index: any) => {
+            return [
+              { field: elem['id'] },
+              { field: elem['createdat']?.split('T')[0] },
+              { field: elem['username'] },
+              { field: elem['itemid'] },
+              { field: elem['amount'] },
+              { field: elem['currency'] },
+              { field: elem['statusstr'] },
+              { field: elem['roundnumber'] },
+              { field: elem['txhash'] },
+            ]
+          })
+          LOGGER('', list)
+          setlistlist(list)
+        }
+      })
+  }
+  useEffect(() => {
+    setTotalPages(Math.ceil(count / rows))
+    fetchData()
+  }, [page, rows, value, searchkey])
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
@@ -85,10 +129,7 @@ const MatchingStatus = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                <Tab label="입찰참여 리스트" value="1" />
-                <Tab label="매칭현황 리스트" value="2" />
-                <Tab label="미매칭건 리스트" value="3" />
-                <Tab label="매칭가능 리스트" value="4" />
+                <Tab label="결제완료(신규)" value="1" />
               </TabList>
             </Box>
 
@@ -126,22 +167,39 @@ const MatchingStatus = () => {
                   width: '700px',
                 }}
               >
-                <BasicDateRangePicker dateState={value=>{console.log(value)}} />
-                <Searches searchState={e=>console.log(e)}/>
+                <BasicDateRangePicker
+                  dateState={(value) => {
+                    console.log(value)
+                  }}
+                />
+                <Searches searchState={(e) => console.log(e)} />
                 <ContainedButton subject="EXCEL" />
               </article>
             </div>
             <TabPanel value="1">
-              <TableDefault columns={tableSet} testFields={testField} />
-            </TabPanel>
-            <TabPanel value="2">
-              <TableDefault columns={tableSet} testFields={testField} />
-            </TabPanel>
-            <TabPanel value="3">
-              <TableDefault columns={tableSet} testFields={testField} />
-            </TabPanel>
-            <TabPanel value="4">
-              <TableDefault columns={tableSet} testFields={testField} />
+              <TableDefaultUserManaging
+                listlist={listlist}
+                columns={tableSet}
+                testFields={testField}
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  margin: '20px 0 0 0',
+                }}
+              >
+                {totalPages > 1 ? (
+                  <Pagination
+                    onChange={(e, v) => {
+                      setPage(v)
+                    }}
+                    count={totalPages}
+                  />
+                ) : (
+                  ''
+                )}
+              </div>
             </TabPanel>
           </TabContext>
         </Box>

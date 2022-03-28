@@ -16,7 +16,7 @@ const Papers: React.FC<IPapers> = ({ children, title }) => {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        width: '100%',
+        width: '95rem',
       }}
     >
       <Typography
