@@ -11,6 +11,7 @@ const API = {
   API_LOGSALES: `${URL}/queries/rows/logsales/active/1`,
   API_DELINQUENCIES: `${URL}/queries/rows/delinquencies/active/1`,
   API_LOGDELINQUENTS: `${URL}/queries/rows/logdelinquents/active/1`,
+  API_PUTSTATE: `${URL}/ballotrouter/update-or-create-rows/settings`,
 }
 
 export { API }

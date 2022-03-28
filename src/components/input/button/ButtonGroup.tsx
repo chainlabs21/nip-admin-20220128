@@ -11,14 +11,28 @@ interface ButtonTitles {
 
 const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
   const onclickPutStartBtn = () => {
-    axios.put(API.API_PUTTIME, {}).then((resp) => {
-      console.log(resp)
-    })
+    axios
+      .put(API.API_PUTSTATE + '/START', {
+        BALLOT_ACTIVE: 'START',
+      })
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status == 'OK') {
+          window.location.reload()
+        }
+      })
   }
   const onclickPutStopBtn = () => {
-    axios.put(API.API_PUTTIME, {}).then((resp) => {
-      console.log(resp)
-    })
+    axios
+      .put(API.API_PUTSTATE + '/PAUSE', {
+        BALLOT_ACTIVE: 'PAUSE',
+      })
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status == 'OK') {
+          window.location.reload()
+        }
+      })
   }
 
   return (

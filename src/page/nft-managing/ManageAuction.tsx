@@ -59,7 +59,7 @@ const ManageAuction = () => {
   }
 
   console.log('getBALLOT')
-  console.log(putData)
+  console.log(getBALLOT)
 
   const fields = [
     {
@@ -511,7 +511,7 @@ const ManageAuction = () => {
   return (
     <>
       <ButtonGroupThird
-        first={getBALLOT?.BALLOT_ACTIVE === '1' ? '진행중' : '중지중'}
+        first={getBALLOT?.BALLOT_ACTIVE === 'START' ? '진행중' : '중지중'}
       />
       <ButtonGroupThird first={`Round : ${getBALLOT?.BALLOT_ROUND_NUMBER}`} />
 
