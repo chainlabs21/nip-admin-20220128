@@ -55,7 +55,7 @@ const ManageAuction = () => {
 
   const onReset = () => {
     setPutData('')
-    window.location.replace('/manage-auction')
+    window.location.reload()
   }
 
   console.log('getBALLOT')
@@ -198,6 +198,34 @@ const ManageAuction = () => {
                 </tr>
               </tbody>
             </table>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                padding: 30,
+              }}
+            >
+              <button
+                style={{
+                  width: '7rem',
+                  marginRight: '2rem',
+                }}
+                onClick={() => {
+                  onclickSubmitBtn()
+                }}
+              >
+                저장
+              </button>
+              <button
+                style={{
+                  width: '7rem',
+                }}
+                onClick={onReset}
+              >
+                취소
+              </button>
+            </div>
           </div>
         )
       },
@@ -544,34 +572,6 @@ const ManageAuction = () => {
           </article>
         </div>
 
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: 30,
-          }}
-        >
-          <button
-            style={{
-              width: '7rem',
-              marginRight: '2rem',
-            }}
-            onClick={() => {
-              onclickSubmitBtn()
-            }}
-          >
-            저장
-          </button>
-          <button
-            style={{
-              width: '7rem',
-            }}
-            onClick={onReset}
-          >
-            취소
-          </button>
-        </div>
         <div
           style={{
             width: '100%',
