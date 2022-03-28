@@ -8,6 +8,7 @@ import {
   OutlinedInput,
   Radio,
   RadioGroup,
+  TextField,
 } from '@mui/material'
 import ButtonGroup, {
   ButtonGroupSeconed,
@@ -16,14 +17,37 @@ import ButtonGroup, {
 import axios from 'axios'
 import { API } from '../../configs/api'
 import moment from 'moment'
+// or @mui/lab/Adapter{Dayjs,Luxon,Moment} or any valid date-io adapter
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import { DateTimePicker } from '@mui/lab'
 
 const ManageAuction = () => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
-  const [putData, setPutData] = useState<any>({
-    BALLOT_NEXT_ROUND_START: '',
-    BALLOT_NEXT_ROUND_PAYMENT_DUE: '',
-    BALLOT_NEXT_ROUND_CLOSE: '',
-  })
+  const [selectedDate, setSelectedDate] = useState(
+    getBALLOT?.BALLOT_NEXT_ROUND_START,
+  )
+  const [selectedDatePay, setSelectedDatePay] = useState(
+    getBALLOT?.BALLOT_PAYMENT_DUE_TIME_OF_DAY,
+  )
+  const [selectedDateClose, setSelectedDateClose] = useState(
+    getBALLOT?.BALLOT_NEXT_ROUND_CLOSE,
+  )
+
+  console.log('selectedDate')
+  console.log(moment(selectedDate).unix())
+
+  const handleDateChange = (date: any, i: any) => {
+    console.log(date)
+    setSelectedDate(date)
+  }
+  const handleDateChangePay = (date: any, i: any) => {
+    setSelectedDatePay(date)
+  }
+  const handleDateChangeFinal = (date: any, i: any) => {
+    console.log(date)
+    setSelectedDateClose(date)
+  }
 
   const fetchData = () => {
     axios.get(API.API_BALLOT).then((resp) => {
@@ -37,14 +61,15 @@ const ManageAuction = () => {
   const onclickSubmitBtn = () => {
     axios
       .put(API.API_PUTTIME, {
-        BALLOT_NEXT_ROUND_START: putData.BALLOT_NEXT_ROUND_START,
-        BALLOT_NEXT_ROUND_PAYMENT_DUE: putData.BALLOT_NEXT_ROUND_PAYMENT_DUE,
-        BALLOT_NEXT_ROUND_CLOSE: putData.BALLOT_NEXT_ROUND_CLOSE,
+        BALLOT_NEXT_ROUND_START: moment(selectedDate).unix(),
+        BALLOT_NEXT_ROUND_PAYMENT_DUE: moment(selectedDatePay).unix(),
+        BALLOT_NEXT_ROUND_CLOSE: moment(selectedDateClose).unix(),
       })
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status === 'OK') {
           alert('저장이 완료 되었습니다.')
+          window.location.reload()
         }
       })
   }
@@ -54,7 +79,6 @@ const ManageAuction = () => {
   }, [])
 
   const onReset = () => {
-    setPutData('')
     window.location.reload()
   }
 
@@ -86,20 +110,42 @@ const ManageAuction = () => {
                 <tr>
                   <td style={thtdStyle}>배분 및 할당</td>
                   <td style={thtdStyle}>
-                    시작시각 : {getBALLOT?.BALLOT_CURRENT_ROUND_START}
+                    시작시각 :{' '}
+                    {moment(
+                      moment.unix(getBALLOT?.BALLOT_CURRENT_ROUND_START),
+                    ).format('DD일 HH시간 mm분 ss초')}
                   </td>
                   <td style={thtdStyle}>할당받은 계정 수 : </td>
                   <td style={thtdStyle}>분배된 아이템 수 : </td>
-                  <td style={thtdStyle}>완료 </td>
+                  <td
+                    style={{
+                      border: '1px solid #444444',
+                      padding: '10px',
+                      background: '#cfccc6',
+                    }}
+                  >
+                    완료{' '}
+                  </td>
                 </tr>
                 <tr>
                   <td style={thtdStyle}>결제마감 </td>
                   <td style={thtdStyle}>
-                    마감시각 : {getBALLOT?.BALLOT_CURRENT_ROUND_PAYMENT_DUE}{' '}
+                    마감시각 :{' '}
+                    {moment(
+                      moment.unix(getBALLOT?.BALLOT_CURRENT_ROUND_PAYMENT_DUE),
+                    ).format('DD일 HH시간 mm분 ss초')}
                   </td>
                   <td style={thtdStyle}>결제된 아이템 수 : </td>
                   <td style={thtdStyle}>미결정 계정 수 : </td>
-                  <td style={thtdStyle}>진행중</td>
+                  <td
+                    style={{
+                      border: '1px solid #444444',
+                      padding: '10px',
+                      background: '#bae3bd',
+                    }}
+                  >
+                    진행중
+                  </td>
                 </tr>
                 <tr>
                   <td style={thtdStyle}>... : </td>
@@ -148,14 +194,23 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>배분 및 할당</td>
                   <td style={thtdStyle}>
                     시작시각:{' '}
-                    <input
+                    {/* <input
                       onChange={(e) => {
                         setPutData({
                           ...putData,
                           BALLOT_NEXT_ROUND_START: e.target.value,
                         })
                       }}
-                    />
+                    /> */}
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        value={selectedDate}
+                        onChange={(newValue) => {
+                          setSelectedDate(newValue)
+                        }}
+                      />
+                    </LocalizationProvider>
                   </td>
                   <td style={thtdStyle}>... : </td>
                   <td style={thtdStyle}>... : </td>
@@ -165,7 +220,7 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>결제 : </td>
                   <td style={thtdStyle}>
                     마감시각 :{' '}
-                    <input
+                    {/* <input
                       onChange={(e) => {
                         setPutData({
                           ...putData,
@@ -173,6 +228,16 @@ const ManageAuction = () => {
                         })
                       }}
                     />
+                     */}
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        value={selectedDatePay}
+                        onChange={(newValue) => {
+                          setSelectedDatePay(newValue)
+                        }}
+                      />
+                    </LocalizationProvider>
                   </td>
                   <td style={thtdStyle}>... : </td>
                   <td style={thtdStyle}>... : </td>
@@ -183,14 +248,23 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>라운드종료시각 : </td>
                   <td style={thtdStyle}>
                     종료시각 :{' '}
-                    <input
+                    {/* <input
                       onChange={(e) => {
                         setPutData({
                           ...putData,
                           BALLOT_NEXT_ROUND_CLOSE: e.target.value,
                         })
                       }}
-                    />
+                    /> */}
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        value={selectedDateClose}
+                        onChange={(newValue) => {
+                          setSelectedDateClose(newValue)
+                        }}
+                      />
+                    </LocalizationProvider>
                   </td>
                   <td style={thtdStyle}>... : </td>
                   <td style={thtdStyle}>... : </td>
@@ -542,6 +616,11 @@ const ManageAuction = () => {
         first={getBALLOT?.BALLOT_ACTIVE === 'START' ? '진행중' : '중지중'}
       />
       <ButtonGroupThird first={`Round : ${getBALLOT?.BALLOT_ROUND_NUMBER}`} />
+      <ButtonGroupThird
+        first={`다음라운드 시작시간 : ${moment(
+          moment.unix(getBALLOT?.BALLOT_NEXT_ROUND_START),
+        ).format('DD일 HH시간 mm분 ss초')}`}
+      />
 
       <Papers title="경매관리">
         <PaperBodyContent fields={fields} />

@@ -81,8 +81,8 @@ export const ButtonGroupThird: React.FC<ButtonTitles> = ({ first }) => {
       <Button
         sx={{
           cursor: 'none',
-          width: '162px',
-          height: '44px',
+          width: '200px',
+          height: '100px',
           bgcolor: 'text.disabled',
           color: 'black',
           marginRight: '30px',
