@@ -12,6 +12,7 @@ import axios from 'axios'
 import { getmyaddress, LOGGER } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
+import moment from 'moment'
 
 const tableSet = [
   {
@@ -114,8 +115,16 @@ const RoundList = () => {
               { field: elem['countitems'] },
               { field: elem['countpayments'] },
               { field: elem['countreceivers'] },
-              { field: elem['drawtime'] },
-              { field: elem['paymentduetime'] },
+              {
+                field: moment
+                  .unix(elem['drawtime'])
+                  .format('MM월 DD일 hh시 mm분 '),
+              },
+              {
+                field: moment
+                  .unix(elem['paymentduetime'])
+                  .format('MM월 DD일 hh시 mm분 '),
+              },
               { field: elem['roundnumber'] },
               { field: elem['updatedat'] },
             ]

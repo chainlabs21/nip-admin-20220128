@@ -21,6 +21,7 @@ import moment from 'moment'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import { DateTimePicker } from '@mui/lab'
+import { LOGGER } from '../../utils/common'
 
 const ManageAuction = () => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
@@ -32,6 +33,7 @@ const ManageAuction = () => {
     axios.get(API.API_BALLOT).then((resp) => {
       let { status, respdata } = resp.data
       if (status == 'OK') {
+        LOGGER('resp', resp)
         setGetBALLOT(respdata)
         setSelectedDate(moment.unix(respdata.BALLOT_NEXT_ROUND_START))
         setSelectedDatePay(moment.unix(respdata.BALLOT_NEXT_ROUND_PAYMENT_DUE))
@@ -63,11 +65,6 @@ const ManageAuction = () => {
   const onReset = () => {
     window.location.reload()
   }
-
-  console.log('selectedDate')
-  console.log(selectedDate)
-  // console.log('getBALLOT11')
-  // console.log(getBALLOT)
 
   const fields = [
     {

@@ -13,6 +13,7 @@ const API = {
   API_LOGDELINQUENTS: `${URL}/queries/rows/logdelinquents/active/1`,
   API_PUTSTATE: `${URL}/ballotrouter/update-or-create-rows/settings`,
   API_LOGBALLOTS: `${URL}/queries/rows/logballots/active/1`,
+  API_MQ: `${URL}/ballotrouter/mq`,
 }
 // /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }

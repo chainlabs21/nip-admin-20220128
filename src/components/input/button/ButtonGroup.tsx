@@ -18,7 +18,18 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
-          window.location.reload()
+          axios
+            .post(API.API_MQ, {
+              BALLOT_ACTIVE: 'START',
+            })
+            .then((resp) => {
+              let { status, respdata } = resp.data
+              if (status == 'OK') {
+                console.log('mqSTART')
+                console.log(resp)
+                window.location.replace('manage-auction')
+              }
+            })
         }
       })
   }
@@ -30,7 +41,18 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
-          window.location.reload()
+          axios
+            .post(API.API_MQ, {
+              BALLOT_ACTIVE: 'PAUSE',
+            })
+            .then((resp) => {
+              let { status, respdata } = resp.data
+              if (status == 'OK') {
+                console.log('mqPUASE')
+                console.log(resp)
+                window.location.replace('manage-auction')
+              }
+            })
         }
       })
   }
