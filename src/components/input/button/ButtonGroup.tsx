@@ -27,7 +27,7 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
               if (status == 'OK') {
                 console.log('mqSTART')
                 console.log(resp)
-                window.location.replace('manage-auction')
+                window.location.reload()
               }
             })
         }
@@ -50,7 +50,7 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
               if (status == 'OK') {
                 console.log('mqPUASE')
                 console.log(resp)
-                window.location.replace('manage-auction')
+                window.location.reload()
               }
             })
         }
