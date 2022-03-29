@@ -51,6 +51,7 @@ const ManageAuction = () => {
         let { status, respdata } = resp.data
         if (status === 'OK') {
           alert('저장이 완료 되었습니다.')
+          window.location.replace('/manage-auction')
         }
       })
   }
