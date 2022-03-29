@@ -24,36 +24,18 @@ import { DateTimePicker } from '@mui/lab'
 
 const ManageAuction = () => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
-  const [selectedDate, setSelectedDate] = useState(
-    getBALLOT?.BALLOT_NEXT_ROUND_START,
-  )
-  const [selectedDatePay, setSelectedDatePay] = useState(
-    getBALLOT?.BALLOT_PAYMENT_DUE_TIME_OF_DAY,
-  )
-  const [selectedDateClose, setSelectedDateClose] = useState(
-    getBALLOT?.BALLOT_NEXT_ROUND_CLOSE,
-  )
-
-  console.log('selectedDate')
-  console.log(moment(selectedDate).unix())
-
-  const handleDateChange = (date: any, i: any) => {
-    console.log(date)
-    setSelectedDate(date)
-  }
-  const handleDateChangePay = (date: any, i: any) => {
-    setSelectedDatePay(date)
-  }
-  const handleDateChangeFinal = (date: any, i: any) => {
-    console.log(date)
-    setSelectedDateClose(date)
-  }
+  const [selectedDate, setSelectedDate] = useState<any>()
+  const [selectedDatePay, setSelectedDatePay] = useState<any>()
+  const [selectedDateClose, setSelectedDateClose] = useState<any>()
 
   const fetchData = () => {
     axios.get(API.API_BALLOT).then((resp) => {
       let { status, respdata } = resp.data
       if (status == 'OK') {
         setGetBALLOT(respdata)
+        setSelectedDate(moment.unix(respdata.BALLOT_NEXT_ROUND_START))
+        setSelectedDatePay(moment.unix(respdata.BALLOT_NEXT_ROUND_PAYMENT_DUE))
+        setSelectedDateClose(moment.unix(respdata.BALLOT_NEXT_ROUND_CLOSE))
       }
     })
   }
@@ -69,7 +51,6 @@ const ManageAuction = () => {
         let { status, respdata } = resp.data
         if (status === 'OK') {
           alert('저장이 완료 되었습니다.')
-          window.location.reload()
         }
       })
   }
@@ -82,8 +63,10 @@ const ManageAuction = () => {
     window.location.reload()
   }
 
-  console.log('getBALLOT')
-  console.log(getBALLOT)
+  console.log('selectedDate')
+  console.log(selectedDate)
+  // console.log('getBALLOT11')
+  // console.log(getBALLOT)
 
   const fields = [
     {
@@ -194,14 +177,6 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>배분 및 할당</td>
                   <td style={thtdStyle}>
                     시작시각:{' '}
-                    {/* <input
-                      onChange={(e) => {
-                        setPutData({
-                          ...putData,
-                          BALLOT_NEXT_ROUND_START: e.target.value,
-                        })
-                      }}
-                    /> */}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
                         renderInput={(props) => <TextField {...props} />}
@@ -220,15 +195,6 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>결제 : </td>
                   <td style={thtdStyle}>
                     마감시각 :{' '}
-                    {/* <input
-                      onChange={(e) => {
-                        setPutData({
-                          ...putData,
-                          BALLOT_NEXT_ROUND_PAYMENT_DUE: e.target.value,
-                        })
-                      }}
-                    />
-                     */}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
                         renderInput={(props) => <TextField {...props} />}
@@ -248,14 +214,6 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>라운드종료시각 : </td>
                   <td style={thtdStyle}>
                     종료시각 :{' '}
-                    {/* <input
-                      onChange={(e) => {
-                        setPutData({
-                          ...putData,
-                          BALLOT_NEXT_ROUND_CLOSE: e.target.value,
-                        })
-                      }}
-                    /> */}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
                         renderInput={(props) => <TextField {...props} />}
