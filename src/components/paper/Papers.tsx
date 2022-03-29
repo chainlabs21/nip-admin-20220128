@@ -11,8 +11,8 @@ const Papers: React.FC<IPapers> = ({ children, title }) => {
     <Paper
       sx={{
         p: 2,
-        maxWidth: '3000px',
-        maxHeight: '3000px',
+        maxWidth: '500rem',
+        maxHeight: '500rem',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',

@@ -48,6 +48,7 @@ export const drawerFields = [
       { title: '결제완료(신규)', params: 'matching-list' },
       { title: '연체(신규)', params: 'not-matching-list' },
       { title: '연체 해소(신규)', params: 'matching-able-list' },
+      { title: '라운드이력(신규)', params: 'round-list' },
     ],
   },
   {

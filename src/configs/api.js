@@ -12,8 +12,9 @@ const API = {
   API_DELINQUENCIES: `${URL}/queries/rows/delinquencies/active/1`,
   API_LOGDELINQUENTS: `${URL}/queries/rows/logdelinquents/active/1`,
   API_PUTSTATE: `${URL}/ballotrouter/update-or-create-rows/settings`,
+  API_LOGBALLOTS: `${URL}/queries/rows/logballots/active/1`,
 }
-
+// /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }
 
 // const URL='http://nip s1.net:348 15'

@@ -22,6 +22,7 @@ import RoiManaging from './page/roi-managing/RoiManaging'
 import PaymentDetails from './page/payment-details/payment-details'
 import BannerManagement from './page/banner-management/BannerManagement'
 import ManageAuction from './page/nft-managing/ManageAuction'
+import RoundList from './page/round-list/RoundList'
 const Routers = () => {
   return (
     <Routes>
@@ -50,6 +51,7 @@ const Routers = () => {
       <Route path="/matching-list" element={<MatchingStatus />} />
       <Route path="/not-matching-list" element={<NotMatchingList />} />
       <Route path="/matching-able-list" element={<AbleMatchingList />} />
+      <Route path="/round-list" element={<RoundList />} />
 
       <Route path="/staking-status" element={<StakingStatus />} />
       <Route path="/swap-status" element={<SwapStatus />} />
@@ -60,7 +62,7 @@ const Routers = () => {
       <Route path="/payment-details" element={<PaymentDetails />} />
 
       <Route path="/banner-management" element={<BannerManagement />} />
-			<Route path='/manage-auction' element={<ManageAuction />} />
+      <Route path="/manage-auction" element={<ManageAuction />} />
 
       <Route path="/" element={<Main />} />
     </Routes>

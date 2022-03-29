@@ -201,7 +201,9 @@ function DashboardContent() {
         >
           <Toolbar />
 
-          <Container sx={{ mt: 4, mb: 4, width: '100%', maxWidth: '1526px' }}>
+          <Container
+            sx={{ mt: 4, mb: 4, ml: 25, width: '100%', maxWidth: '1526px' }}
+          >
             <Routers />
             <Copyright sx={{ pt: 4 }} />
           </Container>
