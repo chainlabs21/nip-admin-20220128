@@ -28,6 +28,7 @@ const ManageAuction = () => {
   const [selectedDate, setSelectedDate] = useState<any>()
   const [selectedDatePay, setSelectedDatePay] = useState<any>()
   const [selectedDateClose, setSelectedDateClose] = useState<any>()
+  const [selectedDateMatch, setSelectedDateMatch] = useState<any>()
 
   const fetchData = () => {
     axios.get(API.API_BALLOT).then((resp) => {
@@ -38,6 +39,7 @@ const ManageAuction = () => {
         setSelectedDate(moment.unix(respdata.BALLOT_NEXT_ROUND_START))
         setSelectedDatePay(moment.unix(respdata.BALLOT_NEXT_ROUND_PAYMENT_DUE))
         setSelectedDateClose(moment.unix(respdata.BALLOT_NEXT_ROUND_CLOSE))
+        setSelectedDateMatch(moment.unix(respdata.BALLOT_NEXT_ROUND_DRAW))
       }
     })
   }
@@ -48,6 +50,7 @@ const ManageAuction = () => {
         BALLOT_NEXT_ROUND_START: moment(selectedDate).unix(),
         BALLOT_NEXT_ROUND_PAYMENT_DUE: moment(selectedDatePay).unix(),
         BALLOT_NEXT_ROUND_CLOSE: moment(selectedDateClose).unix(),
+        BALLOT_NEXT_ROUND_DRAW: moment(selectedDateMatch).unix(),
       })
       .then((resp) => {
         let { status, respdata } = resp.data
@@ -129,8 +132,25 @@ const ManageAuction = () => {
                   </td>
                 </tr>
                 <tr>
+                  <td style={thtdStyle}>매칭시간</td>
+                  <td style={thtdStyle}>
+                    매칭 :{' '}
+                    {moment(
+                      moment.unix(getBALLOT?.BALLOT_CURRENT_ROUND_DRAW),
+                    ).format('DD일 HH시간 mm분 ss초')}
+                  </td>
                   <td style={thtdStyle}>... : </td>
                   <td style={thtdStyle}>... : </td>
+                  <td style={thtdStyle}>... : </td>
+                </tr>
+                <tr>
+                  <td style={thtdStyle}>라운드종료</td>
+                  <td style={thtdStyle}>
+                    라운드종료시각 :{' '}
+                    {moment(
+                      moment.unix(getBALLOT?.BALLOT_CURRENT_ROUND_CLOSE),
+                    ).format('DD일 HH시간 mm분 ss초')}
+                  </td>
                   <td style={thtdStyle}>... : </td>
                   <td style={thtdStyle}>... : </td>
                   <td style={thtdStyle}>... : </td>
@@ -190,7 +210,7 @@ const ManageAuction = () => {
                   <td style={thtdStyle}>... : </td>
                 </tr>
                 <tr>
-                  <td style={thtdStyle}>결제 : </td>
+                  <td style={thtdStyle}>결제 </td>
                   <td style={thtdStyle}>
                     마감시각 :{' '}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -209,7 +229,7 @@ const ManageAuction = () => {
                 </tr>
 
                 <tr>
-                  <td style={thtdStyle}>라운드종료시각 : </td>
+                  <td style={thtdStyle}>라운드종료시각 </td>
                   <td style={thtdStyle}>
                     종료시각 :{' '}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -218,6 +238,25 @@ const ManageAuction = () => {
                         value={selectedDateClose}
                         onChange={(newValue) => {
                           setSelectedDateClose(newValue)
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </td>
+                  <td style={thtdStyle}>... : </td>
+                  <td style={thtdStyle}>... : </td>
+                  <td style={thtdStyle}>... : </td>
+                </tr>
+
+                <tr>
+                  <td style={thtdStyle}>매칭시각 </td>
+                  <td style={thtdStyle}>
+                    매칭시각 :{' '}
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DateTimePicker
+                        renderInput={(props) => <TextField {...props} />}
+                        value={selectedDateMatch}
+                        onChange={(newValue) => {
+                          setSelectedDateMatch(newValue)
                         }}
                       />
                     </LocalizationProvider>
@@ -577,7 +616,7 @@ const ManageAuction = () => {
           moment.unix(getBALLOT?.BALLOT_NEXT_ROUND_START),
         ).format('DD일 HH시간 mm분 ss초')}`}
       />
-
+      <ButtonGroup first="시작하기" second="중지하기" />
       <Papers title="경매관리">
         <PaperBodyContent fields={fields} />
         <div
@@ -613,9 +652,7 @@ const ManageAuction = () => {
             display: 'flex',
             justifyContent: 'flex-end',
           }}
-        >
-          <ButtonGroup first="시작하기" second="중지하기" />
-        </div>
+        ></div>
       </Papers>
     </>
   )
