@@ -8,6 +8,7 @@ const API = {
   API_BALLOT: URL + '/queries/rows/jsonobject/settings/key_/value_',
   API_PUTTIME: URL + '/queries/update-or-create-rows/settings',
   API_RECEIVABLES: `${URL}/queries/rows/receivables/active/1`,
+  API_TRANSACTIONS: `${URL}/queries/rows/transactions/active/1`,
   API_LOGSALES: `${URL}/queries/rows/logsales/active/1`,
   API_DELINQUENCIES: `${URL}/queries/rows/delinquencies/active/1`,
   API_LOGDELINQUENTS: `${URL}/queries/rows/logdelinquents/active/1`,

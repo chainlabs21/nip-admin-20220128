@@ -1,45 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import TableDefault from '../../components/table/TableDefault'
 import Papers from '../../components/paper/Papers'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
-import { Pagination } from '@mui/material'
+import { Pagination, SelectChangeEvent } from '@mui/material'
+import { DateRange } from '@mui/lab'
+import axios from 'axios'
+import { LOGGER, strDot } from '../../utils/common'
+import { API } from '../../configs/api'
+import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
+import moment from 'moment'
 
 const tableSet = [
   {
-    field: '순서',
+    field: 'id',
   },
   {
-    field: '몬스터',
+    field: 'createdat',
   },
   {
-    field: '아이템 가격',
+    field: 'username',
   },
   {
-    field: '거래 방식',
+    field: 'amount',
   },
   {
-    field: '체결 상태',
+    field: 'address',
   },
   {
-    field: '결제 금액',
+    field: 'currency',
   },
   {
-    field: '수수료',
+    field: 'itemid',
   },
   {
-    field: 'royalty',
+    field: 'nettype',
   },
   {
-    field: 'From',
+    field: 'txhash',
   },
   {
-    field: 'To',
+    field: 'status',
   },
   {
-    field: '거래일시',
+    field: 'typestr',
+  },
+  {
+    field: 'updatedat',
   },
 ]
 
@@ -80,6 +89,58 @@ const testField = [
 ]
 
 const UserTranSaction = () => {
+  //	let [ testField , settestField ]=useState( [] )
+  let [listlist, setlistlist] = useState([])
+  const [value, setValue] = useState<DateRange<Date>>([null, null])
+  const [count, setCount] = useState(0)
+  const [page, setPage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [rows, setRows] = useState<any>(10)
+  const [searchkey, setSearchKey] = useState<any>('')
+
+  const fetchdata = async () => {
+    console.log(value)
+    axios
+      .get(API.API_TRANSACTIONS + `/${page * rows}/${rows}/id/DESC`, {
+        params: { date0: value[0], date1: value[1], searchkey },
+      })
+      .then((resp) => {
+        LOGGER('resp', resp.data)
+        setCount(resp.data.payload.count as number)
+        let { status, list: list_raw } = resp.data
+        if (status == 'OK') {
+          // settestField ( list )
+          let list = list_raw.map((elem: any) => {
+            return [
+              { field: elem['id'] },
+              { field: moment(elem['createdat']).format('YYYY-MM-DD') },
+              { field: strDot(elem['username'], 20, 0) },
+              { field: elem['amount'] },
+              { field: elem['address'] },
+              { field: elem['currency'] },
+              { field: elem['itemid'] },
+              { field: elem['nettype'] },
+              { field: elem['txhash'] },
+              { field: elem['status'] },
+              { field: elem['typestr'] },
+              { field: moment(elem['updatedat']).format('YYYY-MM-DD') },
+            ]
+          })
+          LOGGER('', list)
+          setlistlist(list)
+        }
+      })
+  }
+  useEffect(() => {
+    fetchdata()
+  }, [])
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(count / rows))
+    fetchdata()
+    console.log(totalPages)
+  }, [page, rows, value, searchkey])
+
   return (
     <>
       <Papers title="회원상세">
@@ -134,14 +195,22 @@ const UserTranSaction = () => {
                 width: '700px',
               }}
             >
-              <BasicDateRangePicker dateState={value=>{console.log(value)}} />
-              <Searches searchState={e=>console.log(e)}/>
+              <BasicDateRangePicker
+                dateState={(value) => {
+                  console.log(value)
+                }}
+              />
+              <Searches searchState={(e) => console.log(e)} />
               <ContainedButton subject="EXCEL" />
             </article>
           </section>
 
           <div>
-            <TableDefault columns={tableSet} testFields={testField} />
+            <TableDefaultUserManaging
+              listlist={listlist}
+              columns={tableSet}
+              testFields={testField}
+            />
           </div>
           <div
             style={{
@@ -150,7 +219,18 @@ const UserTranSaction = () => {
               margin: '20px 0 0 0',
             }}
           >
-            <Pagination count={10} showFirstButton showLastButton />
+            {totalPages > 1 ? (
+              <Pagination
+                onChange={(e, v) => {
+                  setPage(v)
+                }}
+                count={totalPages}
+                showFirstButton
+                showLastButton
+              />
+            ) : (
+              ''
+            )}
           </div>
         </section>
       </Papers>
