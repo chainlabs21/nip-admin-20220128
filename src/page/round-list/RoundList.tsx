@@ -194,7 +194,7 @@ const RoundList = () => {
                     console.log(value)
                   }}
                 />
-                <Searches searchState={(e) => console.log(e)} />
+                <Searches searchState={(e) => setSearchKey(e)} />
                 <ContainedButton subject="EXCEL" />
               </article>
             </div>

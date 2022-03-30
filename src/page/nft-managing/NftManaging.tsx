@@ -451,7 +451,7 @@ const NftManaging = () => {
               {totalPages > 1 ? (
                 <Pagination
                   onChange={(e, v) => {
-                    setPage(v)
+                    setPage(v - 1)
                   }}
                   count={totalPages}
                   showFirstButton
