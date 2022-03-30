@@ -712,7 +712,7 @@ const ManageAuction = () => {
       <ButtonGroupThird
         first={`다음라운드 시작시간 : ${moment(
           moment.unix(getBALLOT?.BALLOT_NEXT_ROUND_START),
-        ).format('DD일 HH시간 mm분 ss초')}`}
+        ).format('DD일 HH시 mm분 ss초')}`}
       />
       <ButtonGroup first="시작하기" second="중지하기" />
       <Papers title="경매관리">
