@@ -13,6 +13,8 @@ import { getmyaddress, LOGGER } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import moment from 'moment'
+import { Select, MenuItem } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material'
 
 const tableSet = [
   {
@@ -91,6 +93,9 @@ const RoundList = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [rows, setRows] = useState<any>(10)
   const [searchkey, setSearchKey] = useState<any>('')
+  const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
+    setRows(event.target.value)
+  }
 
   const fetchData = () => {
     axios
@@ -131,11 +136,11 @@ const RoundList = () => {
           })
           LOGGER('', list)
           setlistlist(list)
+          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
   }
   useEffect(() => {
-    setTotalPages(Math.ceil(count / rows))
     fetchData()
   }, [page, rows, value, searchkey])
 
@@ -169,16 +174,10 @@ const RoundList = () => {
                   width: '150px',
                 }}
               >
-                <SelectViewer
-                  title="10개씩 보기"
-                  menu={[
-                    {
-                      value: 10,
-                      label: '10개씩 보기',
-                    },
-                    { value: 20, label: '20개씩 보기' },
-                  ]}
-                />
+                <Select id="RowsSelectLabel" value={rows} onChange={handleRows}>
+                  <MenuItem value={10}>10개씩 보기</MenuItem>
+                  <MenuItem value={20}>20개씩 보기</MenuItem>
+                </Select>
               </article>
 
               <article
@@ -215,7 +214,7 @@ const RoundList = () => {
                 {totalPages > 1 ? (
                   <Pagination
                     onChange={(e, v) => {
-                      setPage(v)
+                      setPage(v - 1)
                     }}
                     count={totalPages}
                   />

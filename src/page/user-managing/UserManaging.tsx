@@ -58,14 +58,16 @@ const UserManaging = () => {
     setRows(event.target.value)
   }
 
+  console.log('totalPages')
+  console.log(totalPages)
+
   const fetchdata = async () => {
-    console.log(value)
     axios
       .get(API.API_USERS + `/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
-        LOGGER('', resp.data)
+        LOGGER('resp', resp.data)
         setCount(resp.data.payload.count as number)
         let { status, list: list_raw } = resp.data
         if (status == 'OK') {
@@ -83,6 +85,7 @@ const UserManaging = () => {
           })
           LOGGER('', list)
           setlistlist(list)
+          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
   }
@@ -91,9 +94,7 @@ const UserManaging = () => {
   }, [])
 
   useEffect(() => {
-    setTotalPages(Math.ceil(count / rows))
     fetchdata()
-    console.log(totalPages)
   }, [page, rows, value, searchkey])
   return (
     <>
@@ -157,7 +158,7 @@ const UserManaging = () => {
             {totalPages > 1 ? (
               <Pagination
                 onChange={(e, v) => {
-                  setPage(v)
+                  setPage(v - 1)
                 }}
                 count={totalPages}
                 showFirstButton

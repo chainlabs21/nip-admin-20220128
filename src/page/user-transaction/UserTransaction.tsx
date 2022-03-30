@@ -5,7 +5,7 @@ import ContainedButton from '../../components/input/button/ContainedButton'
 import TableDefault from '../../components/table/TableDefault'
 import Papers from '../../components/paper/Papers'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
-import { Pagination, SelectChangeEvent } from '@mui/material'
+import { MenuItem, Pagination, Select, SelectChangeEvent } from '@mui/material'
 import { DateRange } from '@mui/lab'
 import axios from 'axios'
 import { LOGGER, strDot } from '../../utils/common'
@@ -97,6 +97,9 @@ const UserTranSaction = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [rows, setRows] = useState<any>(10)
   const [searchkey, setSearchKey] = useState<any>('')
+  const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
+    setRows(event.target.value)
+  }
 
   const fetchdata = async () => {
     console.log(value)
@@ -128,6 +131,7 @@ const UserTranSaction = () => {
           })
           LOGGER('', list)
           setlistlist(list)
+          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
   }
@@ -136,7 +140,6 @@ const UserTranSaction = () => {
   }, [])
 
   useEffect(() => {
-    setTotalPages(Math.ceil(count / rows))
     fetchdata()
     console.log(totalPages)
   }, [page, rows, value, searchkey])
@@ -146,6 +149,7 @@ const UserTranSaction = () => {
       <Papers title="회원상세">
         <section
           style={{
+            width: '100%',
             padding: '1rem',
           }}
         >
@@ -163,27 +167,13 @@ const UserTranSaction = () => {
               }}
             >
               <article style={{ width: '100%' }}>
-                <SelectViewer
-                  title="10개씩 보기"
-                  menu={[
-                    {
-                      value: 10,
-                      label: '10개씩 보기',
-                    },
-                    { value: 20, label: '20개씩 보기' },
-                  ]}
-                />
+                <Select id="RowsSelectLabel" value={rows} onChange={handleRows}>
+                  <MenuItem value={10}>10개씩 보기</MenuItem>
+                  <MenuItem value={20}>20개씩 보기</MenuItem>
+                </Select>
               </article>
 
-              <article style={{ width: '100%', marginLeft: '8px' }}>
-                <SelectViewer
-                  title="체결상태"
-                  menu={[
-                    { value: 1, label: '완료' },
-                    { value: 2, label: '대기' },
-                  ]}
-                />
-              </article>
+              <article style={{ width: '100%', marginLeft: '8px' }}></article>
             </div>
 
             <article
@@ -222,7 +212,7 @@ const UserTranSaction = () => {
             {totalPages > 1 ? (
               <Pagination
                 onChange={(e, v) => {
-                  setPage(v)
+                  setPage(v - 1)
                 }}
                 count={totalPages}
                 showFirstButton

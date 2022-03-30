@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import Box from '@mui/material/Box'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Pagination, Tab } from '@mui/material'
+import { Pagination, SelectChangeEvent, Tab } from '@mui/material'
 import TableDefault from '../../components/table/TableDefault'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
@@ -12,6 +12,7 @@ import axios from 'axios'
 import { LOGGER } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
+import { Select, MenuItem } from '@mui/material'
 
 const tableSet = [
   {
@@ -78,6 +79,9 @@ const AbleMatchingList = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [rows, setRows] = useState<any>(10)
   const [searchkey, setSearchKey] = useState<any>('')
+  const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
+    setRows(event.target.value)
+  }
 
   const fetchData = () => {
     axios
@@ -105,12 +109,12 @@ const AbleMatchingList = () => {
           })
           LOGGER('', list)
           setlistlist(list)
+          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
   }
 
   useEffect(() => {
-    setTotalPages(Math.ceil(count / rows))
     fetchData()
   }, [page, rows, value, searchkey])
 
@@ -144,16 +148,10 @@ const AbleMatchingList = () => {
                   width: '150px',
                 }}
               >
-                <SelectViewer
-                  title="10개씩 보기"
-                  menu={[
-                    {
-                      value: 10,
-                      label: '10개씩 보기',
-                    },
-                    { value: 20, label: '20개씩 보기' },
-                  ]}
-                />
+                <Select id="RowsSelectLabel" value={rows} onChange={handleRows}>
+                  <MenuItem value={10}>10개씩 보기</MenuItem>
+                  <MenuItem value={20}>20개씩 보기</MenuItem>
+                </Select>
               </article>
 
               <article
@@ -190,7 +188,7 @@ const AbleMatchingList = () => {
                 {totalPages > 1 ? (
                   <Pagination
                     onChange={(e, v) => {
-                      setPage(v)
+                      setPage(v - 1)
                     }}
                     count={totalPages}
                   />
