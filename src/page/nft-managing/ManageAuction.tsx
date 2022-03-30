@@ -37,8 +37,6 @@ const ManageAuction = () => {
 
   // console.log('selectedCurrentDate')
   // console.log(selectedDate)
-  console.log('selectedDatePay')
-  console.log(selectedCurrentDate > selectedCurrentDatePay ? 'a' : 'b')
 
   const fetchData = () => {
     axios.get(API.API_BALLOT).then((resp) => {
