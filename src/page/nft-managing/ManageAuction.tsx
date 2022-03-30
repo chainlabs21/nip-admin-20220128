@@ -35,6 +35,11 @@ const ManageAuction = () => {
     useState<any>()
   const [selectedCurrentDateDraw, setSelectedCurrentDateDraw] = useState<any>()
 
+  // console.log('selectedCurrentDate')
+  // console.log(selectedDate)
+  console.log('selectedDatePay')
+  console.log(selectedCurrentDate > selectedCurrentDatePay ? 'a' : 'b')
+
   const fetchData = () => {
     axios.get(API.API_BALLOT).then((resp) => {
       let { status, respdata } = resp.data
@@ -61,10 +66,9 @@ const ManageAuction = () => {
 
   const onclickSubmitCurrentRoundBtn = () => {
     if (
-      selectedCurrentDate >
-      selectedCurrentDateDraw >
-      selectedCurrentDatePay >
-      selectedCurrentDateClose
+      selectedCurrentDate < selectedCurrentDateDraw &&
+      selectedCurrentDateDraw < selectedCurrentDatePay &&
+      selectedCurrentDatePay < selectedCurrentDateClose
     ) {
       axios
         .put(API.API_PUTTIME, {
@@ -88,7 +92,11 @@ const ManageAuction = () => {
   }
 
   const onclickSubmitNextRoundBtn = () => {
-    if (selectedDate > selectedDateDraw > selectedDatePay > selectedDateClose) {
+    if (
+      selectedDate < selectedDateDraw &&
+      selectedDateDraw < selectedDatePay &&
+      selectedDatePay < selectedDateClose
+    ) {
       axios
         .put(API.API_PUTTIME, {
           BALLOT_NEXT_ROUND_START: moment(selectedDate).unix(),
