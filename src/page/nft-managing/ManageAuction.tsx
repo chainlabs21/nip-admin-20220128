@@ -59,7 +59,7 @@ const ManageAuction = () => {
         setSelectedCurrentDateDraw(
           moment.unix(respdata.BALLOT_CURRENT_ROUND_DRAW),
         )
-        setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP)
+        setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP / 100)
       }
     })
   }
@@ -116,10 +116,14 @@ const ManageAuction = () => {
     }
   }
   const onclickSubmitballot_draw_fun_btn = () => {
-    if (ballot_draw_fraction !== undefined) {
+    if (
+      ballot_draw_fraction !== undefined &&
+      ballot_draw_fraction <= 0 &&
+      ballot_draw_fraction > 50
+    ) {
       axios
         .put(API.API_PUTTIME, {
-          BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction,
+          BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
         })
         .then((resp) => {
           let { status, respdata } = resp.data
@@ -443,7 +447,7 @@ const ManageAuction = () => {
                 id="outlined-adornment-weight"
                 aria-describedby="outlined-weight-helper-text"
                 inputProps={{ 'aria-label': 'weight' }}
-                placeholder={ballot_draw_fraction}
+                placeholder={`${ballot_draw_fraction}%`}
                 defaultValue={ballot_draw_fraction}
                 onChange={(e) => {
                   setBallot_draw_fraction(e.target.value)
