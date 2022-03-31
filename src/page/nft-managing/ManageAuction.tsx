@@ -34,9 +34,10 @@ const ManageAuction = () => {
   const [selectedCurrentDateClose, setSelectedCurrentDateClose] =
     useState<any>()
   const [selectedCurrentDateDraw, setSelectedCurrentDateDraw] = useState<any>()
+  const [ballot_draw_fraction, setBallot_draw_fraction] = useState<any>()
 
-  // console.log('selectedCurrentDate')
-  // console.log(selectedDate)
+  console.log('ballot_draw_fraction')
+  console.log(ballot_draw_fraction)
 
   const fetchData = () => {
     axios.get(API.API_BALLOT).then((resp) => {
@@ -58,6 +59,7 @@ const ManageAuction = () => {
         setSelectedCurrentDateDraw(
           moment.unix(respdata.BALLOT_CURRENT_ROUND_DRAW),
         )
+        setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP)
       }
     })
   }
@@ -111,6 +113,23 @@ const ManageAuction = () => {
         })
     } else {
       alert('설정 시간을 다시 확인해 주세요')
+    }
+  }
+  const onclickSubmitballot_draw_fun_btn = () => {
+    if (ballot_draw_fraction !== undefined) {
+      axios
+        .put(API.API_PUTTIME, {
+          BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction,
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('입력값을 다시 확인해 주세요')
     }
   }
 
@@ -418,14 +437,17 @@ const ManageAuction = () => {
               padding: '1rem',
             }}
           >
-            <article style={{ width: '30%' }}>
-              Kongs released(in circulation)/reserve
-            </article>
+            <article style={{ width: '30%' }}>할당 비율</article>
             <article style={{ width: '70%' }}>
               <OutlinedInput
                 id="outlined-adornment-weight"
                 aria-describedby="outlined-weight-helper-text"
                 inputProps={{ 'aria-label': 'weight' }}
+                placeholder={ballot_draw_fraction}
+                defaultValue={ballot_draw_fraction}
+                onChange={(e) => {
+                  setBallot_draw_fraction(e.target.value)
+                }}
                 sx={{
                   width: '450px',
                   height: '38px',
@@ -434,273 +456,286 @@ const ManageAuction = () => {
                   marginRight: '5px',
                 }}
               />
-            </article>
-          </div>
-        )
-      },
-    },
-    { content: () => <hr /> },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Current round</article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
+              <button
+                style={{
+                  width: '7rem',
+                  // marginTop: '3rem',
+                  marginLeft: '4rem',
+                  // marginRight: '2rem',
                 }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>
-              Item Min/Median/Max price
-            </article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
+                onClick={() => {
+                  onclickSubmitballot_draw_fun_btn()
                 }}
-              />
+              >
+                저장
+              </button>
             </article>
           </div>
         )
       },
     },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Total / New stakers</article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Stakers / Items ratio</article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
+    // { content: () => <hr /> },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Current round</article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>
+    //           Item Min/Median/Max price
+    //         </article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Total / New stakers</article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Stakers / Items ratio</article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
 
-    { content: () => <hr /> },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Last round</article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Count Paid / Unpaid </article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>
-              Sum payments / Penalties Paid / Unpaid{' '}
-            </article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
+    // { content: () => <hr /> },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Last round</article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Count Paid / Unpaid </article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>
+    //           Sum payments / Penalties Paid / Unpaid{' '}
+    //         </article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
 
-    // {content :()=> {return ( <> <p>Settings<p/></> ) } },
-    { content: () => <hr /> },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Ballot time of day </article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Payment due time </article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
-          >
-            <article style={{ width: '30%' }}>Duration of growth </article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
+    // // {content :()=> {return ( <> <p>Settings<p/></> ) } },
+    // { content: () => <hr /> },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Ballot time of day </article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Payment due time </article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
+    // {
+    //   content: () => {
+    //     return (
+    //       <div
+    //         style={{ display: 'flex', alignItems: 'center', padding: '1rem' }}
+    //       >
+    //         <article style={{ width: '30%' }}>Duration of growth </article>
+    //         <article style={{ width: '70%' }}>
+    //           <OutlinedInput
+    //             id="outlined-adornment-weight"
+    //             aria-describedby="outlined-weight-helper-text"
+    //             inputProps={{ 'aria-label': 'weight' }}
+    //             sx={{
+    //               width: '450px',
+    //               height: '38px',
+    //               borderRadius: '12px',
+    //               marginLeft: '5px',
+    //               marginRight: '5px',
+    //             }}
+    //           />
+    //         </article>
+    //       </div>
+    //     )
+    //   },
+    // },
 
-    { content: () => <hr /> },
+    // { content: () => <hr /> },
   ]
 
   return (
@@ -724,7 +759,7 @@ const ManageAuction = () => {
             padding: '1rem',
           }}
         >
-          <article style={{ width: '30%' }}>결제 토큰</article>
+          {/* <article style={{ width: '30%' }}>결제 토큰</article>
           <article style={{ width: '70%' }}>
             <FormControl>
               <RadioGroup
@@ -741,7 +776,7 @@ const ManageAuction = () => {
                 <FormControlLabel value="ETH" control={<Radio />} label="ETH" />
               </RadioGroup>
             </FormControl>
-          </article>
+          </article> */}
         </div>
 
         <div
