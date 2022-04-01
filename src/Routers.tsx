@@ -23,6 +23,7 @@ import PaymentDetails from './page/payment-details/payment-details'
 import BannerManagement from './page/banner-management/BannerManagement'
 import ManageAuction from './page/nft-managing/ManageAuction'
 import RoundList from './page/round-list/RoundList'
+import SignIn from './page/sign-in/SignIn'
 const Routers = () => {
   return (
     <Routes>
@@ -33,6 +34,7 @@ const Routers = () => {
         element={<AdminAccountManaging />}
       />
 
+      <Route path="/sign-in" element={<SignIn />} />
       <Route
         path="/admin-authority-managing"
         element={<AdminAccountAuthority />}

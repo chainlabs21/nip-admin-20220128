@@ -86,8 +86,12 @@ const BannerManagement = () => {
                 width: '700px',
               }}
             >
-              <BasicDateRangePicker dateState={value=>{console.log(value)}} />
-              <Searches searchState={e=>console.log(e)}/>
+              <BasicDateRangePicker
+                dateState={(value) => {
+                  console.log(value)
+                }}
+              />
+              <Searches searchState={(e) => console.log(e)} />
               <ContainedButton handleOpen={handleOpen} subject="등록" />
             </article>
           </div>

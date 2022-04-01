@@ -18,6 +18,7 @@ import DrawerField from '../../components/drawer-items/DrawerField'
 import { drawerFields } from '../../components/drawer-items/items/drawer-fields'
 import navi_logo from '../../assets/images/navi-logo.png'
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 function Copyright(props: any) {
   return (
@@ -148,7 +149,18 @@ function DashboardContent() {
                 </div>
               )}
             </Typography>
-
+            <Button
+              sx={{
+                cursor: 'pointer',
+                width: '150px',
+                bgcolor: 'text.disabled',
+                color: 'black',
+                marginRight: '30px',
+              }}
+              onClick={() => navigate('/sign-in')}
+            >
+              로그인
+            </Button>
             <img src={navi_logo} alt="navi-logo" />
           </Toolbar>
         </AppBar>

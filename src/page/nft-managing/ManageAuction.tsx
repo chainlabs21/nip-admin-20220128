@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import PaperBodyContent from '../../components/paper/PaperBodyContent'
 import {
+  CircularProgress,
   FormControl,
   FormControlLabel,
   InputAdornment,
@@ -22,6 +23,8 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import { DateTimePicker } from '@mui/lab'
 import { LOGGER } from '../../utils/common'
+import { query_noarg } from '../../utils/contract-calls'
+import { addresses } from '../../configs/addresses'
 
 const ManageAuction = () => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
@@ -35,11 +38,15 @@ const ManageAuction = () => {
     useState<any>()
   const [selectedCurrentDateDraw, setSelectedCurrentDateDraw] = useState<any>()
   const [ballot_draw_fraction, setBallot_draw_fraction] = useState<any>()
+  const [ballot_delinquency, setBallot_delinquency] = useState<any>()
+  const [feecollector_staker, setFeecollector_staker] = useState<any>()
+  const [feecollector_pay, setFeecollector_pay] = useState<any>()
+  const [feecollector_delinquent, setFeecollector_delinquent] = useState<any>()
+  let [isloader_00, setisloader_00] = useState(false)
+  let [isloader_01, setisloader_01] = useState(false)
+  let [isloader_02, setisloader_02] = useState(false)
 
-  console.log('ballot_draw_fraction')
-  console.log(ballot_draw_fraction)
-
-  const fetchData = () => {
+  const fetchData = async () => {
     axios.get(API.API_BALLOT).then((resp) => {
       let { status, respdata } = resp.data
       if (status == 'OK') {
@@ -60,7 +67,43 @@ const ManageAuction = () => {
           moment.unix(respdata.BALLOT_CURRENT_ROUND_DRAW),
         )
         setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP / 100)
+        setBallot_delinquency(
+          respdata.BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP / 100,
+        )
       }
+    })
+  }
+
+  const contract_fatchData = async () => {
+    setisloader_00(true)
+    setisloader_01(true)
+    setisloader_02(true)
+    query_noarg({
+      contractaddress: addresses.contract_stake, // ETH_TESTNET.
+      abikind: 'STAKE',
+      methodname: '_feecollector',
+    }).then((resp) => {
+      // LOGGER('stake', resp)
+      setisloader_00(false)
+      setFeecollector_staker(resp)
+    })
+    query_noarg({
+      contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
+      abikind: 'PAY',
+      methodname: '_feecollector',
+    }).then((resp) => {
+      // LOGGER('pay', resp)
+      setisloader_01(false)
+      setFeecollector_pay(resp)
+    })
+    query_noarg({
+      contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
+      abikind: 'DELINQUENT',
+      methodname: '_feecollector',
+    }).then((resp) => {
+      // LOGGER('delinquent', resp)
+      setisloader_02(false)
+      setFeecollector_delinquent(resp)
     })
   }
 
@@ -115,6 +158,27 @@ const ManageAuction = () => {
       alert('설정 시간을 다시 확인해 주세요')
     }
   }
+  const onclickSubmitballot_delinquency = () => {
+    if (
+      ballot_delinquency !== undefined &&
+      ballot_delinquency >= 0 &&
+      ballot_delinquency < 100
+    ) {
+      axios
+        .put(API.API_PUTTIME, {
+          BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('입력값을 다시 확인해 주세요')
+    }
+  }
   const onclickSubmitballot_draw_fun_btn = () => {
     if (
       ballot_draw_fraction !== undefined &&
@@ -137,8 +201,16 @@ const ManageAuction = () => {
     }
   }
 
+  const onResetInput = () => {
+    setBallot_delinquency('')
+  }
+
   useEffect(() => {
     fetchData()
+  }, [])
+
+  useEffect(() => {
+    contract_fatchData()
   }, [])
 
   const onReset = () => {
@@ -190,7 +262,7 @@ const ManageAuction = () => {
                       background: '#cfccc6',
                     }}
                   >
-                    완료{' '}
+                    완료
                   </td>
                 </tr>
                 <tr>
@@ -420,6 +492,164 @@ const ManageAuction = () => {
         )
       },
     },
+    {
+      content: () => (
+        <hr
+          style={{
+            marginTop: '3rem',
+          }}
+        />
+      ),
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>티켓 매출 계정</article>
+
+            <OutlinedInput
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              readOnly
+              defaultValue={feecollector_staker}
+              placeholder={feecollector_staker}
+            />
+            <button
+              style={{
+                width: '7rem',
+                marginLeft: '80px',
+              }}
+              disabled={true}
+              onClick={() => {
+                alert('준비중입니다.')
+              }}
+            >
+              저장
+            </button>
+            <CircularProgress
+              sx={{
+                display: isloader_00 ? 'block' : 'none',
+                marginLeft: '2rem',
+              }}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>결제 매출 계정</article>
+
+            <OutlinedInput
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              readOnly
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              placeholder={feecollector_pay}
+              defaultValue={feecollector_pay}
+            />
+            <button
+              style={{
+                width: '7rem',
+                marginLeft: '80px',
+              }}
+              disabled={true}
+              onClick={() => {
+                alert('준비중입니다.')
+              }}
+            >
+              저장
+            </button>
+            <CircularProgress
+              sx={{
+                display: isloader_01 ? 'block' : 'none',
+                marginLeft: '2rem',
+              }}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>연체 매출 계정</article>
+
+            <OutlinedInput
+              readOnly
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              placeholder={feecollector_delinquent}
+              defaultValue={feecollector_delinquent}
+            />
+            <button
+              style={{
+                width: '7rem',
+                marginLeft: '80px',
+              }}
+              disabled={true}
+              onClick={() => {
+                alert('준비중입니다.')
+              }}
+            >
+              저장
+            </button>
+            <CircularProgress
+              sx={{
+                display: isloader_02 ? 'block' : 'none',
+                marginLeft: '2rem',
+              }}
+            />
+          </div>
+        )
+      },
+    },
 
     {
       content: () => (
@@ -441,7 +671,7 @@ const ManageAuction = () => {
               padding: '1rem',
             }}
           >
-            <article style={{ width: '30%' }}>할당 비율</article>
+            <article style={{ width: '30%' }}>사용자-아이템 할당 비율</article>
             <article style={{ width: '70%' }}>
               <OutlinedInput
                 id="outlined-adornment-weight"
@@ -450,7 +680,15 @@ const ManageAuction = () => {
                 placeholder={`${ballot_draw_fraction}%`}
                 defaultValue={ballot_draw_fraction}
                 onChange={(e) => {
-                  setBallot_draw_fraction(e.target.value)
+                  if (
+                    parseInt(e.target.value) > 0 &&
+                    parseInt(e.target.value) <= 50
+                  ) {
+                    setBallot_draw_fraction(e.target.value)
+                  } else {
+                    alert('범위값은 0%에서 50%까지 입니다')
+                    setBallot_draw_fraction('')
+                  }
                 }}
                 sx={{
                   width: '450px',
@@ -463,8 +701,8 @@ const ManageAuction = () => {
               <button
                 style={{
                   width: '7rem',
-                  // marginTop: '3rem',
-                  marginLeft: '4rem',
+                  marginTop: '2rem',
+                  marginLeft: '5rem',
                   // marginRight: '2rem',
                 }}
                 onClick={() => {
@@ -473,6 +711,88 @@ const ManageAuction = () => {
               >
                 저장
               </button>
+              <article
+                style={{
+                  width: '30%',
+                  marginTop: '0.3rem',
+                  marginLeft: '1rem',
+                }}
+              >
+                범위 값은 0%에서 50%까지입니다.
+              </article>
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => (
+        <hr
+          style={{
+            marginTop: '3rem',
+          }}
+        />
+      ),
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>DELINQUENCY 할인률</article>
+            <article style={{ width: '70%' }}>
+              <OutlinedInput
+                id="outlined-adornment-weight"
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{ 'aria-label': 'weight' }}
+                placeholder={`${ballot_delinquency}%`}
+                defaultValue={ballot_delinquency}
+                onChange={(e) => {
+                  if (
+                    parseInt(e.target.value) >= 0 &&
+                    parseInt(e.target.value) <= 100
+                  ) {
+                    setBallot_delinquency(e.target.value)
+                  } else {
+                    alert('범위는 0%에서 100% 까지입니다.')
+                    setBallot_delinquency('')
+                  }
+                }}
+                sx={{
+                  width: '450px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                }}
+              />
+              <button
+                style={{
+                  width: '7rem',
+                  marginTop: '2rem',
+                  marginLeft: '5rem',
+                  // marginRight: '2rem',
+                }}
+                onClick={() => {
+                  onclickSubmitballot_delinquency()
+                }}
+              >
+                저장
+              </button>
+              <article
+                style={{
+                  width: '30%',
+                  marginTop: '0.3rem',
+                  marginLeft: 'rem',
+                }}
+              >
+                범위 값은 0%에서 100%까지입니다.
+              </article>
             </article>
           </div>
         )
