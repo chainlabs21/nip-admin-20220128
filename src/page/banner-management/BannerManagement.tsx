@@ -46,18 +46,23 @@ const BannerManagement = () => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
       >
         <Box
           sx={{
-            position: 'absolute' as 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '40%',
+            // position: 'absolute' as 'absolute',
+            // top: '50%',
+            // left: '50%',
+            // transform: 'translate(-50%, -50%)',
+            width: '900px',
             bgcolor: 'background.paper',
             border: '2px solid #000',
             boxShadow: 24,
-            p: 4,
           }}
         >
           <RegisterBanner uuid={uuid} />
@@ -109,7 +114,7 @@ const BannerManagement = () => {
                 }}
               />
               <Searches searchState={(e) => console.log(e)} />
-              <ContainedButton handleOpen={handleOpen} subject="등록" />
+              <ContainedButton handleOpen={handleOpen} subject="등록" setUuid={setUuid} />
             </article>
           </div>
 
@@ -137,7 +142,7 @@ const BannerManagement = () => {
                 let dateFormat = moment(item.updatedat).format("lll");
                 return (
                   <TableBody key={index}>
-                    <TableRow onClick={() => {
+                    <TableRow style={{ cursor: "pointer" }} onClick={() => {
                       setUuid(item.uuid);
                       handleOpen()
                     }}>

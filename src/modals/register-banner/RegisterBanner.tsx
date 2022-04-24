@@ -33,8 +33,8 @@ const RegisterBanner: React.FC<ID> = ({ uuid }) => {
               width: '100%',
             }}
           >
-            <article style={{ width: '30%' }}>배너 위치</article>
-            <article style={{ width: '70%', display: 'flex' }}>
+            <article style={{ width: '100%' }}>배너 위치</article>
+            <article style={{ width: '100%', display: 'flex' }}>
               <select
                 style={{
                   width: '160px',
