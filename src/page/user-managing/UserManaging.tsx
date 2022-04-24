@@ -156,8 +156,8 @@ const UserManaging = () => {
                 }}
               />
               <Searches searchState={(e) => setSearchKey(e)} />
-              <CSVLink data={csv} filename={"user_data.csv"} target="_blank" style={{ textDecoration: "none", color: "#ffffff", padding: "10px", borderRadius: "30px", backgroundColor: "#014CE0" }}>
-                Download
+              <CSVLink data={csv} filename={"user_data.csv"} target="_blank" style={{ textDecoration: "none", color: "#ffffff", padding: "15px", borderRadius: "5px", backgroundColor: "#1A76D2", width: "200px", textAlign: "center" }}>
+                등록
               </CSVLink>
               {/* <ContainedButton subject="EXCEL" /> */}
             </article>
