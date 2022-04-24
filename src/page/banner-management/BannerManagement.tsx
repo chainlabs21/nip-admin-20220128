@@ -116,9 +116,9 @@ const BannerManagement = () => {
             <Table size="medium">
               <TableHead>
                 <TableRow>
-                  <TableCell>
+                  {/* <TableCell>
                     <CheckBox />
-                  </TableCell>
+                  </TableCell> */}
 
                   <TableCell>순서</TableCell>
                   <TableCell>위치</TableCell>
@@ -132,10 +132,10 @@ const BannerManagement = () => {
 
 
 
-              {data.map((item: any) => {
+              {data.map((item: any, index) => {
                 let dateFormat = moment(item.updatedat).format("lll");
                 return (
-                  <TableBody>
+                  <TableBody key={index}>
                     <TableRow>
                       <TableCell>
                         <CheckBox />

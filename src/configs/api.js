@@ -18,6 +18,7 @@ const API = {
   API_BANNER: (offset, limit) => {
     return `${URL}/queries/rows/banners/active/1/${offset}/${limit}/id/DESC`
   },
+  API_POST_BANNER: `${URL}/admin/banner`,
 }
 // /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }
