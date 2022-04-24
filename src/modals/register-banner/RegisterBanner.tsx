@@ -14,9 +14,10 @@ const theme = createTheme()
 
 interface ID {
   uuid: any
+  handleClose: () => void
 }
 
-const RegisterBanner: React.FC<ID> = ({ uuid }) => {
+const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
   const formData = new FormData();
   const [imageBase64, setImageBase64] = useState<any>("");
   const [imageTitle, setImageTitle] = useState<String>("");
@@ -249,7 +250,7 @@ const RegisterBanner: React.FC<ID> = ({ uuid }) => {
         console.log(res);
       }).catch(err => console.log(err));
     }
-
+    handleClose();
   }
 
   return (

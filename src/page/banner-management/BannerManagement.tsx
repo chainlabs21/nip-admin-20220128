@@ -65,7 +65,7 @@ const BannerManagement = () => {
             boxShadow: 24,
           }}
         >
-          <RegisterBanner uuid={uuid} />
+          <RegisterBanner uuid={uuid} handleClose={handleClose} />
         </Box>
       </Modal>
 
