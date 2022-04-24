@@ -214,10 +214,10 @@ function DashboardContent() {
           <Toolbar />
 
           <Container
-            sx={{ mt: 4, mb: 4, ml: 25, width: '100%', maxWidth: '1526px' }}
+            sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", width: '100%', height: "100vh" }}
           >
             <Routers />
-            <Copyright sx={{ pt: 4 }} />
+            <Copyright sx={{ pt: 4, paddingBottom: "30px" }} />
           </Container>
         </Box>
       </Box>
