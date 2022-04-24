@@ -135,7 +135,7 @@ const NftManaging = () => {
     axios
       .get(
         API.API_COMMONITEMS +
-          `/items/group_/kong/${page * rows}/${rows}/id/DESC`,
+        `/items/group_/kong/${page * rows}/${rows}/id/DESC`,
       )
       .then((resp) => {
         LOGGER('', resp.data)
@@ -347,10 +347,10 @@ const NftManaging = () => {
                         {elem.salesstatusstr === 'on_reserve'
                           ? '예약'
                           : elem.salesstatusstr === 'assigned'
-                          ? '할당'
-                          : elem.salesstatusstr === 'user_owned'
-                          ? '유저소유'
-                          : ''}
+                            ? '할당'
+                            : elem.salesstatusstr === 'user_owned'
+                              ? '유저소유'
+                              : ''}
                       </td>
                       <td className="nft-td">
                         <input

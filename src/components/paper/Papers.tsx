@@ -13,6 +13,7 @@ const Papers: React.FC<IPapers> = ({ children, title }) => {
         p: 2,
         maxWidth: '700rem',
         maxHeight: '500rem',
+        overflowY: "scroll",
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
@@ -31,7 +32,7 @@ const Papers: React.FC<IPapers> = ({ children, title }) => {
         {title}
       </Typography>
       {children}
-    </Paper>
+    </Paper >
   )
 }
 

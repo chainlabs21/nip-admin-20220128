@@ -14,6 +14,7 @@ import { API } from '../../configs/api'
 import { LOGGER, strDot } from '../../utils/common'
 import { Select, MenuItem } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material'
+import { CSVLink } from "react-csv";
 // import moment from 'moment'
 const tableSet = [
   { field: 'id' },
@@ -48,6 +49,7 @@ const testField = [
 const UserManaging = () => {
   //	let [ testField , settestField ]=useState( [] )
   let [listlist, setlistlist] = useState([])
+  const [csv, setCsv] = useState([]);
   const [value, setValue] = useState<DateRange<Date>>([null, null])
   const [count, setCount] = useState(0)
   const [page, setPage] = useState(0)
@@ -57,6 +59,7 @@ const UserManaging = () => {
   const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
     setRows(event.target.value)
   }
+
 
   console.log('totalPages')
   console.log(totalPages)
@@ -83,15 +86,31 @@ const UserManaging = () => {
               { field: elem['createdat']?.split('.')[0] },
             ]
           })
+          console.log("LIST", list_raw);
+          let csvList = list_raw.map((el: any) => {
+            return {
+              id: el.id,
+              username: el.username,
+              email: el.email,
+              nickname: el.nickname,
+              isStaked: el.isstaked,
+              myReferrerCode: el.myreferercode,
+              createdAt: el.createdat,
+            }
+          })
           LOGGER('', list)
+          setCsv(csvList);
           setlistlist(list)
           setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
+          console.log("csvList", csvList);
         }
       })
   }
   useEffect(() => {
     fetchdata()
   }, [])
+
+
 
   useEffect(() => {
     fetchdata()
@@ -137,7 +156,10 @@ const UserManaging = () => {
                 }}
               />
               <Searches searchState={(e) => setSearchKey(e)} />
-              <ContainedButton subject="EXCEL" />
+              <CSVLink data={csv} filename={"user_data.csv"} target="_blank" style={{ textDecoration: "none", color: "#ffffff", padding: "10px", borderRadius: "30px", backgroundColor: "#014CE0" }}>
+                Download
+              </CSVLink>
+              {/* <ContainedButton subject="EXCEL" /> */}
             </article>
           </div>
 

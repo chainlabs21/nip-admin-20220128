@@ -7,12 +7,12 @@ import Box from '@mui/material/Box'
 
 type ChildProps = {
   dateState: (value: DateRange<Date>) => void;
- }
- 
-const BasicDateRangePicker: React.FC<ChildProps>=(props)=> {
+}
+
+const BasicDateRangePicker: React.FC<ChildProps> = (props) => {
   const [value, setValue] = React.useState<DateRange<Date>>([null, null])
   //props.toggleState = (value: DateRange<Date>) => void;
-  
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -20,11 +20,11 @@ const BasicDateRangePicker: React.FC<ChildProps>=(props)=> {
         startText="2022/02/02"
         endText="2022/02/03"
         value={value}
-        onChange={(newValue) => {
+        onChange={(newValue: any) => {
           setValue(newValue)
           props.dateState(newValue)
         }}
-        renderInput={(startProps, endProps) => (
+        renderInput={(startProps: any, endProps: any) => (
           <React.Fragment>
             <TextField {...startProps} />
             <Box sx={{ mx: 2 }}>-</Box>
