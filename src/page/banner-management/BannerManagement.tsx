@@ -25,6 +25,7 @@ const BannerManagement = () => {
   const [data, setData] = useState([]);
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const [uuid, setUuid] = useState<String>("");
 
   useEffect(() => {
     axios.get(API.API_BANNER(0, 10)).then((res: any) => {
@@ -59,7 +60,7 @@ const BannerManagement = () => {
             p: 4,
           }}
         >
-          <RegisterBanner />
+          <RegisterBanner uuid={uuid} />
         </Box>
       </Modal>
 
@@ -136,7 +137,10 @@ const BannerManagement = () => {
                 let dateFormat = moment(item.updatedat).format("lll");
                 return (
                   <TableBody key={index}>
-                    <TableRow>
+                    <TableRow onClick={() => {
+                      setUuid(item.uuid);
+                      handleOpen()
+                    }}>
                       <TableCell>
                         <CheckBox />
                       </TableCell>

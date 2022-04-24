@@ -12,7 +12,11 @@ import axios from 'axios'
 
 const theme = createTheme()
 
-const RegisterBanner = () => {
+interface ID {
+  uuid: any
+}
+
+const RegisterBanner: React.FC<ID> = ({ uuid }) => {
   const formData = new FormData();
   const [imageBase64, setImageBase64] = useState<any>("");
   const [imageTitle, setImageTitle] = useState<String>("");
@@ -236,9 +240,16 @@ const RegisterBanner = () => {
       filenamepc: imageTitle,
       filenamemobile: imageTitle,
     }
-    axios.post(API.API_POST_BANNER, data).then(res => {
-      console.log(res);
-    }).catch(err => console.log(err));
+    if (uuid) {
+      axios.put(API.API_POST_BANNER + "/" + uuid, data).then(res => {
+        console.log(res);
+      }).catch(err => console.log(err));
+    } else {
+      axios.post(API.API_POST_BANNER, data).then(res => {
+        console.log(res);
+      }).catch(err => console.log(err));
+    }
+
   }
 
   return (
