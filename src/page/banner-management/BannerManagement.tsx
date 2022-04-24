@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
@@ -15,12 +15,28 @@ import banner_mobile from '../../assets/images/banner-mobile.png'
 import { FormControlLabel } from '@mui/material'
 import { Android12Switch } from '../nft-register/one/NftRegisterOne'
 import Box from '@mui/material/Box'
+import { API } from '../../configs/api'
+import axios from 'axios'
 import RegisterBanner from '../../modals/register-banner/RegisterBanner'
+import moment from "moment";
 
 const BannerManagement = () => {
   const [open, setOpen] = useState(false)
+  const [data, setData] = useState([]);
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  useEffect(() => {
+    axios.get(API.API_BANNER(0, 10)).then((res: any) => {
+      console.log("banner data", res);
+      if (res && res.data) { } else {
+        return;
+      }
+      let { list } = res.data;
+      console.log("list", list);
+      setData(list);
+    }).catch(err => console.log(err))
+  }, [])
 
   return (
     <>
@@ -114,31 +130,35 @@ const BannerManagement = () => {
                 </TableRow>
               </TableHead>
 
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <CheckBox />
-                  </TableCell>
 
-                  <TableCell>1</TableCell>
-                  <TableCell>main_rolling_banner</TableCell>
-                  <TableCell>https://nips.net</TableCell>
-                  <TableCell>
-                    <img width="200px" src={banner_pc} alt="banner_pc" />
-                  </TableCell>
-                  <TableCell>
-                    <img width="60px" src={banner_mobile} alt="banner_mobile" />
-                  </TableCell>
 
-                  <TableCell>2022.02.02 - 2022.02.02</TableCell>
-                  <TableCell>
-                    <FormControlLabel
-                      control={<Android12Switch defaultChecked />}
-                      label=""
-                    />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
+              {data.map((item: any) => {
+                let dateFormat = moment(item.updatedat).format("lll");
+                return (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>
+                        <CheckBox />
+                      </TableCell>
+                      <TableCell>{item.id}</TableCell>
+                      <TableCell>main_rolling_banner</TableCell>
+                      <TableCell>https://nips.net</TableCell>
+                      <TableCell><img width="200px" src={item.imageurlpc} alt="banner_pc" /></TableCell>
+                      <TableCell><img width="200px" src={item.imageurlmobile} alt="banner_mobile" /></TableCell>
+                      <TableCell>{dateFormat}</TableCell>
+                      <TableCell>
+                        <FormControlLabel
+                          control={<Android12Switch defaultChecked />}
+                          label=""
+                        />
+                      </TableCell>
+
+                    </TableRow>
+                  </TableBody>
+                )
+              })}
+
+
             </Table>
           </div>
 
