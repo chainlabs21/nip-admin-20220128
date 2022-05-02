@@ -16,7 +16,7 @@ const TableDefaultUserManaging: React.FC<ITableDefault> = ({
   columns,
   testFields,
   checkFields,
-  listlist
+  listlist,
 }) => {
   return (
     <Table size="medium">
@@ -37,13 +37,14 @@ const TableDefaultUserManaging: React.FC<ITableDefault> = ({
             <TableRow key={idx}>
               {list.map((column: any, index: number) => (
                 <React.Fragment key={index}>
-                  {column.checkBox && <TableCell>{column.checkBox()}</TableCell>}
+                  {column.checkBox && (
+                    <TableCell>{column.checkBox()}</TableCell>
+                  )}
                   <TableCell>{column.field}</TableCell>
                 </React.Fragment>
               ))}
             </TableRow>
-          ))
-          }
+          ))}
         </TableBody>
       )}
 

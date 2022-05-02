@@ -23,32 +23,48 @@ const tableSet = [
   {
     field: 'createdat',
   },
+
   {
-    field: 'amountdelinquencies',
+    field: 'drawtime',
   },
   {
-    field: 'amountpayments',
+    field: 'roundnumber',
+  },
+  {
+    field: 'countballotsactive',
+  },
+  {
+    field: 'countitemsassigned',
   },
   {
     field: 'countdelinquencies',
   },
   {
-    field: 'countitems',
+    field: 'countdelinquenciesresolved',
   },
   {
-    field: 'countpayments',
+    field: 'countitemsassigned',
   },
   {
-    field: 'countreceivers',
+    field: 'countusersassigned',
   },
   {
-    field: 'drawtime',
+    field: 'endtime',
+  },
+  {
+    field: 'starttime',
   },
   {
     field: 'paymentduetime',
   },
   {
-    field: 'roundnumber',
+    field: 'totalitemsassigned',
+  },
+  {
+    field: 'totalitemsinpossession',
+  },
+  {
+    field: 'totalitemsonreserve',
   },
   {
     field: 'updatedat',
@@ -99,7 +115,7 @@ const RoundList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_LOGBALLOTS + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_LOGROUNDS + `/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -114,24 +130,29 @@ const RoundList = () => {
             return [
               { field: elem['id'] },
               { field: elem['createdat']?.split('T')[0] },
-              { field: elem['amountdelinquencies'] },
-              { field: elem['amountpayments'] },
-              { field: elem['countdelinquencies'] },
-              { field: elem['countitems'] },
-              { field: elem['countpayments'] },
-              { field: elem['countreceivers'] },
-              {
-                field: moment
-                  .unix(elem['drawtime'])
-                  .format('MM월 DD일 hh시 mm분 '),
-              },
-              {
-                field: moment
-                  .unix(elem['paymentduetime'])
-                  .format('MM월 DD일 hh시 mm분 '),
-              },
+              { field: elem['drawtime'] },
               { field: elem['roundnumber'] },
-              { field: elem['updatedat'] },
+              { field: elem['countballotsactive'] },
+              { field: elem['countitemsassigned'] },
+              { field: elem['countdelinquencies'] },
+              { field: elem['countdelinquenciesresolved'] },
+              { field: elem['countitemsassigned'] },
+              { field: elem['countusersassigned'] },
+              { field: elem['endtime'] ? elem['endtime'] : 0 },
+              { field: elem['paymentduetime'] ? elem['paymentduetime'] : 0 },
+              { field: elem['starttime'] ? elem['starttime'] : 0 },
+              {
+                field: elem['totalitemsonreserve']
+                  ? elem['totalitemsonreserve']
+                  : 0,
+              },
+              { field: elem['totalitemsassigned'] },
+              {
+                field: elem['totalitemsinpossession']
+                  ? elem['totalitemsinpossession']
+                  : 'null',
+              },
+              { field: elem['updatedat']?.split('T')[0] },
             ]
           })
           LOGGER('', list)
@@ -198,7 +219,14 @@ const RoundList = () => {
                 <ContainedButton subject="EXCEL" />
               </article>
             </div>
-            <TabPanel value="1">
+            <TabPanel
+              value="1"
+              style={{
+                width: '3000px',
+                display: 'flex',
+                overflow: 'auto',
+              }}
+            >
               <TableDefaultUserManaging
                 listlist={listlist}
                 columns={tableSet}
@@ -207,7 +235,6 @@ const RoundList = () => {
               <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'flex-end',
                   margin: '20px 0 0 0',
                 }}
               >

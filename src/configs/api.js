@@ -14,6 +14,7 @@ const API = {
   API_LOGDELINQUENTS: `${URL}/queries/rows/logdelinquents/active/1`,
   API_PUTSTATE: `${URL}/ballotrouter/update-or-create-rows/settings`,
   API_LOGBALLOTS: `${URL}/queries/rows/logballots/active/1`,
+  API_LOGROUNDS: `${URL}/queries/rows/logrounds/active/1`,
   API_MQ: `${URL}/ballotrouter/mq`,
   API_BANNER: (offset, limit) => {
     return `${URL}/queries/rows/banners/active/1/${offset}/${limit}/id/DESC`
