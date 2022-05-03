@@ -5,9 +5,10 @@ import Stack from '@mui/material/Stack'
 interface ButtonProps {
   subject: string
   handleOpen?: () => void
+  setUuid?: (uuid: string) => void
 }
 
-export default function ContainedButton({ subject, handleOpen }: ButtonProps) {
+export default function ContainedButton({ subject, handleOpen, setUuid }: ButtonProps) {
   return (
     <Stack direction="row" spacing={2}>
       <Button
@@ -15,7 +16,12 @@ export default function ContainedButton({ subject, handleOpen }: ButtonProps) {
           width: '162px',
           height: '55.1px',
         }}
-        onClick={handleOpen}
+        onClick={() => {
+          if (handleOpen && setUuid) {
+            setUuid("");
+            handleOpen();
+          }
+        }}
         variant="contained"
       >
         {subject}
