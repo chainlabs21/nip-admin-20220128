@@ -58,7 +58,7 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}>
       <Button
         onClick={onclickPutStartBtn}
         sx={{ width: '162px', height: '44px' }}
@@ -68,12 +68,12 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
       </Button>
       <Button
         onClick={onclickPutStopBtn}
-        sx={{ marginLeft: '8px', width: '162px', height: '44px' }}
+        sx={{ marginLeft: '30px', width: '162px', height: '44px' }}
         variant="contained"
       >
         {second}
       </Button>
-    </>
+    </div>
   )
 }
 export const ButtonGroupSeconed: React.FC<ButtonTitles> = ({
@@ -114,6 +114,74 @@ export const ButtonGroupThird: React.FC<ButtonTitles> = ({ first }) => {
         {first}
       </Button>
     </>
+  )
+}
+
+export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
+  const onclick_Periodic_StartBtn = () => {
+    axios
+      .put(API.API_PUTSTATE + '/PERIODIC_START', {
+        BALLOT_PERIODIC_ACTIVE: '1',
+      })
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status == 'OK') {
+          axios
+            .post(API.API_MQ, {
+              BALLOT_PERIODIC_ACTIVE: '1',
+            })
+            .then((resp) => {
+              let { status, respdata } = resp.data
+              if (status == 'OK') {
+                console.log('mqSTART')
+                console.log(resp)
+                window.location.reload()
+              }
+            })
+        }
+      })
+  }
+  const onclick_Periodic_Pause_Btn = () => {
+    axios
+      .put(API.API_PUTSTATE + '/PERIODIC_PAUSE', {
+        BALLOT_PERIODIC_ACTIVE: '0',
+      })
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status == 'OK') {
+          axios
+            .post(API.API_MQ, {
+              BALLOT_PERIODIC_ACTIVE: '0',
+            })
+            .then((resp) => {
+              let { status, respdata } = resp.data
+              if (status == 'OK') {
+                console.log('mqPUASE')
+                console.log(resp)
+                window.location.reload()
+              }
+            })
+        }
+      })
+  }
+
+  return (
+    <div style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}>
+      <Button
+        onClick={onclick_Periodic_StartBtn}
+        sx={{ width: '162px', height: '44px' }}
+        variant="outlined"
+      >
+        {first}
+      </Button>
+      <Button
+        onClick={onclick_Periodic_Pause_Btn}
+        sx={{ marginLeft: '30px', width: '162px', height: '44px' }}
+        variant="contained"
+      >
+        {second}
+      </Button>
+    </div>
   )
 }
 

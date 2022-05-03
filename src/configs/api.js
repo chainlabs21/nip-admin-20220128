@@ -20,6 +20,7 @@ const API = {
     return `${URL}/queries/rows/banners/active/1/${offset}/${limit}/id/DESC`
   },
   API_POST_BANNER: `${URL}/admin/banner`,
+  API_GET_ITEMSTATS: `${URL}/itemstats`,
 }
 // /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }

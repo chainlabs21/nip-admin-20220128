@@ -44,11 +44,12 @@ export const drawerFields = [
     arrow: down_arrow_icon,
     child: [
       { title: '경매관리', params: 'manage-auction' },
-      { title: '결제대기(신규)', params: 'auction-list' },
-      { title: '결제완료(신규)', params: 'matching-list' },
-      { title: '연체(신규)', params: 'not-matching-list' },
-      { title: '연체 해소(신규)', params: 'matching-able-list' },
-      { title: '라운드이력(신규)', params: 'round-list' },
+      { title: '결제대기', params: 'auction-list' },
+      { title: '결제완료', params: 'matching-list' },
+      { title: '연체', params: 'not-matching-list' },
+      { title: '연체 해소', params: 'matching-able-list' },
+      { title: '라운드이력', params: 'round-list' },
+      { title: '일단위 라운드 관리', params: 'manage-auction-daily' },
     ],
   },
   {

@@ -17,114 +17,13 @@ import { API } from '../../configs/api'
 import { LOGGER } from '../../utils/common'
 import axios from 'axios'
 
-const fields_01 = [
-  {
-    content: () => {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '1rem',
-          }}
-        >
-          <article
-            style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
-          >
-            대기
-          </article>
-          <article
-            style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
-          >
-            25
-          </article>
-        </div>
-      )
-    },
-  },
-  {
-    content: () => {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '1rem',
-          }}
-        >
-          <article
-            style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
-          >
-            누적 등록수
-          </article>
-          <article
-            style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
-          >
-            2,456,123,222
-          </article>
-        </div>
-      )
-    },
-  },
-]
-
-const fields_02 = [
-  {
-    content: () => {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '1rem',
-          }}
-        >
-          <article
-            style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
-          >
-            대기
-          </article>
-          <article
-            style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
-          >
-            25
-          </article>
-        </div>
-      )
-    },
-  },
-  {
-    content: () => {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '1rem',
-          }}
-        >
-          <article
-            style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
-          >
-            누적 MINTING 수
-          </article>
-          <article
-            style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
-          >
-            56,123,222
-          </article>
-        </div>
-      )
-    },
-  },
-]
-
 const NftManaging = () => {
   let [list, setlist] = useState([])
   const [totalPages, setTotalPages] = useState(0)
   const [page, setPage] = useState<number>(1)
   const [rows, setRows] = useState<any>(20)
   const [count, setCount] = useState<number>(0)
+  const [itemStats, setItemStats] = useState<any>()
   const countdata = () => {
     axios.get(`${API.API_COUNT}/items`).then((resp) => {
       LOGGER('COUNT', resp)
@@ -135,7 +34,7 @@ const NftManaging = () => {
     axios
       .get(
         API.API_COMMONITEMS +
-        `/items/group_/kong/${page * rows}/${rows}/id/DESC`,
+          `/items/group_/kong/${page * rows}/${rows}/id/DESC`,
       )
       .then((resp) => {
         LOGGER('', resp.data)
@@ -144,8 +43,18 @@ const NftManaging = () => {
           setCount(resp.data.payload.count as number)
           setTotalPages(Math.ceil(resp.data.payload.count / rows))
           setlist(list)
+        } else {
+          alert('API_COMMONITEMS is error')
         }
       })
+    axios.get(API.API_GET_ITEMSTATS).then((resp) => {
+      LOGGER('API_GET_ITEMSTATS', resp.data)
+      if (resp.data.status === 'OK') {
+        setItemStats(resp.data.respdata)
+      } else {
+        alert('API_GET_ITEMSTATS is Error')
+      }
+    })
   }
   const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
     setRows(event.target.value)
@@ -160,13 +69,197 @@ const NftManaging = () => {
     fetchdata()
   }, [page, rows])
 
-  console.log('list')
-  console.log(list)
+  const fields_01 = [
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              대기
+            </article>
+            <article
+              style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
+            >
+              25
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              누적 등록수
+            </article>
+            <article
+              style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
+            >
+              2,456,123,222
+            </article>
+          </div>
+        )
+      },
+    },
+  ]
+
+  const fields_02 = [
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              대기
+            </article>
+            <article
+              style={{ width: '70%', display: 'flex', fontWeight: 'bold' }}
+            >
+              25
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '30%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              누적 MINTING 수
+            </article>
+            <article
+              style={{
+                width: '70%',
+                display: 'flex',
+                fontWeight: 'bold',
+                marginLeft: '20px',
+              }}
+            >
+              56,123,222
+            </article>
+          </div>
+        )
+      },
+    },
+  ]
+  const fields_03 = [
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '70%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              할당된 아이템
+            </article>
+            <article
+              style={{
+                width: '30%',
+                display: 'flex',
+                fontWeight: 'bold',
+              }}
+            >
+              {itemStats?.assigned}
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '50%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              누적 예약금
+            </article>
+            <article
+              style={{ width: '50%', display: 'flex', fontWeight: 'bold' }}
+            >
+              {itemStats?.onreserve}
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article
+              style={{ width: '70%', color: '#7A7A7A', fontWeight: 'bold' }}
+            >
+              마감 아이템
+            </article>
+            <article
+              style={{ width: '30%', display: 'flex', fontWeight: 'bold' }}
+            >
+              {itemStats?.perished}
+            </article>
+          </div>
+        )
+      },
+    },
+  ]
+
   return (
     <>
       <div
         style={{
           display: 'flex',
+          marginTop: '1200px',
         }}
       >
         <Paper
@@ -216,6 +309,31 @@ const NftManaging = () => {
           </Typography>
           <div>
             <PaperBodyContent fields={fields_02} />
+          </div>
+        </Paper>
+        <Paper
+          sx={{
+            marginLeft: '45px',
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            width: '100%',
+          }}
+        >
+          <Typography
+            sx={{
+              p: 2,
+            }}
+            component="h2"
+            variant="h6"
+            color="#000000"
+            gutterBottom
+          >
+            Market Place
+          </Typography>
+          <div>
+            <PaperBodyContent fields={fields_03} />
           </div>
         </Paper>
       </div>
@@ -347,10 +465,10 @@ const NftManaging = () => {
                         {elem.salesstatusstr === 'on_reserve'
                           ? '예약'
                           : elem.salesstatusstr === 'assigned'
-                            ? '할당'
-                            : elem.salesstatusstr === 'user_owned'
-                              ? '유저소유'
-                              : ''}
+                          ? '할당'
+                          : elem.salesstatusstr === 'user_owned'
+                          ? '유저소유'
+                          : ''}
                       </td>
                       <td className="nft-td">
                         <input
