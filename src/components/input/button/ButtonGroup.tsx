@@ -10,6 +10,65 @@ interface ButtonTitles {
 }
 
 const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
+  return (
+    <div style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}>
+      <Button sx={{ width: '162px', height: '44px' }} variant="outlined">
+        {first}
+      </Button>
+      <Button
+        sx={{ marginLeft: '30px', width: '162px', height: '44px' }}
+        variant="contained"
+      >
+        {second}
+      </Button>
+    </div>
+  )
+}
+export const ButtonGroupSeconed: React.FC<ButtonTitles> = ({
+  first,
+  second,
+  style,
+}) => {
+  return (
+    <>
+      <Button
+        sx={{
+          width: '162px',
+          height: '44px',
+          bgcolor: 'text.disabled',
+          color: 'black',
+        }}
+        variant="contained"
+      >
+        {first}
+      </Button>
+    </>
+  )
+}
+export const ButtonGroupThird: React.FC<ButtonTitles> = ({ first }) => {
+  return (
+    <>
+      <Button
+        sx={{
+          cursor: 'none',
+          width: '200px',
+          height: '100px',
+          bgcolor: 'text.disabled',
+          color: 'black',
+          marginRight: '30px',
+        }}
+        variant="contained"
+      >
+        {first}
+      </Button>
+    </>
+  )
+}
+
+export const Button_Manage_Aution: React.FC<ButtonTitles> = ({
+  first,
+  second,
+}) => {
   const onclickPutStartBtn = () => {
     axios
       .put(API.API_PUTSTATE + '/START', {
@@ -74,46 +133,6 @@ const ButtonGroup: React.FC<ButtonTitles> = ({ first, second }) => {
         {second}
       </Button>
     </div>
-  )
-}
-export const ButtonGroupSeconed: React.FC<ButtonTitles> = ({
-  first,
-  second,
-  style,
-}) => {
-  return (
-    <>
-      <Button
-        sx={{
-          width: '162px',
-          height: '44px',
-          bgcolor: 'text.disabled',
-          color: 'black',
-        }}
-        variant="contained"
-      >
-        {first}
-      </Button>
-    </>
-  )
-}
-export const ButtonGroupThird: React.FC<ButtonTitles> = ({ first }) => {
-  return (
-    <>
-      <Button
-        sx={{
-          cursor: 'none',
-          width: '200px',
-          height: '100px',
-          bgcolor: 'text.disabled',
-          color: 'black',
-          marginRight: '30px',
-        }}
-        variant="contained"
-      >
-        {first}
-      </Button>
-    </>
   )
 }
 

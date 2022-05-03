@@ -14,6 +14,7 @@ import {
 import ButtonGroup, {
   ButtonGroupSeconed,
   ButtonGroupThird,
+  Button_Manage_Aution,
 } from '../../components/input/button/ButtonGroup'
 import axios from 'axios'
 import { API } from '../../configs/api'
@@ -45,6 +46,8 @@ const ManageAuction = () => {
   let [isloader_00, setisloader_00] = useState(false)
   let [isloader_01, setisloader_01] = useState(false)
   let [isloader_02, setisloader_02] = useState(false)
+
+  console.log('ballot_draw_fraction', ballot_draw_fraction)
 
   const fetchData = async () => {
     axios.get(API.API_BALLOT).then((resp) => {
@@ -163,11 +166,7 @@ const ManageAuction = () => {
     }
   }
   const onclickSubmitballot_delinquency = () => {
-    if (
-      ballot_delinquency !== undefined &&
-      ballot_delinquency >= 0 &&
-      ballot_delinquency < 100
-    ) {
+    if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
       axios
         .put(API.API_PUTTIME, {
           BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
@@ -180,15 +179,11 @@ const ManageAuction = () => {
           }
         })
     } else {
-      alert('입력값을 다시 확인해 주세요')
+      alert('범위 값은 0%에서 100%까지입니다.')
     }
   }
   const onclickSubmitballot_draw_fun_btn = () => {
-    if (
-      ballot_draw_fraction !== undefined &&
-      ballot_draw_fraction <= 0 &&
-      ballot_draw_fraction > 50
-    ) {
+    if (ballot_draw_fraction >= 0 && ballot_draw_fraction <= 50) {
       axios
         .put(API.API_PUTTIME, {
           BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
@@ -201,12 +196,8 @@ const ManageAuction = () => {
           }
         })
     } else {
-      alert('입력값을 다시 확인해 주세요')
+      alert('범위 값은 0%에서 50%까지입니다.')
     }
-  }
-
-  const onResetInput = () => {
-    setBallot_delinquency('')
   }
 
   useEffect(() => {
@@ -678,21 +669,14 @@ const ManageAuction = () => {
             <article style={{ width: '30%' }}>사용자-아이템 할당 비율</article>
             <article style={{ width: '70%' }}>
               <OutlinedInput
+                type="number"
                 id="outlined-adornment-weight"
                 aria-describedby="outlined-weight-helper-text"
                 inputProps={{ 'aria-label': 'weight' }}
-                placeholder={`${ballot_draw_fraction}%`}
+                placeholder={`현재 설정 비율 : ${ballot_draw_fraction}%`}
                 defaultValue={ballot_draw_fraction}
                 onChange={(e) => {
-                  if (
-                    parseInt(e.target.value) > 0 &&
-                    parseInt(e.target.value) <= 50
-                  ) {
-                    setBallot_draw_fraction(e.target.value)
-                  } else {
-                    alert('범위값은 0%에서 50%까지 입니다')
-                    setBallot_draw_fraction('')
-                  }
+                  setBallot_draw_fraction(e.target.value)
                 }}
                 sx={{
                   width: '450px',
@@ -751,21 +735,14 @@ const ManageAuction = () => {
             <article style={{ width: '30%' }}>DELINQUENCY 할인률</article>
             <article style={{ width: '70%' }}>
               <OutlinedInput
+                type="number"
                 id="outlined-adornment-weight"
                 aria-describedby="outlined-weight-helper-text"
                 inputProps={{ 'aria-label': 'weight' }}
-                placeholder={`${ballot_delinquency}%`}
+                placeholder={`현재 설정 비율 : ${ballot_delinquency}%`}
                 defaultValue={ballot_delinquency}
                 onChange={(e) => {
-                  if (
-                    parseInt(e.target.value) >= 0 &&
-                    parseInt(e.target.value) <= 100
-                  ) {
-                    setBallot_delinquency(e.target.value)
-                  } else {
-                    alert('범위는 0%에서 100% 까지입니다.')
-                    setBallot_delinquency('')
-                  }
+                  setBallot_delinquency(e.target.value)
                 }}
                 sx={{
                   width: '450px',
@@ -806,16 +783,18 @@ const ManageAuction = () => {
 
   return (
     <>
-      <ButtonGroupThird
-        first={getBALLOT?.BALLOT_ACTIVE === 'START' ? '진행중' : '중지중'}
-      />
-      <ButtonGroupThird first={`Round : ${getBALLOT?.BALLOT_ROUND_NUMBER}`} />
-      <ButtonGroupThird
-        first={`다음라운드 시작시간 : ${moment(
-          moment.unix(getBALLOT?.BALLOT_NEXT_ROUND_START),
-        ).format('DD일 HH시 mm분 ss초')}`}
-      />
-      <ButtonGroup first="시작하기" second="중지하기" />
+      <div>
+        <ButtonGroupThird
+          first={getBALLOT?.BALLOT_ACTIVE === 'START' ? '진행중' : '중지중'}
+        />
+        <ButtonGroupThird first={`Round : ${getBALLOT?.BALLOT_ROUND_NUMBER}`} />
+        <ButtonGroupThird
+          first={`다음라운드 시작시간 : ${moment(
+            moment.unix(getBALLOT?.BALLOT_NEXT_ROUND_START),
+          ).format('DD일 HH시 mm분 ss초')}`}
+        />
+      </div>
+      <Button_Manage_Aution first="시작하기" second="중지하기" />
       <Papers title="경매관리">
         <PaperBodyContent fields={fields} />
         <div
@@ -824,26 +803,7 @@ const ManageAuction = () => {
             alignItems: 'center',
             padding: '1rem',
           }}
-        >
-          {/* <article style={{ width: '30%' }}>결제 토큰</article>
-          <article style={{ width: '70%' }}>
-            <FormControl>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="USDT"
-                  control={<Radio />}
-                  label="USDT"
-                />
-                <FormControlLabel value="NIP" control={<Radio />} label="NIP" />
-                <FormControlLabel value="ETH" control={<Radio />} label="ETH" />
-              </RadioGroup>
-            </FormControl>
-          </article> */}
-        </div>
+        ></div>
 
         <div
           style={{
