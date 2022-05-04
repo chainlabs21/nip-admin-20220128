@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import PaperBodyContent from '../../components/paper/PaperBodyContent'
-import { OutlinedInput, TextField } from '@mui/material'
+import { CircularProgress, OutlinedInput, TextField } from '@mui/material'
 import {
   ButtonGroupThird,
   Button_Periodic,
@@ -24,7 +24,12 @@ const ManageAuctionDaily = () => {
     useState<any>()
   const [ballot_delinquency, setBallot_delinquency] = useState<any>()
   const [ballot_draw_fraction, setBallot_draw_fraction] = useState<any>()
+  const [feecollector_staker, setFeecollector_staker] = useState<any>()
+  const [feecollector_pay, setFeecollector_pay] = useState<any>()
+  const [feecollector_delinquent, setFeecollector_delinquent] = useState<any>()
   let [isloader_00, setisloader_00] = useState(false)
+  let [isloader_01, setisloader_01] = useState(false)
+  let [isloader_02, setisloader_02] = useState(false)
 
   const onclickSubmitballot_delinquency = () => {
     if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
@@ -88,6 +93,47 @@ const ManageAuctionDaily = () => {
   }
   useEffect(() => {
     fetchData()
+  }, [])
+
+  const contract_fatchData = async () => {
+    try {
+      setisloader_00(true)
+      setisloader_01(true)
+      setisloader_02(true)
+      query_noarg({
+        contractaddress: addresses.contract_stake, // ETH_TESTNET.
+        abikind: 'STAKE',
+        methodname: '_feecollector',
+      }).then((resp) => {
+        LOGGER('stake', resp)
+        setisloader_00(false)
+        setFeecollector_staker(resp)
+      })
+      query_noarg({
+        contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
+        abikind: 'PAY',
+        methodname: '_feecollector',
+      }).then((resp) => {
+        LOGGER('pay', resp)
+        setisloader_01(false)
+        setFeecollector_pay(resp)
+      })
+      query_noarg({
+        contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
+        abikind: 'DELINQUENT',
+        methodname: '_feecollector',
+      }).then((resp) => {
+        LOGGER('delinquent', resp)
+        setisloader_02(false)
+        setFeecollector_delinquent(resp)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    contract_fatchData()
   }, [])
 
   const onReset = () => {
@@ -305,6 +351,164 @@ const ManageAuctionDaily = () => {
                 범위 값은 0%에서 100%까지입니다.
               </article>
             </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => (
+        <hr
+          style={{
+            marginTop: '3rem',
+          }}
+        />
+      ),
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>티켓 매출 계정</article>
+
+            <OutlinedInput
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              readOnly
+              defaultValue={feecollector_staker}
+              placeholder={feecollector_staker}
+            />
+            <button
+              style={{
+                width: '7rem',
+                marginLeft: '80px',
+              }}
+              disabled={true}
+              onClick={() => {
+                alert('준비중입니다.')
+              }}
+            >
+              저장
+            </button>
+            <CircularProgress
+              sx={{
+                display: isloader_00 ? 'block' : 'none',
+                marginLeft: '2rem',
+              }}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>결제 매출 계정</article>
+
+            <OutlinedInput
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              readOnly
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              placeholder={feecollector_pay}
+              defaultValue={feecollector_pay}
+            />
+            <button
+              style={{
+                width: '7rem',
+                marginLeft: '80px',
+              }}
+              disabled={true}
+              onClick={() => {
+                alert('준비중입니다.')
+              }}
+            >
+              저장
+            </button>
+            <CircularProgress
+              sx={{
+                display: isloader_01 ? 'block' : 'none',
+                marginLeft: '2rem',
+              }}
+            />
+          </div>
+        )
+      },
+    },
+
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>연체 매출 계정</article>
+
+            <OutlinedInput
+              readOnly
+              id="outlined-adornment-weight"
+              aria-describedby="outlined-weight-helper-text"
+              inputProps={{ 'aria-label': 'weight' }}
+              sx={{
+                width: '450px',
+                height: '38px',
+                borderRadius: '12px',
+                marginLeft: '5px',
+                marginRight: '5px',
+              }}
+              placeholder={feecollector_delinquent}
+              defaultValue={feecollector_delinquent}
+            />
+            <button
+              style={{
+                width: '7rem',
+                marginLeft: '80px',
+              }}
+              disabled={true}
+              onClick={() => {
+                alert('준비중입니다.')
+              }}
+            >
+              저장
+            </button>
+            <CircularProgress
+              sx={{
+                display: isloader_02 ? 'block' : 'none',
+                marginLeft: '2rem',
+              }}
+            />
           </div>
         )
       },

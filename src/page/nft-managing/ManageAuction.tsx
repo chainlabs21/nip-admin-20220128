@@ -87,7 +87,7 @@ const ManageAuction = () => {
         abikind: 'STAKE',
         methodname: '_feecollector',
       }).then((resp) => {
-        // LOGGER('stake', resp)
+        LOGGER('stake', resp)
         setisloader_00(false)
         setFeecollector_staker(resp)
       })
@@ -96,7 +96,7 @@ const ManageAuction = () => {
         abikind: 'PAY',
         methodname: '_feecollector',
       }).then((resp) => {
-        // LOGGER('pay', resp)
+        LOGGER('pay', resp)
         setisloader_01(false)
         setFeecollector_pay(resp)
       })
@@ -105,7 +105,7 @@ const ManageAuction = () => {
         abikind: 'DELINQUENT',
         methodname: '_feecollector',
       }).then((resp) => {
-        // LOGGER('delinquent', resp)
+        LOGGER('delinquent', resp)
         setisloader_02(false)
         setFeecollector_delinquent(resp)
       })
