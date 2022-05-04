@@ -14,7 +14,8 @@ import { API } from '../../configs/api'
 import { LOGGER, strDot } from '../../utils/common'
 import { Select, MenuItem } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material'
-import { CSVLink } from "react-csv";
+import { CSVLink } from 'react-csv'
+import Toggle from 'react-toggle'
 // import moment from 'moment'
 const tableSet = [
   { field: 'id' },
@@ -24,32 +25,13 @@ const tableSet = [
   { field: 'staked' },
   { field: 'myreferercode' },
   { field: '가입일' },
-  /** 	{    field: '순서',  },
-  {    field: '계정',  },
-  {    field: '지갑주소',  },
-  {    field: '몬스터 보유',  },
-  {    field: 'Stake',  },
-  {    field: 'USDT 보유',  },
-  {    field: 'NIP 보유',  },
-  {    field: '회원상태',  },
-  {    field: '가입일',  },*/
-]
-const testField = [
-  { field: '1' },
-  { field: 'seofij@gmail.com' },
-  { field: '0xb6.2ef0' },
-  { field: 'Success' },
-  { field: '100 USDT' },
-  { field: '1548 USDT' },
-  { field: '122 NIP' },
-  { field: '일반' },
-  { field: '2022-01-29' },
+  { field: '계정활성화' },
 ]
 
 const UserManaging = () => {
   //	let [ testField , settestField ]=useState( [] )
-  let [listlist, setlistlist] = useState([])
-  const [csv, setCsv] = useState([]);
+  let [listlist, setlistlist] = useState<any>([])
+  const [csv, setCsv] = useState([])
   const [value, setValue] = useState<DateRange<Date>>([null, null])
   const [count, setCount] = useState(0)
   const [page, setPage] = useState(0)
@@ -59,10 +41,6 @@ const UserManaging = () => {
   const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
     setRows(event.target.value)
   }
-
-
-  console.log('totalPages')
-  console.log(totalPages)
 
   const fetchdata = async () => {
     axios
@@ -75,34 +53,8 @@ const UserManaging = () => {
         let { status, list: list_raw } = resp.data
         if (status == 'OK') {
           //		settestField ( list )
-          let list = list_raw.map((elem: any) => {
-            return [
-              { field: elem['id'] },
-              { field: strDot(elem['username'], 20, 0) },
-              { field: elem['email'] },
-              { field: elem['nickname'] },
-              { field: elem['isstaked'] },
-              { field: elem['myreferercode'] },
-              { field: elem['createdat']?.split('.')[0] },
-            ]
-          })
-          console.log("LIST", list_raw);
-          let csvList = list_raw.map((el: any) => {
-            return {
-              id: el.id,
-              username: el.username,
-              email: el.email,
-              nickname: el.nickname,
-              isStaked: el.isstaked,
-              myReferrerCode: el.myreferercode,
-              createdAt: el.createdat,
-            }
-          })
-          LOGGER('', list)
-          setCsv(csvList);
-          setlistlist(list)
+          setlistlist(resp.data.list)
           setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
-          console.log("csvList", csvList);
         }
       })
   }
@@ -110,11 +62,28 @@ const UserManaging = () => {
     fetchdata()
   }, [])
 
-
-
   useEffect(() => {
     fetchdata()
   }, [page, rows, value, searchkey])
+
+  const onclick_user_active_btn = (elem: any) => {
+    console.log('asodijfoasidj', elem)
+    if (listlist) {
+      axios
+        .put(API.API_SET_ACTIVE_USER + `/${elem.username}`, {
+          active: elem.active,
+        })
+        .then((res) => {
+          if (res.data.status === 'OK') {
+            alert('succed modify userInfo')
+          } else {
+            alert('Falied')
+          }
+        })
+        .catch((err) => {})
+    }
+  }
+
   return (
     <>
       <Papers title="회원관리">
@@ -156,19 +125,86 @@ const UserManaging = () => {
                 }}
               />
               <Searches searchState={(e) => setSearchKey(e)} />
-              <CSVLink data={csv} filename={"user_data.csv"} target="_blank" style={{ textDecoration: "none", color: "#ffffff", padding: "15px", borderRadius: "5px", backgroundColor: "#1A76D2", width: "200px", textAlign: "center" }}>
+              <CSVLink
+                data={csv}
+                filename={'user_data.csv'}
+                target="_blank"
+                style={{
+                  textDecoration: 'none',
+                  color: '#ffffff',
+                  padding: '15px',
+                  borderRadius: '5px',
+                  backgroundColor: '#1A76D2',
+                  width: '200px',
+                  textAlign: 'center',
+                }}
+              >
                 등록
               </CSVLink>
               {/* <ContainedButton subject="EXCEL" /> */}
             </article>
           </div>
-
           <div>
-            <TableDefaultUserManaging
-              listlist={listlist}
-              columns={tableSet}
-              testFields={testField}
-            />
+            <table className="nft-table">
+              <thead className="nft-th">
+                <tr>
+                  <td className="nft-td" rowSpan={2}>
+                    순서
+                  </td>
+                  <td className="nft-td">username</td>
+                  <td className="nft-td">email</td>
+                  <td className="nft-td">nickname</td>
+                  <td className="nft-td">staked</td>
+                  <td className="nft-td">myreferercode</td>
+                  <td className="nft-td">가입일</td>
+                  <td className="nft-td">delinquent</td>
+                  <td className="nft-td">계정활성화</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                {listlist.map((elem: any, idx: number) => (
+                  <tr key={idx}>
+                    <td className="nft-td" rowSpan={1}>
+                      {elem.id}
+                    </td>
+
+                    <td className="nft-td" rowSpan={1}>
+                      {strDot(elem.username, 4, 10)}
+                    </td>
+                    <td className="nft-td">{elem.email}</td>
+                    <td className="nft-td">{elem.nickname}</td>
+                    <td className="nft-td">{elem.isstaked}</td>
+                    <td className="nft-td">{elem.referer}</td>
+                    <td className="nft-td"> {strDot(elem.createdat, 10)}</td>
+                    <td className="nft-td"> {elem.isdelinquent}</td>
+                    <td className="nft-td" rowSpan={1}>
+                      <Toggle
+                        defaultChecked={elem.active === 0 ? false : true}
+                        icons={false}
+                        onChange={(e) => {
+                          setlistlist(
+                            listlist.map((item: any, index: any) =>
+                              idx === index
+                                ? { ...item, active: e.target.checked ? 1 : 0 }
+                                : { ...item },
+                            ),
+                          )
+                        }}
+                      />
+                      <br />
+                      <button
+                        onClick={() => {
+                          onclick_user_active_btn(elem)
+                        }}
+                      >
+                        저장
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           <div
             style={{

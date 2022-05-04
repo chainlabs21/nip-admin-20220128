@@ -498,64 +498,6 @@ const NftManaging = () => {
                       </td>
                     </tr>
                   ))}
-
-                  {/**                   <tr>
-                    <td className="nft-td" rowSpan={1}>
-                      1
-                    </td>
-                    <td className="nft-td" rowSpan={1}>
-                      <img src={eg_image} style={{height:'50px'}} alt="eg_image" />
-                    </td>
-                    <td className="nft-td" rowSpan={1}>
-                      0xb6..2ef0
-                    </td>
-                    <td className="nft-td">NIP</td>
-                    <td className="nft-td">100</td>
-                    <td className="nft-td">3</td>
-                    <td className="nft-td">126</td>
-                    <td className="nft-td">8%</td>
-                    <td className="nft-td">
-                      <input
-                        type="date"                        id="start"
-                        name="trip-start"                        value="2022-02-02"
-                        min="2022-02-02"                        max="2022-03-03"
-                        style={{                          width: '100%',
-                          height: '40px',                          borderRadius: '12px',
-                          border: '1px solid #D9D9D9',                          textAlign: 'center',
-                        }}
-                      />
-                    </td>
-                    <td className="nft-td" rowSpan={2}>											
-											<Toggle
-    defaultChecked={false}
-    disabled={false } icons={false} /><br/><span>On sale</span>
-										</td>
-                  </tr>*/}
-                  {/**                   <tr>
-                    <td className="nft-td">100</td>
-                    <td className="nft-td">100</td>
-                    <td className="nft-td">Stay</td>
-                    <td className="nft-td">136</td>
-                    <td className="nft-td">8%</td>
-                    <td className="nft-td">
-                      <input
-                        type="date"
-                        id="start"
-                        name="trip-start"
-                        value="2022-02-02"
-                        min="2022-02-02"
-                        max="2022-03-03"
-                        style={{
-                          width: '100%',
-                          height: '40px',
-                          borderRadius: '12px',
-                          border: '1px solid #D9D9D9',
-                          textAlign: 'center',
-                        }}
-                      />
-                    </td>
-                    <td className="nft-td">2022-02-02</td>
-                  </tr>*/}
                 </tbody>
               </table>
             </div>

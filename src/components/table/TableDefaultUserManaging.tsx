@@ -4,6 +4,7 @@ import TableHead from '@mui/material/TableHead'
 import { TableCell } from '@mui/material'
 import TableBody from '@mui/material/TableBody'
 import TableRow from '@mui/material/TableRow'
+import Toggle from 'react-toggle'
 
 interface ITableDefault {
   columns: any[]

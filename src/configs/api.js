@@ -2,7 +2,7 @@ const URL = 'https://nftinfinity.world:34825' // nips1.net:34815'
 
 const API = {
   API_TXS_STAKE: URL + '/queries/rows/transactions/typestr/STAKE', // /:offset/:limit/:orderkey/:orderval
-  API_USERS: URL + '/queries/rows/users/active/1', // /:offset/:limit/:orderkey/:orderval
+  API_USERS: URL + '/queries/rows/users/get/0', // /:offset/:limit/:orderkey/:orderval
   API_COMMONITEMS: URL + '/queries/rows',
   API_COUNT: URL + '/queries/count',
   API_BALLOT: URL + '/queries/rows/jsonobject/settings/key_/value_',
@@ -21,6 +21,7 @@ const API = {
   },
   API_POST_BANNER: `${URL}/admin/banner`,
   API_GET_ITEMSTATS: `${URL}/itemstats`,
+  API_SET_ACTIVE_USER: `${URL}/users/user_active`,
 }
 // /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }
