@@ -795,7 +795,7 @@ const ManageAuction = () => {
         />
       </div>
       <Button_Manage_Aution first="시작하기" second="중지하기" />
-      <Papers title="경매관리">
+      <Papers title="스팟성 경매관리">
         <PaperBodyContent fields={fields} />
         <div
           style={{

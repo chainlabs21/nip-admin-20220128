@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import PaperBodyContent from '../../components/paper/PaperBodyContent'
-import { TextField } from '@mui/material'
+import { OutlinedInput, TextField } from '@mui/material'
 import {
   ButtonGroupThird,
   Button_Periodic,
@@ -22,8 +22,44 @@ const ManageAuctionDaily = () => {
   const [selectedCurrentDateDraw, setSelectedCurrentDateDraw] = useState<any>()
   const [selectedCurrentDateClose, setSelectedCurrentDateClose] =
     useState<any>()
-
+  const [ballot_delinquency, setBallot_delinquency] = useState<any>()
+  const [ballot_draw_fraction, setBallot_draw_fraction] = useState<any>()
   let [isloader_00, setisloader_00] = useState(false)
+
+  const onclickSubmitballot_delinquency = () => {
+    if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
+      axios
+        .put(API.API_PUTTIME, {
+          BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('범위 값은 0%에서 100%까지입니다.')
+    }
+  }
+  const onclickSubmitballot_draw_fun_btn = () => {
+    if (ballot_draw_fraction >= 0 && ballot_draw_fraction <= 50) {
+      axios
+        .put(API.API_PUTTIME, {
+          BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('범위 값은 0%에서 50%까지입니다.')
+    }
+  }
 
   const fetchData = async () => {
     axios.get(API.API_BALLOT).then((resp) => {
@@ -36,6 +72,16 @@ const ManageAuctionDaily = () => {
         )
         setSelectedCurrentDateClose(
           moment.unix(respdata.BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS),
+        )
+      }
+    })
+    axios.get(API.API_BALLOT).then((resp) => {
+      let { status, respdata } = resp.data
+      if (status == 'OK') {
+        LOGGER('resp', resp)
+        setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP / 100)
+        setBallot_delinquency(
+          respdata.BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP / 100,
         )
       }
     })
@@ -139,6 +185,129 @@ const ManageAuctionDaily = () => {
           }}
         />
       ),
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>사용자-아이템 할당 비율</article>
+            <article style={{ width: '70%' }}>
+              <OutlinedInput
+                type="number"
+                id="outlined-adornment-weight"
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{ 'aria-label': 'weight' }}
+                placeholder={`현재 설정 비율 : ${ballot_draw_fraction}%`}
+                defaultValue={ballot_draw_fraction}
+                onChange={(e) => {
+                  setBallot_draw_fraction(e.target.value)
+                }}
+                sx={{
+                  width: '450px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                }}
+              />
+              <button
+                style={{
+                  width: '7rem',
+                  marginTop: '2rem',
+                  marginLeft: '5rem',
+                  // marginRight: '2rem',
+                }}
+                onClick={() => {
+                  onclickSubmitballot_draw_fun_btn()
+                }}
+              >
+                저장
+              </button>
+              <article
+                style={{
+                  width: '30%',
+                  marginTop: '0.3rem',
+                  marginLeft: '1rem',
+                }}
+              >
+                범위 값은 0%에서 50%까지입니다.
+              </article>
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => (
+        <hr
+          style={{
+            marginTop: '3rem',
+          }}
+        />
+      ),
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>DELINQUENCY 할인률</article>
+            <article style={{ width: '70%' }}>
+              <OutlinedInput
+                type="number"
+                id="outlined-adornment-weight"
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{ 'aria-label': 'weight' }}
+                placeholder={`현재 설정 비율 : ${ballot_delinquency}%`}
+                defaultValue={ballot_delinquency}
+                onChange={(e) => {
+                  setBallot_delinquency(e.target.value)
+                }}
+                sx={{
+                  width: '450px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                }}
+              />
+              <button
+                style={{
+                  width: '7rem',
+                  marginTop: '2rem',
+                  marginLeft: '5rem',
+                  // marginRight: '2rem',
+                }}
+                onClick={() => {
+                  onclickSubmitballot_delinquency()
+                }}
+              >
+                저장
+              </button>
+              <article
+                style={{
+                  width: '30%',
+                  marginTop: '0.3rem',
+                  marginLeft: 'rem',
+                }}
+              >
+                범위 값은 0%에서 100%까지입니다.
+              </article>
+            </article>
+          </div>
+        )
+      },
     },
   ]
 

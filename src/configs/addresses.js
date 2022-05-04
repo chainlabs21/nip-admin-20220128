@@ -9,6 +9,7 @@ const jaddresses = {
     contract_pay_for_assigned_item:
       '0xaf9764ef97102951f9339d515e4c41099e8fc992',
     payment_for_delinquency: '0x2cdb6d037cc0a9e5480f9071b4a00f20055057a7',
+    contract_ticketnft: '0x6208803CC8FAfdeCEA589666c96d40836daccB46',
   },
   BSC_MAINNET: {
     contract_USDT: '0x55d398326f99059fF775485246999027B3197955', // owner : 0x83f714ad20e34748516e8367faf143abde6c3783
