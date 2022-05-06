@@ -38,6 +38,12 @@ const UserManaging = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [rows, setRows] = useState<any>(10)
   const [searchkey, setSearchKey] = useState<any>('')
+  const [isOpen, setMenu] = useState(false) // 메뉴의 초기값을 false로 설정
+
+  const toggleMenu = () => {
+    setMenu((isOpen) => !isOpen) // on,off 개념 boolean
+  }
+
   const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
     setRows(event.target.value)
   }
@@ -58,9 +64,6 @@ const UserManaging = () => {
         }
       })
   }
-  useEffect(() => {
-    fetchdata()
-  }, [])
 
   useEffect(() => {
     fetchdata()
@@ -71,11 +74,30 @@ const UserManaging = () => {
     if (listlist) {
       axios
         .put(API.API_SET_ACTIVE_USER + `/${elem.username}`, {
-          active: elem.active,
+          active: 1,
         })
         .then((res) => {
           if (res.data.status === 'OK') {
             alert('succed modify userInfo')
+            window.location.reload()
+          } else {
+            alert('Falied')
+          }
+        })
+        .catch((err) => {})
+    }
+  }
+  const onclick_user_unactive_btn = (elem: any) => {
+    console.log('asodijfoasidj', elem)
+    if (listlist) {
+      axios
+        .put(API.API_SET_ACTIVE_USER + `/${elem.username}`, {
+          active: 0,
+        })
+        .then((res) => {
+          if (res.data.status === 'OK') {
+            alert('succed modify userInfo')
+            window.location.reload()
           } else {
             alert('Falied')
           }
@@ -179,26 +201,23 @@ const UserManaging = () => {
                     <td className="nft-td"> {strDot(elem.createdat, 10)}</td>
                     <td className="nft-td"> {elem.isdelinquent}</td>
                     <td className="nft-td" rowSpan={1}>
-                      <Toggle
-                        defaultChecked={elem.active === 0 ? false : true}
-                        icons={false}
-                        onChange={(e) => {
-                          setlistlist(
-                            listlist.map((item: any, index: any) =>
-                              idx === index
-                                ? { ...item, active: e.target.checked ? 1 : 0 }
-                                : { ...item },
-                            ),
-                          )
-                        }}
-                      />
-                      <br />
+                      <td className="nft-td">
+                        {elem.active ? '활성' : '비활성'}
+                      </td>
                       <button
+                        style={{ marginRight: '20px' }}
                         onClick={() => {
                           onclick_user_active_btn(elem)
                         }}
                       >
-                        저장
+                        활성화
+                      </button>
+                      <button
+                        onClick={() => {
+                          onclick_user_unactive_btn(elem)
+                        }}
+                      >
+                        비활성화
                       </button>
                     </td>
                   </tr>

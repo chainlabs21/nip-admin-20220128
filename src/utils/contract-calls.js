@@ -33,6 +33,34 @@ const getabistr_forfunction = (jargs) => {
   return contract.methods[methodname](...aargs).encodeABI()
 }
 // contract.methods.incomingQueue(0).ca ll(); –
+// const query_noarg = (jargs) => {
+//   console.log('jargs', jargs)
+//   let { contractaddress, abikind, methodname } = jargs
+//   let contract
+//   contractaddress = contractaddress.toLowerCase()
+//   let sig = sha256(contractaddress + methodname)
+//   if (jcontracts[sig]) {
+//     contract = jcontracts[sig]
+//   } else {
+//     contract = new web3.eth.Contract(MAP_STR_ABI[abikind], contractaddress)
+//     jcontracts[sig] = contract
+//   }
+//   return new Promise((resolve, reject) => {
+//     contract.methods[methodname]()
+//       .call((err, resp) => {
+//         LOGGER('', err, resp)
+//         if (err) {
+//           resolve(null)
+//           return
+//         }
+//         resolve(resp)
+//       })
+//       .catch((err) => {
+//         resolve(null)
+//       })
+//   })
+// }
+
 const query_noarg = (jargs) => {
   let { contractaddress, abikind, methodname } = jargs
   let contract
@@ -47,9 +75,9 @@ const query_noarg = (jargs) => {
   return new Promise((resolve, reject) => {
     contract.methods[methodname]()
       .call((err, resp) => {
-        LOGGER('', err, resp)
         if (err) {
           resolve(null)
+          console.log(err)
           return
         }
         resolve(resp)
