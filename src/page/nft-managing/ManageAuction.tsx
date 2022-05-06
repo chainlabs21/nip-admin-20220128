@@ -77,42 +77,42 @@ const ManageAuction = () => {
     })
   }
 
-  const contract_fatchData = async () => {
-    try {
-      setisloader_00(true)
-      setisloader_01(true)
-      setisloader_02(true)
-      query_noarg({
-        contractaddress: addresses.contract_stake, // ETH_TESTNET.
-        abikind: 'STAKE',
-        methodname: '_feecollector',
-      }).then((resp) => {
-        LOGGER('stake', resp)
-        setisloader_00(false)
-        setFeecollector_staker(resp)
-      })
-      query_noarg({
-        contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
-        abikind: 'PAY',
-        methodname: '_feecollector',
-      }).then((resp) => {
-        LOGGER('pay', resp)
-        setisloader_01(false)
-        setFeecollector_pay(resp)
-      })
-      query_noarg({
-        contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
-        abikind: 'DELINQUENT',
-        methodname: '_feecollector',
-      }).then((resp) => {
-        LOGGER('delinquent', resp)
-        setisloader_02(false)
-        setFeecollector_delinquent(resp)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const contract_fatchData = async () => {
+  //   try {
+  //     setisloader_00(true)
+  //     setisloader_01(true)
+  //     setisloader_02(true)
+  //     query_noarg({
+  //       contractaddress: addresses.contract_stake, // ETH_TESTNET.
+  //       abikind: 'STAKE',
+  //       methodname: '_feecollector',
+  //     }).then((resp) => {
+  //       LOGGER('stake', resp)
+  //       setisloader_00(false)
+  //       setFeecollector_staker(resp)
+  //     })
+  //     query_noarg({
+  //       contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
+  //       abikind: 'PAY',
+  //       methodname: '_feecollector',
+  //     }).then((resp) => {
+  //       LOGGER('pay', resp)
+  //       setisloader_01(false)
+  //       setFeecollector_pay(resp)
+  //     })
+  //     query_noarg({
+  //       contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
+  //       abikind: 'DELINQUENT',
+  //       methodname: '_feecollector',
+  //     }).then((resp) => {
+  //       LOGGER('delinquent', resp)
+  //       setisloader_02(false)
+  //       setFeecollector_delinquent(resp)
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const onclickSubmitCurrentRoundBtn = () => {
     if (
@@ -204,9 +204,9 @@ const ManageAuction = () => {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    contract_fatchData()
-  }, [])
+  // useEffect(() => {
+  //   contract_fatchData()
+  // }, [])
 
   const onReset = () => {
     window.location.reload()

@@ -133,7 +133,7 @@ const ManageAuctionDaily = () => {
   }
 
   useEffect(() => {
-    contract_fatchData()
+    // contract_fatchData()
   }, [])
 
   const onReset = () => {
@@ -388,8 +388,7 @@ const ManageAuctionDaily = () => {
                 marginRight: '5px',
               }}
               readOnly
-              defaultValue={feecollector_staker}
-              placeholder={feecollector_staker}
+              placeholder="0xdd9938393815bCe3695956CAc73c3123AA1f6b1d"
             />
             <button
               style={{
@@ -438,8 +437,9 @@ const ManageAuctionDaily = () => {
                 marginLeft: '5px',
                 marginRight: '5px',
               }}
-              placeholder={feecollector_pay}
-              defaultValue={feecollector_pay}
+              placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
+              // placeholder={feecollector_pay}
+              // defaultValue={feecollector_pay}
             />
             <button
               style={{
@@ -488,8 +488,9 @@ const ManageAuctionDaily = () => {
                 marginLeft: '5px',
                 marginRight: '5px',
               }}
-              placeholder={feecollector_delinquent}
-              defaultValue={feecollector_delinquent}
+              placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
+              // placeholder={feecollector_delinquent}
+              // defaultValue={feecollector_delinquent}
             />
             <button
               style={{
