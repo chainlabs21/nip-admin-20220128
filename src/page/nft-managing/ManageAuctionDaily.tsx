@@ -12,7 +12,7 @@ import moment from 'moment'
 // or @mui/lab/Adapter{Dayjs,Luxon,Moment} or any valid date-io adapter
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
-import { DateTimePicker } from '@mui/lab'
+import { TimePicker } from '@mui/lab'
 import { LOGGER } from '../../utils/common'
 import { query_noarg } from '../../utils/contract-calls'
 import { addresses } from '../../configs/addresses'
@@ -164,10 +164,12 @@ const ManageAuctionDaily = () => {
                   <td style={thtdStyle}>
                     할당시간 :{' '}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
+                      <TimePicker
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateDraw}
                         onChange={(newValue) => {
+                          console.log('hours', new Date(newValue).getHours())
+                          console.log('minutes', new Date(newValue).getMinutes())
                           setSelectedCurrentDateDraw(newValue)
                         }}
                       />
@@ -182,10 +184,11 @@ const ManageAuctionDaily = () => {
                   <td style={thtdStyle}>
                     마감시각 :{' '}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DateTimePicker
+                      <TimePicker
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateClose}
                         onChange={(newValue) => {
+                          console.log('newValue2', newValue)
                           setSelectedCurrentDateClose(newValue)
                         }}
                       />
@@ -438,8 +441,8 @@ const ManageAuctionDaily = () => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-              // placeholder={feecollector_pay}
-              // defaultValue={feecollector_pay}
+            // placeholder={feecollector_pay}
+            // defaultValue={feecollector_pay}
             />
             <button
               style={{
@@ -489,8 +492,8 @@ const ManageAuctionDaily = () => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-              // placeholder={feecollector_delinquent}
-              // defaultValue={feecollector_delinquent}
+            // placeholder={feecollector_delinquent}
+            // defaultValue={feecollector_delinquent}
             />
             <button
               style={{

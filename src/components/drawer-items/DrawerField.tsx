@@ -56,6 +56,7 @@ const DrawerField: React.FC<IDrawer> = ({
       {open &&
         childItems.map((item: any, index: number) => (
           <Link
+            key={index}
             style={{
               textDecoration: 'none',
             }}
