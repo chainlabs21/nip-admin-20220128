@@ -16,8 +16,9 @@ import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import axios from 'axios'
 import { API } from '../../configs/api'
-import { LOGGER } from '../../utils/common'
+import { LOGGER, strDot } from '../../utils/common'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
+import { net } from '../../configs/net'
 
 const tableSet = [
   {
@@ -46,6 +47,9 @@ const tableSet = [
   },
   {
     field: 'txhash',
+  },
+  {
+    field: 'nettype',
   },
 ]
 
@@ -93,7 +97,7 @@ const MatchingStatus = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_LOGSALES + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_LOGSALES + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -105,14 +109,15 @@ const MatchingStatus = () => {
           let list = list_raw.map((elem: any, index: any) => {
             return [
               { field: elem['id'] },
-              { field: elem['createdat']?.split('T')[0] },
-              { field: elem['username'] },
+              { field: strDot(elem['createdat'], 10) },
+              { field: strDot(elem['username'], 2, 23) },
               { field: elem['itemid'] },
               { field: elem['amount'] },
               { field: elem['currency'] },
               { field: elem['statusstr'] },
               { field: elem['roundnumber'] },
               { field: elem['txhash'] },
+              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)
@@ -138,7 +143,7 @@ const MatchingStatus = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                <Tab label="결제완료(신규)" value="1" />
+                <Tab label="결제완료" value="1" />
               </TabList>
             </Box>
 

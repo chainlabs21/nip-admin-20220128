@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import axios from 'axios'
 import { API } from '../../../configs/api'
+import { net } from '../../../configs/net'
 
 interface ButtonTitles {
   first: string
@@ -71,47 +72,25 @@ export const Button_Manage_Aution: React.FC<ButtonTitles> = ({
 }) => {
   const onclickPutStartBtn = () => {
     axios
-      .put(API.API_PUTSTATE + '/START', {
+      .put(API.API_PUTSTATE + `/START?nettype=${net}`, {
         BALLOT_ACTIVE: 'START',
       })
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
-          axios
-            .post(API.API_MQ, {
-              BALLOT_ACTIVE: 'START',
-            })
-            .then((resp) => {
-              let { status, respdata } = resp.data
-              if (status == 'OK') {
-                console.log('mqSTART')
-                console.log(resp)
-                window.location.reload()
-              }
-            })
+          window.location.reload()
         }
       })
   }
   const onclickPutStopBtn = () => {
     axios
-      .put(API.API_PUTSTATE + '/PAUSE', {
+      .put(API.API_PUTSTATE + `/PAUSE?nettype=${net}`, {
         BALLOT_ACTIVE: 'PAUSE',
       })
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
-          axios
-            .post(API.API_MQ, {
-              BALLOT_ACTIVE: 'PAUSE',
-            })
-            .then((resp) => {
-              let { status, respdata } = resp.data
-              if (status == 'OK') {
-                console.log('mqPUASE')
-                console.log(resp)
-                window.location.reload()
-              }
-            })
+          window.location.reload()
         }
       })
   }
@@ -139,7 +118,7 @@ export const Button_Manage_Aution: React.FC<ButtonTitles> = ({
 export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
   const onclick_Periodic_StartBtn = () => {
     axios
-      .put(API.API_PUTSTATE + '/PERIODIC_START', {
+      .put(API.API_PUTSTATE + `/PERIODIC_START?nettype=${net}`, {
         BALLOT_PERIODIC_ACTIVE: '1',
       })
       .then((resp) => {
@@ -162,7 +141,7 @@ export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
   }
   const onclick_Periodic_Pause_Btn = () => {
     axios
-      .put(API.API_PUTSTATE + '/PERIODIC_PAUSE', {
+      .put(API.API_PUTSTATE + `/PERIODIC_START?nettype=${net}`, {
         BALLOT_PERIODIC_ACTIVE: '0',
       })
       .then((resp) => {

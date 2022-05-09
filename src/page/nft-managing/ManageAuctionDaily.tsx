@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Papers from '../../components/paper/Papers'
 import PaperBodyContent from '../../components/paper/PaperBodyContent'
-import { CircularProgress, OutlinedInput, TextField } from '@mui/material'
+import {
+  CircularProgress,
+  FormControlLabel,
+  FormGroup,
+  OutlinedInput,
+  Switch,
+  TextField,
+} from '@mui/material'
 import {
   ButtonGroupThird,
   Button_Periodic,
@@ -16,8 +23,9 @@ import { TimePicker } from '@mui/lab'
 import { LOGGER } from '../../utils/common'
 import { query_noarg } from '../../utils/contract-calls'
 import { addresses } from '../../configs/addresses'
+import { net } from '../../configs/net'
 
-const ManageAuctionDaily = () => {
+const ManageAuctionDaily = (props: any) => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
   const [selectedCurrentDateDraw, setSelectedCurrentDateDraw] = useState<any>()
   const [selectedCurrentDateClose, setSelectedCurrentDateClose] =
@@ -27,6 +35,12 @@ const ManageAuctionDaily = () => {
   const [feecollector_staker, setFeecollector_staker] = useState<any>()
   const [feecollector_pay, setFeecollector_pay] = useState<any>()
   const [feecollector_delinquent, setFeecollector_delinquent] = useState<any>()
+  const [checked, setChecked] = useState<any>(
+    getBALLOT?.BALLOT_PERIODIC_DRAW_ACTIVE === '1' ? true : false,
+  )
+  const [checkedPay, setCheckedPay] = useState<any>(
+    getBALLOT?.BALLOT_PERIODIC_PAYMENTDUE_ACTIVE === '1' ? true : false,
+  )
   let [isloader_00, setisloader_00] = useState(false)
   let [isloader_01, setisloader_01] = useState(false)
   let [isloader_02, setisloader_02] = useState(false)
@@ -34,7 +48,7 @@ const ManageAuctionDaily = () => {
   const onclickSubmitballot_delinquency = () => {
     if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `/?nettype=${net}`, {
           BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
         })
         .then((resp) => {
@@ -51,7 +65,7 @@ const ManageAuctionDaily = () => {
   const onclickSubmitballot_draw_fun_btn = () => {
     if (ballot_draw_fraction >= 0 && ballot_draw_fraction <= 50) {
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `/?nettype=${net}`, {
           BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
         })
         .then((resp) => {
@@ -67,10 +81,10 @@ const ManageAuctionDaily = () => {
   }
 
   const fetchData = async () => {
-    axios.get(API.API_BALLOT).then((resp) => {
+    axios.get(API.API_BALLOT + `/?nettype=${net}`).then((resp) => {
       let { status, respdata } = resp.data
       if (status == 'OK') {
-        LOGGER('resp', resp)
+        LOGGER('resp1', resp)
         setGetBALLOT(respdata)
         setSelectedCurrentDateDraw(
           moment.unix(respdata.BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS),
@@ -78,13 +92,12 @@ const ManageAuctionDaily = () => {
         setSelectedCurrentDateClose(
           moment.unix(respdata.BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS),
         )
-      }
-    })
-    axios.get(API.API_BALLOT).then((resp) => {
-      let { status, respdata } = resp.data
-      if (status == 'OK') {
-        LOGGER('resp', resp)
+        setChecked(respdata.BALLOT_PERIODIC_DRAW_ACTIVE === '1' ? true : false)
+        setCheckedPay(
+          respdata.BALLOT_PERIODIC_PAYMENTDUE_ACTIVE === '1' ? true : false,
+        )
         setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP / 100)
+
         setBallot_delinquency(
           respdata.BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP / 100,
         )
@@ -95,42 +108,42 @@ const ManageAuctionDaily = () => {
     fetchData()
   }, [])
 
-  const contract_fatchData = async () => {
-    try {
-      setisloader_00(true)
-      setisloader_01(true)
-      setisloader_02(true)
-      query_noarg({
-        contractaddress: addresses.contract_stake, // ETH_TESTNET.
-        abikind: 'STAKE',
-        methodname: '_feecollector',
-      }).then((resp) => {
-        LOGGER('stake', resp)
-        setisloader_00(false)
-        setFeecollector_staker(resp)
-      })
-      query_noarg({
-        contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
-        abikind: 'PAY',
-        methodname: '_feecollector',
-      }).then((resp) => {
-        LOGGER('pay', resp)
-        setisloader_01(false)
-        setFeecollector_pay(resp)
-      })
-      query_noarg({
-        contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
-        abikind: 'DELINQUENT',
-        methodname: '_feecollector',
-      }).then((resp) => {
-        LOGGER('delinquent', resp)
-        setisloader_02(false)
-        setFeecollector_delinquent(resp)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const contract_fatchData = async () => {
+  //   try {
+  //     setisloader_00(true)
+  //     setisloader_01(true)
+  //     setisloader_02(true)
+  //     query_noarg({
+  //       contractaddress: addresses.contract_stake, // ETH_TESTNET.
+  //       abikind: 'STAKE',
+  //       methodname: '_feecollector',
+  //     }).then((resp) => {
+  //       LOGGER('stake', resp)
+  //       setisloader_00(false)
+  //       setFeecollector_staker(resp)
+  //     })
+  //     query_noarg({
+  //       contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
+  //       abikind: 'PAY',
+  //       methodname: '_feecollector',
+  //     }).then((resp) => {
+  //       LOGGER('pay', resp)
+  //       setisloader_01(false)
+  //       setFeecollector_pay(resp)
+  //     })
+  //     query_noarg({
+  //       contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
+  //       abikind: 'DELINQUENT',
+  //       methodname: '_feecollector',
+  //     }).then((resp) => {
+  //       LOGGER('delinquent', resp)
+  //       setisloader_02(false)
+  //       setFeecollector_delinquent(resp)
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   useEffect(() => {
     // contract_fatchData()
@@ -169,7 +182,10 @@ const ManageAuctionDaily = () => {
                         value={selectedCurrentDateDraw}
                         onChange={(newValue) => {
                           console.log('hours', new Date(newValue).getHours())
-                          console.log('minutes', new Date(newValue).getMinutes())
+                          console.log(
+                            'minutes',
+                            new Date(newValue).getMinutes(),
+                          )
                           setSelectedCurrentDateDraw(newValue)
                         }}
                       />
@@ -441,8 +457,8 @@ const ManageAuctionDaily = () => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-            // placeholder={feecollector_pay}
-            // defaultValue={feecollector_pay}
+              // placeholder={feecollector_pay}
+              // defaultValue={feecollector_pay}
             />
             <button
               style={{
@@ -492,8 +508,8 @@ const ManageAuctionDaily = () => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-            // placeholder={feecollector_delinquent}
-            // defaultValue={feecollector_delinquent}
+              // placeholder={feecollector_delinquent}
+              // defaultValue={feecollector_delinquent}
             />
             <button
               style={{
@@ -518,12 +534,11 @@ const ManageAuctionDaily = () => {
       },
     },
   ]
-
   const onclickSubmitCurrentRoundBtn = () => {
     if (selectedCurrentDateDraw < selectedCurrentDateClose) {
       setisloader_00(true)
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
             selectedCurrentDateDraw,
           ).unix(),
@@ -543,6 +558,77 @@ const ManageAuctionDaily = () => {
     }
   }
 
+  const onclick_put_BALLOT_PERIODIC_DRAW_ACTIVE_btn = (e: any) => {
+    console.log('asdoijasdo', e.target.checked)
+    if (e.target.checked) {
+      axios
+        .put(API.API_PUTSTATE + `/BALLOT_PERIODIC_DRAW_ACTIVE?nettype=${net}`, {
+          BALLOT_PERIODIC_DRAW_ACTIVE: '1',
+        })
+        .then((resp) => {
+          console.log('asdioajosd', resp)
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else if (!e.target.checked) {
+      axios
+        .put(API.API_PUTSTATE + `/BALLOT_PERIODIC_DRAW_ACTIVE?nettype=${net}`, {
+          BALLOT_PERIODIC_DRAW_ACTIVE: '0',
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    }
+  }
+  const onclick_put_BALLOT_PERIODIC_PAYMENTDUE_ACTIVE_btn = (e: any) => {
+    if (e.target.checked) {
+      axios
+        .put(
+          API.API_PUTSTATE +
+            `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
+          {
+            BALLOT_PERIODIC_PAYMENTDUE_ACTIVE: '1',
+          },
+        )
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else if (!e.target.checked) {
+      axios
+        .put(
+          API.API_PUTSTATE +
+            `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
+          {
+            BALLOT_PERIODIC_PAYMENTDUE_ACTIVE: '0',
+          },
+        )
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    }
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked)
+  }
+  const handleChangePay = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedPay(event.target.checked)
+  }
   return (
     <>
       <div style={{ display: 'flex', marginLeft: '40px' }}>
@@ -554,7 +640,28 @@ const ManageAuctionDaily = () => {
         <ButtonGroupThird
           first={`Round : ${getBALLOT?.BALLOT_PERIODIC_ROUNDNUMBER}`}
         />
+        <div>
+          <Switch
+            checked={checked}
+            onChange={handleChange}
+            onClick={(e) => {
+              onclick_put_BALLOT_PERIODIC_DRAW_ACTIVE_btn(e)
+            }}
+          />
+          <p style={{ fontSize: '20px' }}>PERIODIC_ACTIVE</p>
+        </div>
+        <div style={{ marginLeft: '30px' }}>
+          <Switch
+            checked={checkedPay}
+            onChange={handleChangePay}
+            onClick={(e) => {
+              onclick_put_BALLOT_PERIODIC_PAYMENTDUE_ACTIVE_btn(e)
+            }}
+          />
+          <p style={{ fontSize: '20px' }}>PERIODIC_PAYMENTDUE_ACTIVE</p>
+        </div>
       </div>
+
       <Button_Periodic first="시작하기" second="중지하기" />
       <Papers title="일단위 주기적 라운드 관리">
         <PaperBodyContent fields={fields} />

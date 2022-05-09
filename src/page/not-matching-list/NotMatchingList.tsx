@@ -15,9 +15,10 @@ import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import axios from 'axios'
-import { getmyaddress, LOGGER } from '../../utils/common'
+import { getmyaddress, LOGGER, strDot } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
+import { net } from '../../configs/net'
 
 const tableSet = [
   {
@@ -27,10 +28,16 @@ const tableSet = [
     field: 'createdat',
   },
   {
+    field: 'updatedat',
+  },
+  {
     field: 'username',
   },
   {
     field: 'itemid',
+  },
+  {
+    field: 'seller',
   },
   {
     field: 'amount',
@@ -39,13 +46,19 @@ const tableSet = [
     field: 'currency',
   },
   {
+    field: 'currencyaddress',
+  },
+  {
     field: 'statusstr',
   },
   {
     field: 'roundnumber',
   },
   {
-    field: 'duetimeunix',
+    field: 'duetime',
+  },
+  {
+    field: 'nettype',
   },
 ]
 
@@ -97,7 +110,7 @@ const NotMatchingList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_DELINQUENCIES + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_DELINQUENCIES + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -111,13 +124,17 @@ const NotMatchingList = () => {
             return [
               { field: elem['id'] },
               { field: elem['createdat']?.split('T')[0] },
-              { field: elem['username'] },
+              { field: elem['updatedat']?.split('T')[0] },
+              { field: strDot(elem['username'], 2, 23) },
               { field: elem['itemid'] },
+              { field: strDot(elem['seller'], 2, 23) },
               { field: elem['amount'] },
               { field: elem['currency'] },
+              { field: strDot(elem['currencyaddress'], 2, 23) },
               { field: elem['statusstr'] },
               { field: elem['roundnumber'] },
-              { field: elem['duetimeunix'] },
+              { field: elem['duetime']?.split('T')[0] },
+              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)
@@ -140,7 +157,7 @@ const NotMatchingList = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                <Tab label="연체(신규)" value="1" />
+                <Tab label="연체" value="1" />
               </TabList>
             </Box>
 

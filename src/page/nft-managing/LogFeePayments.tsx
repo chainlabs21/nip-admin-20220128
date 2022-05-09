@@ -29,10 +29,9 @@ const tableSet = [
   { field: '계정활성화' },
 ]
 
-const UserManaging = () => {
+const LogFeePayments = () => {
   //	let [ testField , settestField ]=useState( [] )
   let [listlist, setlistlist] = useState<any>([])
-  let [listlistUser, setlistlistUser] = useState<any>([])
   const [csv, setCsv] = useState([])
   const [value, setValue] = useState<DateRange<Date>>([null, null])
   const [count, setCount] = useState(0)
@@ -52,9 +51,12 @@ const UserManaging = () => {
 
   const fetchdata = async () => {
     axios
-      .get(API.API_GET_BALLOT + `/${net}/${page * rows}/${rows}/id/DESC`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
+      .get(
+        API.API_GET_LOG_FEEPAYMENTS + `/${net}/${page * rows}/${rows}/id/DESC`,
+        {
+          params: { date0: value[0], date1: value[1], searchkey },
+        },
+      )
       .then((resp) => {
         LOGGER('resp', resp.data)
         setCount(resp.data.payload.count as number)
@@ -65,66 +67,15 @@ const UserManaging = () => {
           setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
-    axios
-      .get(API.API_USERS + `/${net}/${page * rows}/${rows}/id/DESC`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
-      .then((resp) => {
-        LOGGER('respasdasdas', resp.data)
-        setCount(resp.data.payload.count as number)
-        let { status, list: list_raw } = resp.data
-        if (status == 'OK') {
-          //		settestField ( list )
-          setlistlistUser(resp.data.list)
-          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
-        }
-      })
   }
 
   useEffect(() => {
     fetchdata()
   }, [page, rows, value, searchkey])
 
-  const onclick_user_active_btn = (elem: any) => {
-    console.log('asodijfoasidj', elem)
-    if (listlist) {
-      axios
-        .put(API.API_SET_ACTIVE_USER + `/${elem.username}?nettype=${net}`, {
-          active: 1,
-        })
-        .then((res) => {
-          if (res.data.status === 'OK') {
-            alert('succed modify userInfo')
-            window.location.reload()
-          } else {
-            alert('Falied')
-          }
-        })
-        .catch((err) => {})
-    }
-  }
-  const onclick_user_unactive_btn = (elem: any) => {
-    console.log('asodijfoasidj', elem)
-    if (listlist) {
-      axios
-        .put(API.API_SET_ACTIVE_USER + `/${elem.username}?nettype=${net}`, {
-          active: 0,
-        })
-        .then((res) => {
-          if (res.data.status === 'OK') {
-            alert('succed modify userInfo')
-            window.location.reload()
-          } else {
-            alert('Falied')
-          }
-        })
-        .catch((err) => {})
-    }
-  }
-
   return (
     <>
-      <Papers title="회원관리">
+      <Papers title="추천인 수당 지급내역">
         <section
           style={{
             padding: '1rem',
@@ -189,63 +140,45 @@ const UserManaging = () => {
                   <td className="nft-td" rowSpan={2}>
                     순서
                   </td>
+                  <td className="nft-td">createdat</td>
                   <td className="nft-td">username</td>
-                  <td className="nft-td">email</td>
-                  <td className="nft-td">nickname</td>
-                  <td className="nft-td">staked</td>
-                  <td className="nft-td">myreferercode</td>
-                  <td className="nft-td">가입일</td>
-                  <td className="nft-td">delinquent</td>
+                  <td className="nft-td">txhash</td>
+                  <td className="nft-td">amount</td>
+                  <td className="nft-td">amountfloat</td>
+                  <td className="nft-td">paymeansname</td>
+                  <td className="nft-td">paymeansaddress</td>
+                  <td className="nft-td">buyer</td>
+                  <td className="nft-td">seller</td>
+                  <td className="nft-td">feerate</td>
                   <td className="nft-td">nettype</td>
-                  <td className="nft-td">계정활성화</td>
                 </tr>
               </thead>
 
               <tbody>
-                {listlist &&
-                  listlistUser.map((item: any, i: any) =>
-                    listlist.map((elem: any, idx: number) => (
-                      <tr key={idx}>
-                        <td className="nft-td" rowSpan={1}>
-                          {elem.id}
-                        </td>
-
-                        <td className="nft-td" rowSpan={1}>
-                          {elem.username}
-                        </td>
-                        <td className="nft-td">{item.email}</td>
-                        <td className="nft-td">{item.nickname}</td>
-                        <td className="nft-td">{elem.isstaked}</td>
-                        <td className="nft-td">{item.referer}</td>
-                        <td className="nft-td">
-                          {' '}
-                          {strDot(elem.createdat, 10)}
-                        </td>
-                        <td className="nft-td"> {item.isdelinquent}</td>
-                        <td className="nft-td"> {elem.nettype}</td>
-                        <td className="nft-td" rowSpan={1}>
-                          <td className="nft-td">
-                            {elem.active ? '활성' : '비활성'}
-                          </td>
-                          <button
-                            style={{ marginRight: '20px' }}
-                            onClick={() => {
-                              onclick_user_active_btn(elem)
-                            }}
-                          >
-                            활성화
-                          </button>
-                          <button
-                            onClick={() => {
-                              onclick_user_unactive_btn(elem)
-                            }}
-                          >
-                            비활성화
-                          </button>
-                        </td>
-                      </tr>
-                    )),
-                  )}
+                {listlist.map((elem: any, idx: number) => (
+                  <tr key={idx}>
+                    <td className="nft-td" rowSpan={1}>
+                      {elem.id}
+                    </td>
+                    <td className="nft-td" rowSpan={1}>
+                      {elem.createdat?.split('T')[0]}
+                    </td>
+                    <td className="nft-td" rowSpan={1}>
+                      {strDot(elem.username, 4, 10)}
+                    </td>
+                    <td className="nft-td" rowSpan={1}>
+                      {strDot(elem.txhash, 4, 10)}
+                    </td>
+                    <td className="nft-td">{elem.amount}</td>
+                    <td className="nft-td">{elem.amountfloat}</td>
+                    <td className="nft-td">{elem.paymeansname}</td>
+                    <td className="nft-td">{elem.paymeansaddress}</td>
+                    <td className="nft-td"> {elem.buyer}</td>
+                    <td className="nft-td"> {elem.seller}</td>
+                    <td className="nft-td"> {elem.feerate / 100}%</td>
+                    <td className="nft-td"> {elem.nettype}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -275,4 +208,4 @@ const UserManaging = () => {
   )
 }
 
-export default UserManaging
+export default LogFeePayments

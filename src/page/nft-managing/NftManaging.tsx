@@ -16,6 +16,7 @@ import 'react-toggle/style.css'
 import { API } from '../../configs/api'
 import { LOGGER } from '../../utils/common'
 import axios from 'axios'
+import { net } from '../../configs/net'
 
 const NftManaging = () => {
   let [list, setlist] = useState([])
@@ -429,75 +430,74 @@ const NftManaging = () => {
                     <td className="nft-td">유통상태</td>
                     <td className="nft-td">입찰 참여 시작일</td>
                     <td className="nft-td">생성일</td>
+                    <td className="nft-td">NET_TYPE</td>
                   </tr>
-                  {/**                   <tr>
-                    <td className="nft-td">스테이킹 지급 일수</td>
-                    <td className="nft-td">스테이킹 지급 토큰</td>
-                    <td className="nft-td">상태</td>
-                    <td className="nft-td">거래 가격</td>
-                    <td className="nft-td">설정된 수익률</td>
-                    <td className="nft-td">입찰 참여 종료일</td>
-                    <td className="nft-td">다음 매칭</td>
-                  </tr>*/}
                 </thead>
 
                 <tbody>
-                  {list.map((elem: any, idx: number) => (
-                    <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
-                      <td className="nft-td" rowSpan={1}>
-                        <img
-                          src={elem.url}
-                          style={{ height: '50px' }}
-                          alt="eg_image"
-                        />
-                      </td>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.titlename}
-                      </td>
-                      <td className="nft-td"> {elem.group_} </td>
-                      <td className="nft-td">100</td>
-                      <td className="nft-td">3</td>
-                      <td className="nft-td">126</td>
-                      <td className="nft-td">
-                        {elem.salesstatusstr === 'on_reserve'
-                          ? '예약'
-                          : elem.salesstatusstr === 'assigned'
-                          ? '할당'
-                          : elem.salesstatusstr === 'user_owned'
-                          ? '유저소유'
-                          : ''}
-                      </td>
-                      <td className="nft-td">
-                        <input
-                          type="date"
-                          id="start"
-                          name="trip-start"
-                          value="2022-02-02"
-                          min="2022-02-02"
-                          max="2022-03-03"
-                          style={{
-                            width: '100%',
-                            height: '40px',
-                            borderRadius: '12px',
-                            border: '1px solid #D9D9D9',
-                            textAlign: 'center',
-                          }}
-                        />
-                      </td>
-                      <td className="nft-td" rowSpan={1}>
-                        <Toggle
-                          defaultChecked={false}
-                          disabled={false}
-                          icons={false}
-                        />
-                        <br />
-                        <span>On sale</span>
-                      </td>
-                    </tr>
-                  ))}
+                  {list.map((elem: any, idx: number) => {
+                    return (
+                      <tr key={idx}>
+                        <td className="nft-td" rowSpan={1}>
+                          {elem.id}
+                        </td>
+                        <td className="nft-td" rowSpan={1}>
+                          <img
+                            src={elem.url}
+                            style={{ height: '50px' }}
+                            alt="eg_image"
+                          />
+                        </td>
+                        <td className="nft-td" rowSpan={1}>
+                          {elem.titlename}
+                        </td>
+                        <td className="nft-td"> {elem.group_} </td>
+                        <td className="nft-td">100</td>
+                        <td className="nft-td">3</td>
+                        <td className="nft-td">126</td>
+                        <td className="nft-td">
+                          {elem.salesstatusstr === 'on_reserve'
+                            ? '예약'
+                            : elem.salesstatusstr === 'assigned'
+                            ? '할당'
+                            : elem.salesstatusstr === 'user_owned'
+                            ? '유저소유'
+                            : ''}
+                        </td>
+                        <td className="nft-td">
+                          <input
+                            type="date"
+                            id="start"
+                            name="trip-start"
+                            value="2022-02-02"
+                            min="2022-02-02"
+                            max="2022-03-03"
+                            style={{
+                              width: '100%',
+                              height: '40px',
+                              borderRadius: '12px',
+                              border: '1px solid #D9D9D9',
+                              textAlign: 'center',
+                            }}
+                          />
+                        </td>
+                        <td className="nft-td" rowSpan={1}>
+                          <Toggle
+                            defaultChecked={false}
+                            disabled={false}
+                            icons={false}
+                          />
+                          <br />
+                          <span>On sale</span>
+                        </td>
+                        <td className="nft-td">
+                          {net && net === 'ETH_TESTNET'
+                            ? 'ETH_TESTNET'
+                            : 'BSC_MAINNET'}
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>

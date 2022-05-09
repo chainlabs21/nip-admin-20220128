@@ -9,10 +9,11 @@ import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import axios from 'axios'
-import { getmyaddress, LOGGER } from '../../utils/common'
+import { getmyaddress, LOGGER, strDot } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import { Select, MenuItem } from '@mui/material'
+import { net } from '../../configs/net'
 const tableSet = [
   {
     field: 'id',
@@ -40,6 +41,9 @@ const tableSet = [
   },
   {
     field: 'duetime',
+  },
+  {
+    field: 'nettype',
   },
 ]
 
@@ -87,7 +91,7 @@ const AuctionList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_RECEIVABLES + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_RECEIVABLES + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -100,14 +104,15 @@ const AuctionList = () => {
           let list = list_raw.map((elem: any, index: any) => {
             return [
               { field: elem['id'] },
-              { field: elem['createdat']?.split('T')[0] },
-              { field: elem['username'] },
+              { field: strDot(elem['createdat'], 10) },
+              { field: strDot(elem['username'], 2, 23) },
               { field: elem['itemid'] },
               { field: elem['amount'] },
               { field: elem['statusstr'] },
               { field: elem['roundnumber'] },
               { field: elem['duetimeunix'] },
-              { field: elem['duetime']?.split('T')[0] },
+              { field: strDot(elem['duetime'], 10) },
+              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)
@@ -133,7 +138,7 @@ const AuctionList = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                <Tab label="결제대기(신규)" value="1" />
+                <Tab label="결제대기" value="1" />
               </TabList>
             </Box>
 

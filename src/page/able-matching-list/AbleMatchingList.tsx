@@ -9,10 +9,11 @@ import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import axios from 'axios'
-import { LOGGER } from '../../utils/common'
+import { LOGGER, strDot } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import { Select, MenuItem } from '@mui/material'
+import { net } from '../../configs/net'
 
 const tableSet = [
   {
@@ -34,10 +35,16 @@ const tableSet = [
     field: 'currency',
   },
   {
+    field: 'currencyaddress',
+  },
+  {
     field: 'statusstr',
   },
   {
     field: 'txhash',
+  },
+  {
+    field: 'nettype',
   },
 ]
 
@@ -85,7 +92,7 @@ const AbleMatchingList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_LOGDELINQUENTS + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_LOGDELINQUENTS + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -99,12 +106,14 @@ const AbleMatchingList = () => {
             return [
               { field: elem['id'] },
               { field: elem['createdat']?.split('T')[0] },
-              { field: elem['username'] },
+              { field: strDot(elem['username'], 2, 23) },
               { field: elem['itemid'] },
               { field: elem['amount'] },
               { field: elem['currency'] },
+              { field: elem['currencyaddress'] },
               { field: elem['statusstr'] },
               { field: elem['txhash'] },
+              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)
@@ -131,7 +140,7 @@ const AbleMatchingList = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                <Tab label="연체 해소(신규)" value="1" />
+                <Tab label="연체 해소" value="1" />
               </TabList>
             </Box>
 

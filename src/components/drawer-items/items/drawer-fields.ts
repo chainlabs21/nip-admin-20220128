@@ -74,7 +74,7 @@ export const drawerFields = [
     title: '추천인',
     icon: referrals_icon,
     arrow: down_arrow_icon,
-    child: [{ title: '지급내역', params: 'payment-details' }],
+    child: [{ title: '추천인 수당 지급내역', params: 'logfeepayments' }],
   },
   {
     title: '페이지 설정',

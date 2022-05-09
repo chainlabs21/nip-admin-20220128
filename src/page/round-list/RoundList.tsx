@@ -15,6 +15,7 @@ import TableDefaultUserManaging from '../../components/table/TableDefaultUserMan
 import moment from 'moment'
 import { Select, MenuItem } from '@mui/material'
 import { SelectChangeEvent } from '@mui/material'
+import { net } from '../../configs/net'
 
 const tableSet = [
   {
@@ -22,6 +23,9 @@ const tableSet = [
   },
   {
     field: 'createdat',
+  },
+  {
+    field: 'updatedat',
   },
 
   {
@@ -67,7 +71,7 @@ const tableSet = [
     field: 'totalitemsonreserve',
   },
   {
-    field: 'updatedat',
+    field: 'nettype',
   },
 ]
 
@@ -115,7 +119,7 @@ const RoundList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_LOGROUNDS + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_LOGROUNDS + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -130,6 +134,7 @@ const RoundList = () => {
             return [
               { field: elem['id'] },
               { field: elem['createdat']?.split('T')[0] },
+              { field: elem['updatedat']?.split('T')[0] },
               { field: elem['drawtime'] },
               { field: elem['roundnumber'] },
               { field: elem['countballotsactive'] },
@@ -150,9 +155,11 @@ const RoundList = () => {
               {
                 field: elem['totalitemsinpossession']
                   ? elem['totalitemsinpossession']
-                  : 'null',
+                  : 0,
               },
-              { field: elem['updatedat']?.split('T')[0] },
+              {
+                field: elem['nettype'],
+              },
             ]
           })
           LOGGER('', list)
@@ -178,7 +185,7 @@ const RoundList = () => {
                 onChange={handleChange}
                 aria-label="lab API tabs example"
               >
-                <Tab label="라운드이력(신규)" value="1" />
+                <Tab label="라운드이력" value="1" />
               </TabList>
             </Box>
 
@@ -244,6 +251,8 @@ const RoundList = () => {
                       setPage(v - 1)
                     }}
                     count={totalPages}
+                    showFirstButton
+                    showLastButton
                   />
                 ) : (
                   ''

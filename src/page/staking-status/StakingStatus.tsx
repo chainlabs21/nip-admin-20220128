@@ -13,36 +13,37 @@ import { SelectChangeEvent } from '@mui/material'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
-import { API } from '../../configs/api';
+import { API } from '../../configs/api'
 import axios from 'axios'
-import { strDot } from '../../utils/common';
-import { CSVLink } from "react-csv";
+import { strDot } from '../../utils/common'
+import { CSVLink } from 'react-csv'
+import { net } from '../../configs/net'
 
 const LOGGER = console.log
 const tableSet = [
-  { field: 'id', }, // 0
-  { field: 'createdat', }, // 1
-  { field: 'amount', }, // 2
+  { field: 'id' }, // 0
+  { field: 'createdat' }, // 1
+  { field: 'amount' }, // 2
   { field: 'username' },
-  { field: 'currency', }, // 3
-  { field: 'currency-addr', }, // 4
-  { field: 'status', }, // 5
+  { field: 'currency' }, // 3
+  { field: 'currency-addr' }, // 4
+  { field: 'status' }, // 5
   { field: 'txhash' },
-  { field: 'net' }
+  { field: 'netType' },
   //  {    field: 'Roi',  },
   //{    field: '스테이킹 시작일',  },
   //  {    field: '스테이킹 마감일',  },
 ]
 const testField = [
-  { field: '1', },
-  { field: 'Moong #11', },
-  { field: 'soejf@gmail.com', },
-  { field: '0xb6...2ef0', },
-  { field: '100일', },
-  { field: '100 USDT', },
-  { field: '30%', },
-  { field: '2022-02-02', },
-  { field: '2022-02-02', },
+  { field: '1' },
+  { field: 'Moong #11' },
+  { field: 'soejf@gmail.com' },
+  { field: '0xb6...2ef0' },
+  { field: '100일' },
+  { field: '100 USDT' },
+  { field: '30%' },
+  { field: '2022-02-02' },
+  { field: '2022-02-02' },
 ]
 const StakingStatus = () => {
   const [count, setCount] = useState(0)
@@ -53,8 +54,8 @@ const StakingStatus = () => {
   const [value, setValue] = React.useState('1')
   //	let [ test Field , settes tField ]= useState ( [] )
   let [listlist, setlistlist] = useState([])
-  const [csv, setCsv] = useState([]);
-  const [searchkey, setSearchKey] = useState<String>('');
+  const [csv, setCsv] = useState([])
+  const [searchkey, setSearchKey] = useState<String>('')
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
@@ -62,24 +63,27 @@ const StakingStatus = () => {
     setRows(event.target.value)
   }
   const fetchdata = async () => {
-    let url = API.API_TXS_STAKE + `/0/10/id/DESC`
-    let resp = await axios.get(`${API.API_TXS_STAKE}/${page * rows}/${rows}/id/DESC`, { params: { date0: datevalue[0], date1: datevalue[1], searchkey } })
-    LOGGER('', url, resp.data)
+    let resp = await axios.get(
+      `${API.API_TXS_STAKE}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+    )
+    LOGGER('', resp.data)
 
     let { status, list: list_raw } = resp.data
-    if (status == 'OK') { //				settest Field ( list )
+    if (status == 'OK') {
+      //				settest Field ( list )
       setCount(resp.data.payload.count as number)
       setTotalPages(resp.data.payload.count / rows)
       let list = list_raw.map((elem: any) => {
-        return [{ field: elem['id'] } // 0
-          , { field: elem['createdat']?.split('.')[0] } // 1
-          , { field: elem['amount'] } // 2
-          , { field: strDot(elem['username'], 20, 0) }
-          , { field: elem['currency'] } // 3 
-          , { field: strDot(elem['currencyaddress'], 8, 0) } // 4
-          , { field: elem['status'] == 1 ? 'Ok' : 'Err' } // 5
-          , { field: strDot(elem['txhash'], 20, 0) } // 6
-          , { field: elem['nettype'] } // 7
+        return [
+          { field: elem['id'] }, // 0
+          { field: elem['createdat']?.split('T')[0] }, // 1
+          { field: elem['amount'] }, // 2
+          { field: strDot(elem['username'], 20, 0) },
+          { field: elem['currency'] }, // 3
+          { field: strDot(elem['currencyaddress'], 8, 0) }, // 4
+          { field: elem['status'] == 1 ? 'Ok' : 'Err' }, // 5
+          { field: strDot(elem['txhash'], 20, 0) }, // 6
+          { field: elem['nettype'] }, // 7
         ]
       })
 
@@ -99,18 +103,16 @@ const StakingStatus = () => {
       })
       LOGGER('F4wjxixHX2', list)
       setlistlist(list)
-      setCsv(csvList);
+      setCsv(csvList)
     }
   }
   useEffect(() => {
     fetchdata()
-  }
-    , [])
+  }, [])
   useEffect(() => {
     setTotalPages(count / rows)
     fetchdata()
     console.log(totalPages)
-
   }, [page, rows, datevalue, searchkey])
   return (
     <>
@@ -123,13 +125,15 @@ const StakingStatus = () => {
                 aria-label="lab API tabs example"
               >
                 <Tab label="스테이킹 현황" value="1" />
-                <Tab label="스왑 현황" value="2" onClick={(
-                  evt: any
-                ) => {
-                  evt.preventDefault()
-                  evt.stopPropagation()
-                  LOGGER('abc')
-                }} />
+                <Tab
+                  label="스왑 현황"
+                  value="2"
+                  onClick={(evt: any) => {
+                    evt.preventDefault()
+                    evt.stopPropagation()
+                    LOGGER('abc')
+                  }}
+                />
               </TabList>
             </Box>
 
@@ -151,12 +155,9 @@ const StakingStatus = () => {
                     id="RowsSelectLabel"
                     value={rows}
                     onChange={handleRows}
-
                   >
-
                     <MenuItem value={10}>10개씩 보기</MenuItem>
                     <MenuItem value={20}>20개씩 보기</MenuItem>
-
                   </Select>
                 </article>
 
@@ -180,16 +181,35 @@ const StakingStatus = () => {
                   width: '700px',
                 }}
               >
-                <BasicDateRangePicker dateState={value => { setDateValue(value) }} />
-                <Searches searchState={e => setSearchKey(e)} />
-                <CSVLink data={csv} filename={"staking_status.csv"} target="_blank" style={{ textDecoration: "none", color: "#ffffff", padding: "15px", borderRadius: "5px", backgroundColor: "#1A76D2", width: "200px", textAlign: "center" }}>
+                <BasicDateRangePicker
+                  dateState={(value) => {
+                    setDateValue(value)
+                  }}
+                />
+                <Searches searchState={(e) => setSearchKey(e)} />
+                <CSVLink
+                  data={csv}
+                  filename={'staking_status.csv'}
+                  target="_blank"
+                  style={{
+                    textDecoration: 'none',
+                    color: '#ffffff',
+                    padding: '15px',
+                    borderRadius: '5px',
+                    backgroundColor: '#1A76D2',
+                    width: '200px',
+                    textAlign: 'center',
+                  }}
+                >
                   등록
                 </CSVLink>
                 {/* <ContainedButton subject="등록" /> */}
               </article>
             </section>
             <TabPanel value="1">
-              <TableDefaultListlist columns={tableSet} testFields={testField}
+              <TableDefaultListlist
+                columns={tableSet}
+                testFields={testField}
                 listlist={listlist}
               />
               <div
@@ -199,19 +219,18 @@ const StakingStatus = () => {
                   margin: '20px 0 0 0',
                 }}
               >
-                {totalPages > 1 ? (<Pagination onChange={(e, v) => { setPage(v) }} count={totalPages} showFirstButton showLastButton />) : ""}
-              </div>
-            </TabPanel>
-            <TabPanel value="2">
-              <TableDefaultListlist columns={swapSet} testFields={swapField} />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  margin: '20px 0 0 0',
-                }}
-              >
-                <Pagination count={10} showFirstButton showLastButton />
+                {totalPages > 1 ? (
+                  <Pagination
+                    onChange={(e, v) => {
+                      setPage(v - 1)
+                    }}
+                    count={totalPages}
+                    showFirstButton
+                    showLastButton
+                  />
+                ) : (
+                  ''
+                )}
               </div>
             </TabPanel>
           </TabContext>
@@ -223,24 +242,24 @@ const StakingStatus = () => {
 
 export default StakingStatus
 const swapSet = [
-  { field: '순서', },
-  { field: '몬스터 이름', },
-  { field: '계정', },
-  { field: '지갑주소', },
-  { field: '상태', },
-  { field: '-', },
-  { field: '-', },
-  { field: '-', },
-  { field: '날짜', },
+  { field: '순서' },
+  { field: '몬스터 이름' },
+  { field: '계정' },
+  { field: '지갑주소' },
+  { field: '상태' },
+  { field: '-' },
+  { field: '-' },
+  { field: '-' },
+  { field: '날짜' },
 ]
 const swapField = [
-  { field: '1', },
-  { field: 'Moong #11', },
-  { field: 'soejf@gmail.com', },
-  { field: '0xb6...2ef0', },
-  { field: 'Swap', },
-  { field: '-', },
-  { field: '-', },
-  { field: '-', },
-  { field: '2022-02-02', },
+  { field: '1' },
+  { field: 'Moong #11' },
+  { field: 'soejf@gmail.com' },
+  { field: '0xb6...2ef0' },
+  { field: 'Swap' },
+  { field: '-' },
+  { field: '-' },
+  { field: '-' },
+  { field: '2022-02-02' },
 ]

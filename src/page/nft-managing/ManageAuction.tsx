@@ -26,6 +26,7 @@ import { DateTimePicker } from '@mui/lab'
 import { LOGGER } from '../../utils/common'
 import { query_noarg } from '../../utils/contract-calls'
 import { addresses } from '../../configs/addresses'
+import { net } from '../../configs/net'
 
 const ManageAuction = () => {
   const [getBALLOT, setGetBALLOT] = useState<any>()
@@ -50,7 +51,7 @@ const ManageAuction = () => {
   console.log('ballot_draw_fraction', ballot_draw_fraction)
 
   const fetchData = async () => {
-    axios.get(API.API_BALLOT).then((resp) => {
+    axios.get(API.API_BALLOT + `?nettype=${net}`).then((resp) => {
       let { status, respdata } = resp.data
       if (status == 'OK') {
         LOGGER('resp', resp)
@@ -121,7 +122,7 @@ const ManageAuction = () => {
       selectedCurrentDatePay < selectedCurrentDateClose
     ) {
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_CURRENT_ROUND_START: moment(selectedCurrentDate).unix(),
           BALLOT_CURRENT_ROUND_DRAW: moment(selectedCurrentDateDraw).unix(),
           BALLOT_CURRENT_ROUND_PAYMENT_DUE: moment(
@@ -148,7 +149,7 @@ const ManageAuction = () => {
       selectedDatePay < selectedDateClose
     ) {
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_NEXT_ROUND_START: moment(selectedDate).unix(),
           BALLOT_NEXT_ROUND_PAYMENT_DUE: moment(selectedDatePay).unix(),
           BALLOT_NEXT_ROUND_CLOSE: moment(selectedDateClose).unix(),
@@ -168,7 +169,7 @@ const ManageAuction = () => {
   const onclickSubmitballot_delinquency = () => {
     if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
         })
         .then((resp) => {
@@ -185,7 +186,7 @@ const ManageAuction = () => {
   const onclickSubmitballot_draw_fun_btn = () => {
     if (ballot_draw_fraction >= 0 && ballot_draw_fraction <= 50) {
       axios
-        .put(API.API_PUTTIME, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
         })
         .then((resp) => {

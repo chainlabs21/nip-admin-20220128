@@ -12,6 +12,7 @@ import { LOGGER, strDot } from '../../utils/common'
 import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import moment from 'moment'
+import { net } from '../../configs/net'
 
 const tableSet = [
   {
@@ -35,9 +36,7 @@ const tableSet = [
   {
     field: 'itemid',
   },
-  {
-    field: 'nettype',
-  },
+
   {
     field: 'txhash',
   },
@@ -48,7 +47,7 @@ const tableSet = [
     field: 'typestr',
   },
   {
-    field: 'updatedat',
+    field: 'nettype',
   },
 ]
 
@@ -104,7 +103,7 @@ const UserTranSaction = () => {
   const fetchdata = async () => {
     console.log(value)
     axios
-      .get(API.API_TRANSACTIONS + `/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_TRANSACTIONS + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -122,11 +121,11 @@ const UserTranSaction = () => {
               { field: elem['address'] },
               { field: elem['currency'] },
               { field: elem['itemid'] },
-              { field: elem['nettype'] },
-              { field: elem['txhash'] },
+
+              { field: strDot(elem['txhash'], 20) },
               { field: elem['status'] },
               { field: elem['typestr'] },
-              { field: moment(elem['updatedat']).format('YYYY-MM-DD') },
+              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)
