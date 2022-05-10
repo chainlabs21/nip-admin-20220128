@@ -535,27 +535,23 @@ const ManageAuctionDaily = (props: any) => {
     },
   ]
   const onclickSubmitCurrentRoundBtn = () => {
-    if (selectedCurrentDateDraw < selectedCurrentDateClose) {
-      setisloader_00(true)
-      axios
-        .put(API.API_PUTTIME + `?nettype=${net}`, {
-          BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
-            selectedCurrentDateDraw,
-          ).unix(),
-          BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
-            selectedCurrentDateClose,
-          ).unix(),
-        })
-        .then((resp) => {
-          let { status, respdata } = resp.data
-          if (status === 'OK') {
-            alert('저장이 완료 되었습니다.')
-            window.location.reload()
-          }
-        })
-    } else {
-      alert('설정 시간을 다시 확인해주세요')
-    }
+    setisloader_00(true)
+    axios
+      .put(API.API_PUTTIME + `?nettype=${net}`, {
+        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
+          selectedCurrentDateDraw,
+        ).unix(),
+        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
+          selectedCurrentDateClose,
+        ).unix(),
+      })
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status === 'OK') {
+          alert('저장이 완료 되었습니다.')
+          window.location.reload()
+        }
+      })
   }
 
   const onclick_put_BALLOT_PERIODIC_DRAW_ACTIVE_btn = (e: any) => {

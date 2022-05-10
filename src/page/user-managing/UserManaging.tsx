@@ -32,7 +32,7 @@ const tableSet = [
 const UserManaging = () => {
   //	let [ testField , settestField ]=useState( [] )
   let [listlist, setlistlist] = useState<any>([])
-  let [listlistUser, setlistlistUser] = useState<any>([])
+
   const [csv, setCsv] = useState([])
   const [value, setValue] = useState<DateRange<Date>>([null, null])
   const [count, setCount] = useState(0)
@@ -52,20 +52,6 @@ const UserManaging = () => {
 
   const fetchdata = async () => {
     axios
-      .get(API.API_GET_BALLOT + `/${net}/${page * rows}/${rows}/id/DESC`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
-      .then((resp) => {
-        LOGGER('resp', resp.data)
-        setCount(resp.data.payload.count as number)
-        let { status, list: list_raw } = resp.data
-        if (status == 'OK') {
-          //		settestField ( list )
-          setlistlist(resp.data.list)
-          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
-        }
-      })
-    axios
       .get(API.API_USERS + `/${net}/${page * rows}/${rows}/id/DESC`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
@@ -75,7 +61,8 @@ const UserManaging = () => {
         let { status, list: list_raw } = resp.data
         if (status == 'OK') {
           //		settestField ( list )
-          setlistlistUser(resp.data.list)
+          setlistlist(resp.data.list)
+
           setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
@@ -113,6 +100,7 @@ const UserManaging = () => {
         .then((res) => {
           if (res.data.status === 'OK') {
             alert('succed modify userInfo')
+
             window.location.reload()
           } else {
             alert('Falied')
@@ -203,49 +191,44 @@ const UserManaging = () => {
 
               <tbody>
                 {listlist &&
-                  listlistUser.map((item: any, i: any) =>
-                    listlist.map((elem: any, idx: number) => (
-                      <tr key={idx}>
-                        <td className="nft-td" rowSpan={1}>
-                          {elem.id}
-                        </td>
+                  listlist.map((elem: any, idx: number) => (
+                    <tr key={idx}>
+                      <td className="nft-td" rowSpan={1}>
+                        {elem.id}
+                      </td>
 
-                        <td className="nft-td" rowSpan={1}>
-                          {elem.username}
-                        </td>
-                        <td className="nft-td">{item.email}</td>
-                        <td className="nft-td">{item.nickname}</td>
-                        <td className="nft-td">{elem.isstaked}</td>
-                        <td className="nft-td">{item.referer}</td>
+                      <td className="nft-td" rowSpan={1}>
+                        {elem.username}
+                      </td>
+                      <td className="nft-td">{elem.email}</td>
+                      <td className="nft-td">{elem.nickname}</td>
+                      <td className="nft-td">{elem.isstaked}</td>
+                      <td className="nft-td">{elem.referer}</td>
+                      <td className="nft-td"> {strDot(elem.createdat, 10)}</td>
+                      <td className="nft-td"> {elem.isdelinquent}</td>
+                      <td className="nft-td"> {elem.nettype}</td>
+                      <td className="nft-td" rowSpan={1}>
                         <td className="nft-td">
-                          {' '}
-                          {strDot(elem.createdat, 10)}
+                          {elem.active ? '활성' : '비활성'}
                         </td>
-                        <td className="nft-td"> {item.isdelinquent}</td>
-                        <td className="nft-td"> {elem.nettype}</td>
-                        <td className="nft-td" rowSpan={1}>
-                          <td className="nft-td">
-                            {elem.active ? '활성' : '비활성'}
-                          </td>
-                          <button
-                            style={{ marginRight: '20px' }}
-                            onClick={() => {
-                              onclick_user_active_btn(elem)
-                            }}
-                          >
-                            활성화
-                          </button>
-                          <button
-                            onClick={() => {
-                              onclick_user_unactive_btn(elem)
-                            }}
-                          >
-                            비활성화
-                          </button>
-                        </td>
-                      </tr>
-                    )),
-                  )}
+                        <button
+                          style={{ marginRight: '20px' }}
+                          onClick={() => {
+                            onclick_user_active_btn(elem)
+                          }}
+                        >
+                          활성화
+                        </button>
+                        <button
+                          onClick={() => {
+                            onclick_user_unactive_btn(elem)
+                          }}
+                        >
+                          비활성화
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
