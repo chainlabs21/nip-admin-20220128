@@ -145,10 +145,6 @@ const ManageAuctionDaily = (props: any) => {
   //   }
   // }
 
-  useEffect(() => {
-    // contract_fatchData()
-  }, [])
-
   const onReset = () => {
     window.location.reload()
   }
