@@ -181,12 +181,9 @@ const ManageAuctionDaily = (props: any) => {
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateDraw}
                         onChange={(newValue) => {
-                          console.log('hours', new Date(newValue).getHours())
-                          console.log(
-                            'minutes',
-                            new Date(newValue).getMinutes(),
-                          )
-                          setSelectedCurrentDateDraw(newValue)
+                          console.log("newValue", newValue);
+                          console.log("newValue", moment(newValue).unix());
+                          setSelectedCurrentDateDraw(newValue);
                         }}
                       />
                     </LocalizationProvider>
@@ -204,8 +201,9 @@ const ManageAuctionDaily = (props: any) => {
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateClose}
                         onChange={(newValue) => {
-                          console.log('newValue2', newValue)
-                          setSelectedCurrentDateClose(newValue)
+                          console.log("newValue", newValue);
+                          console.log("newValue", moment(newValue).unix());
+                          setSelectedCurrentDateClose(newValue);
                         }}
                       />
                     </LocalizationProvider>
@@ -549,7 +547,7 @@ const ManageAuctionDaily = (props: any) => {
         let { status, respdata } = resp.data
         if (status === 'OK') {
           alert('저장이 완료 되었습니다.')
-          window.location.reload()
+          // window.location.reload()
         }
       })
   }
