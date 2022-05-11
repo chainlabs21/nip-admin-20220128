@@ -9,6 +9,7 @@ import PaperBodyContent from '../../components/paper/PaperBodyContent'
 import { OutlinedInput } from '@mui/material'
 import { API } from '../../configs/api';
 import axios from 'axios'
+import { net } from '../../configs/net'
 
 const theme = createTheme()
 
@@ -242,11 +243,11 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
       filenamemobile: imageTitle,
     }
     if (uuid) {
-      axios.put(API.API_POST_BANNER + "/" + uuid, data).then(res => {
+      axios.put(API.API_POST_BANNER + "/" + uuid + `?nettype=${net}`, data).then(res => {
         console.log(res);
       }).catch(err => console.log(err));
     } else {
-      axios.post(API.API_POST_BANNER, data).then(res => {
+      axios.post(API.API_POST_BANNER + `?nettype=${net}`, data).then(res => {
         console.log(res);
       }).catch(err => console.log(err));
     }

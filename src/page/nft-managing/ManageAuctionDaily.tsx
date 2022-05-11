@@ -48,7 +48,7 @@ const ManageAuctionDaily = (props: any) => {
   const onclickSubmitballot_delinquency = () => {
     if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
       axios
-        .put(API.API_PUTTIME + `/?nettype=${net}`, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
         })
         .then((resp) => {
@@ -65,7 +65,7 @@ const ManageAuctionDaily = (props: any) => {
   const onclickSubmitballot_draw_fun_btn = () => {
     if (ballot_draw_fraction >= 0 && ballot_draw_fraction <= 50) {
       axios
-        .put(API.API_PUTTIME + `/?nettype=${net}`, {
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
         })
         .then((resp) => {
@@ -457,8 +457,8 @@ const ManageAuctionDaily = (props: any) => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-              // placeholder={feecollector_pay}
-              // defaultValue={feecollector_pay}
+            // placeholder={feecollector_pay}
+            // defaultValue={feecollector_pay}
             />
             <button
               style={{
@@ -508,8 +508,8 @@ const ManageAuctionDaily = (props: any) => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-              // placeholder={feecollector_delinquent}
-              // defaultValue={feecollector_delinquent}
+            // placeholder={feecollector_delinquent}
+            // defaultValue={feecollector_delinquent}
             />
             <button
               style={{
@@ -588,7 +588,7 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(
           API.API_PUTSTATE +
-            `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
+          `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
           {
             BALLOT_PERIODIC_PAYMENTDUE_ACTIVE: '1',
           },
@@ -604,7 +604,7 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(
           API.API_PUTSTATE +
-            `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
+          `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
           {
             BALLOT_PERIODIC_PAYMENTDUE_ACTIVE: '0',
           },

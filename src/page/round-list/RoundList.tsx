@@ -119,7 +119,7 @@ const RoundList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_LOGROUNDS + `/${net}/${page * rows}/${rows}/id/DESC`, {
+      .get(API.API_LOGROUNDS + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {

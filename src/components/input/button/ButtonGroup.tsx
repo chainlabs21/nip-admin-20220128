@@ -125,7 +125,7 @@ export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
           axios
-            .post(API.API_MQ, {
+            .post(API.API_MQ + `?nettype=${net}`, {
               BALLOT_PERIODIC_ACTIVE: '1',
             })
             .then((resp) => {
@@ -148,7 +148,7 @@ export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
           axios
-            .post(API.API_MQ, {
+            .post(API.API_MQ + `?nettype=${net}`, {
               BALLOT_PERIODIC_ACTIVE: '0',
             })
             .then((resp) => {

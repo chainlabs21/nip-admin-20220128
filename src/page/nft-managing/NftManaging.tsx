@@ -26,7 +26,7 @@ const NftManaging = () => {
   const [count, setCount] = useState<number>(0)
   const [itemStats, setItemStats] = useState<any>()
   const countdata = () => {
-    axios.get(`${API.API_COUNT}/items`).then((resp) => {
+    axios.get(`${API.API_COUNT}/items?nettype=${net}`).then((resp) => {
       LOGGER('COUNT', resp)
       setCount(resp.data.payload.count)
     })
@@ -35,7 +35,7 @@ const NftManaging = () => {
     axios
       .get(
         API.API_COMMONITEMS +
-          `/items/group_/kong/${page * rows}/${rows}/id/DESC`,
+        `/items/group_/kong/${page * rows}/${rows}/id/DESC?nettype=${net}`,
       )
       .then((resp) => {
         LOGGER('', resp.data)
@@ -48,7 +48,7 @@ const NftManaging = () => {
           alert('API_COMMONITEMS is error')
         }
       })
-    axios.get(API.API_GET_ITEMSTATS).then((resp) => {
+    axios.get(API.API_GET_ITEMSTATS + `?nettype=${net}`).then((resp) => {
       LOGGER('API_GET_ITEMSTATS', resp.data)
       if (resp.data.status === 'OK') {
         setItemStats(resp.data.respdata)
@@ -459,10 +459,10 @@ const NftManaging = () => {
                           {elem.salesstatusstr === 'on_reserve'
                             ? '예약'
                             : elem.salesstatusstr === 'assigned'
-                            ? '할당'
-                            : elem.salesstatusstr === 'user_owned'
-                            ? '유저소유'
-                            : ''}
+                              ? '할당'
+                              : elem.salesstatusstr === 'user_owned'
+                                ? '유저소유'
+                                : ''}
                         </td>
                         <td className="nft-td">
                           <input

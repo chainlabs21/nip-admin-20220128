@@ -19,6 +19,7 @@ import { API } from '../../configs/api'
 import axios from 'axios'
 import RegisterBanner from '../../modals/register-banner/RegisterBanner'
 import moment from "moment";
+import { net } from '../../configs/net'
 
 const BannerManagement = () => {
   const [open, setOpen] = useState(false)
@@ -28,7 +29,7 @@ const BannerManagement = () => {
   const [uuid, setUuid] = useState<String>("");
 
   useEffect(() => {
-    axios.get(API.API_BANNER(0, 10)).then((res: any) => {
+    axios.get(API.API_BANNER(0, 10) + `?nettype=${net}`).then((res: any) => {
       console.log("banner data", res);
       if (res && res.data) { } else {
         return;
