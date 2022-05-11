@@ -52,7 +52,7 @@ const LogFeePayments = () => {
   const fetchdata = async () => {
     axios
       .get(
-        API.API_GET_LOG_FEEPAYMENTS + `/${net}/${page * rows}/${rows}/id/DESC`,
+        API.API_GET_LOG_FEEPAYMENTS + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
         {
           params: { date0: value[0], date1: value[1], searchkey },
         },
