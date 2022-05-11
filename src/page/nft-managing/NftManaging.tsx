@@ -35,7 +35,7 @@ const NftManaging = () => {
     axios
       .get(
         API.API_COMMONITEMS +
-        `/items/group_/kong/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+        `/items/group_/kong/${page * rows}/${rows}/roundnumber/DESC?nettype=${net}`,
       )
       .then((resp) => {
         LOGGER('', resp.data)
@@ -415,21 +415,18 @@ const NftManaging = () => {
                 <thead className="nft-th">
                   <tr>
                     <td className="nft-td" rowSpan={2}>
-                      순서
+                      일련번호
                     </td>
                     <td className="nft-td" rowSpan={2}>
                       이미지
                     </td>
-                    <td className="nft-td" rowSpan={2}>
-                      일련번호
-                    </td>
-                    <td className="nft-td">그룹</td>
-                    <td className="nft-td">스왑시 지급 토큰</td>
-                    <td className="nft-td">매칭 대기기간</td>
-                    <td className="nft-td">몬스터 가격</td>
-                    <td className="nft-td">유통상태</td>
-                    <td className="nft-td">입찰 참여 시작일</td>
-                    <td className="nft-td">생성일</td>
+                    <td className="nft-td">카운트 페이퍼</td>
+                    <td className="nft-td">판매 상태</td>
+                    <td className="nft-td">반올림</td>
+                    {/* <td className="nft-td">몬스터 가격</td> */}
+                    {/* <td className="nft-td">유통상태</td> */}
+                    {/* <td className="nft-td">입찰 참여 시작일</td> */}
+                    {/* <td className="nft-td">생성일</td> */}
                     <td className="nft-td">NET_TYPE</td>
                   </tr>
                 </thead>
@@ -439,7 +436,7 @@ const NftManaging = () => {
                     return (
                       <tr key={idx}>
                         <td className="nft-td" rowSpan={1}>
-                          {elem.id}
+                          {elem.titlename}
                         </td>
                         <td className="nft-td" rowSpan={1}>
                           <img
@@ -448,14 +445,12 @@ const NftManaging = () => {
                             alt="eg_image"
                           />
                         </td>
-                        <td className="nft-td" rowSpan={1}>
-                          {elem.titlename}
-                        </td>
-                        <td className="nft-td"> {elem.group_} </td>
-                        <td className="nft-td">100</td>
-                        <td className="nft-td">3</td>
-                        <td className="nft-td">126</td>
-                        <td className="nft-td">
+
+                        <td className="nft-td"> {elem.countfavors} </td>
+                        <td className="nft-td">{elem.salestatus}</td>
+                        <td className="nft-td">{elem.roundnumber}</td>
+
+                        {/* <td className="nft-td">
                           {elem.salesstatusstr === 'on_reserve'
                             ? '예약'
                             : elem.salesstatusstr === 'assigned'
@@ -463,8 +458,8 @@ const NftManaging = () => {
                               : elem.salesstatusstr === 'user_owned'
                                 ? '유저소유'
                                 : ''}
-                        </td>
-                        <td className="nft-td">
+                        </td> */}
+                        {/* <td className="nft-td">
                           <input
                             type="date"
                             id="start"
@@ -480,8 +475,8 @@ const NftManaging = () => {
                               textAlign: 'center',
                             }}
                           />
-                        </td>
-                        <td className="nft-td" rowSpan={1}>
+                        </td> */}
+                        {/* <td className="nft-td" rowSpan={1}>
                           <Toggle
                             defaultChecked={false}
                             disabled={false}
@@ -489,11 +484,9 @@ const NftManaging = () => {
                           />
                           <br />
                           <span>On sale</span>
-                        </td>
+                        </td> */}
                         <td className="nft-td">
-                          {net && net === 'ETH_TESTNET'
-                            ? 'ETH_TESTNET'
-                            : 'BSC_MAINNET'}
+                          {elem.nettype}
                         </td>
                       </tr>
                     )
