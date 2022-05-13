@@ -18,26 +18,30 @@ import Box from '@mui/material/Box'
 import { API } from '../../configs/api'
 import axios from 'axios'
 import RegisterBanner from '../../modals/register-banner/RegisterBanner'
-import moment from "moment";
+import moment from 'moment'
 import { net } from '../../configs/net'
 
 const BannerManagement = () => {
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const [uuid, setUuid] = useState<String>("");
+  const [uuid, setUuid] = useState<String>('')
 
   useEffect(() => {
-    axios.get(API.API_BANNER(0, 10) + `?nettype=${net}`).then((res: any) => {
-      console.log("banner data", res);
-      if (res && res.data) { } else {
-        return;
-      }
-      let { list } = res.data;
-      console.log("list", list);
-      setData(list);
-    }).catch(err => console.log(err))
+    axios
+      .get(API.API_BANNER(0, 10) + `?nettype=${net}`)
+      .then((res: any) => {
+        console.log('banner data', res)
+        if (res && res.data) {
+        } else {
+          return
+        }
+        let { list } = res.data
+        console.log('list', list)
+        setData(list)
+      })
+      .catch((err) => console.log(err))
   }, [])
 
   return (
@@ -48,10 +52,10 @@ const BannerManagement = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
         }}
       >
         <Box
@@ -111,7 +115,11 @@ const BannerManagement = () => {
                 }}
               />
               <Searches searchState={(e) => console.log(e)} />
-              <ContainedButton handleOpen={handleOpen} subject="등록" setUuid={setUuid} />
+              <ContainedButton
+                handleOpen={handleOpen}
+                subject="등록"
+                setUuid={setUuid}
+              />
             </article>
           </div>
 
@@ -133,24 +141,37 @@ const BannerManagement = () => {
                 </TableRow>
               </TableHead>
 
-
-
               {data.map((item: any, index) => {
-                let dateFormat = moment(item.updatedat).format("lll");
+                let dateFormat = moment(item.updatedat).format('lll')
                 return (
                   <TableBody key={index}>
-                    <TableRow style={{ cursor: "pointer" }} onClick={() => {
-                      setUuid(item.uuid);
-                      handleOpen()
-                    }}>
+                    <TableRow
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        setUuid(item.uuid)
+                        handleOpen()
+                      }}
+                    >
                       <TableCell>
                         <CheckBox />
                       </TableCell>
                       <TableCell>{item.id}</TableCell>
                       <TableCell>main_rolling_banner</TableCell>
                       <TableCell>https://nips.net</TableCell>
-                      <TableCell><img width="200px" src={item.imageurlpc} alt="banner_pc" /></TableCell>
-                      <TableCell><img width="200px" src={item.imageurlmobile} alt="banner_mobile" /></TableCell>
+                      <TableCell>
+                        <img
+                          width="200px"
+                          src={item.imageurlpc}
+                          alt="banner_pc"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <img
+                          width="200px"
+                          src={item.imageurlmobile}
+                          alt="banner_mobile"
+                        />
+                      </TableCell>
                       <TableCell>{dateFormat}</TableCell>
                       <TableCell>
                         <FormControlLabel
@@ -158,13 +179,10 @@ const BannerManagement = () => {
                           label=""
                         />
                       </TableCell>
-
                     </TableRow>
                   </TableBody>
                 )
               })}
-
-
             </Table>
           </div>
 

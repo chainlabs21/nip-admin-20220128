@@ -35,7 +35,9 @@ const NftManaging = () => {
     axios
       .get(
         API.API_COMMONITEMS +
-        `/items/group_/kong/${page * rows}/${rows}/roundnumber/DESC?nettype=${net}`,
+          `/items/group_/kong/${
+            page * rows
+          }/${rows}/roundnumber/DESC?nettype=${net}`,
       )
       .then((resp) => {
         LOGGER('', resp.data)
@@ -485,9 +487,7 @@ const NftManaging = () => {
                           <br />
                           <span>On sale</span>
                         </td> */}
-                        <td className="nft-td">
-                          {elem.nettype}
-                        </td>
+                        <td className="nft-td">{elem.nettype}</td>
                       </tr>
                     )
                   })}

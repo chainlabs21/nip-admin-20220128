@@ -154,6 +154,7 @@ const ManageAuction = () => {
           BALLOT_NEXT_ROUND_PAYMENT_DUE: moment(selectedDatePay).unix(),
           BALLOT_NEXT_ROUND_CLOSE: moment(selectedDateClose).unix(),
           BALLOT_NEXT_ROUND_DRAW: moment(selectedDateDraw).unix(),
+          nettype: net,
         })
         .then((resp) => {
           let { status, respdata } = resp.data
@@ -171,6 +172,7 @@ const ManageAuction = () => {
       axios
         .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
+          nettype: net,
         })
         .then((resp) => {
           let { status, respdata } = resp.data
@@ -188,6 +190,7 @@ const ManageAuction = () => {
       axios
         .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
+          nettype: net,
         })
         .then((resp) => {
           let { status, respdata } = resp.data

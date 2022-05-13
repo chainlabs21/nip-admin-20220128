@@ -7,7 +7,7 @@ import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import PaperBodyContent from '../../components/paper/PaperBodyContent'
 import { OutlinedInput } from '@mui/material'
-import { API } from '../../configs/api';
+import { API } from '../../configs/api'
 import axios from 'axios'
 import { net } from '../../configs/net'
 
@@ -19,9 +19,9 @@ interface ID {
 }
 
 const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
-  const formData = new FormData();
-  const [imageBase64, setImageBase64] = useState<any>("");
-  const [imageTitle, setImageTitle] = useState<String>("");
+  const formData = new FormData()
+  const [imageBase64, setImageBase64] = useState<any>('')
+  const [imageTitle, setImageTitle] = useState<String>('')
 
   const bannerManagementBody = [
     {
@@ -131,7 +131,9 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
             }}
           >
             <article style={{ width: '30%' }}>PC 배너</article>
-            <article style={{ width: '70%', display: 'flex', flexDirection: "column" }}>
+            <article
+              style={{ width: '70%', display: 'flex', flexDirection: 'column' }}
+            >
               <div
                 style={{
                   width: '430px',
@@ -149,7 +151,11 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
                   cursor: 'pointer',
                 }} */}
 
-              <input style={{ margin: "10px" }} onChange={(e: any) => uploadImg(e.target.files[0])} type="file" />
+              <input
+                style={{ margin: '10px' }}
+                onChange={(e: any) => uploadImg(e.target.files[0])}
+                type="file"
+              />
             </article>
           </div>
         )
@@ -166,7 +172,9 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
             }}
           >
             <article style={{ width: '30%' }}>모바일 배너</article>
-            <article style={{ width: '70%', display: 'flex', flexDirection: "column" }}>
+            <article
+              style={{ width: '70%', display: 'flex', flexDirection: 'column' }}
+            >
               <div
                 style={{
                   width: '430px',
@@ -189,7 +197,11 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
               >
                 추가
               </button> */}
-              <input style={{ margin: "10px" }} onChange={(e: any) => uploadImg(e.target.files[0])} type="file" />
+              <input
+                style={{ margin: '10px' }}
+                onChange={(e: any) => uploadImg(e.target.files[0])}
+                type="file"
+              />
             </article>
           </div>
         )
@@ -207,51 +219,57 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
 
   const uploadImg = (file: any) => {
     if (file.size >= 10 * 1024 * 1024) {
-      alert("파일의 용량이 초과되었습니다");
-      return;
+      alert('파일의 용량이 초과되었습니다')
+      return
     }
-    console.log("FILE", file.type, file.size, file.name);
+    console.log('FILE', file.type, file.size, file.name)
     if (
-      file.type !== "image/png" &&
-      file.type !== "image/jpg" &&
-      file.type !== "image/jpeg" &&
-      file.type !== "image/gif"
+      file.type !== 'image/png' &&
+      file.type !== 'image/jpg' &&
+      file.type !== 'image/jpeg' &&
+      file.type !== 'image/gif'
     ) {
-      alert("파일의 형식을 확인 해 주세요");
-      return;
+      alert('파일의 형식을 확인 해 주세요')
+      return
     }
-    setImageTitle(file.name);
-    formData.append("file", file);
-    let reader = new FileReader();
-
+    setImageTitle(file.name)
+    formData.append('file', file)
+    let reader = new FileReader()
 
     reader.onloadend = function () {
-      var b64 = reader.result;
-      console.log("base64 ", b64);
-      setImageBase64(b64);
+      var b64 = reader.result
+      console.log('base64 ', b64)
+      setImageBase64(b64)
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file)
   }
 
   const postBanner = () => {
     let data = {
       imagepc: imageBase64,
       imagemobile: imageBase64,
-      writer: "admin00",
-      isinuse: "1",
+      writer: 'admin00',
+      isinuse: '1',
       filenamepc: imageTitle,
       filenamemobile: imageTitle,
+      nettype: net,
     }
     if (uuid) {
-      axios.put(API.API_POST_BANNER + "/" + uuid + `?nettype=${net}`, data).then(res => {
-        console.log(res);
-      }).catch(err => console.log(err));
+      axios
+        .put(API.API_POST_BANNER + '/' + uuid + `?nettype=${net}`, data)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => console.log(err))
     } else {
-      axios.post(API.API_POST_BANNER + `?nettype=${net}`, data).then(res => {
-        console.log(res);
-      }).catch(err => console.log(err));
+      axios
+        .post(API.API_POST_BANNER + `?nettype=${net}`, data)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => console.log(err))
     }
-    handleClose();
+    handleClose()
   }
 
   return (

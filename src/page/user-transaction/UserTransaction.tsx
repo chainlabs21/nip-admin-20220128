@@ -103,9 +103,13 @@ const UserTranSaction = () => {
   const fetchdata = async () => {
     console.log(value)
     axios
-      .get(API.API_TRANSACTIONS + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
+      .get(
+        API.API_TRANSACTIONS +
+          `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+        {
+          params: { date0: value[0], date1: value[1], searchkey },
+        },
+      )
       .then((resp) => {
         LOGGER('resp', resp.data)
         setCount(resp.data.payload.count as number)

@@ -52,9 +52,12 @@ const UserManaging = () => {
 
   const fetchdata = async () => {
     axios
-      .get(API.API_USERS + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
+      .get(
+        API.API_USERS + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+        {
+          params: { date0: value[0], date1: value[1], searchkey },
+        },
+      )
       .then((resp) => {
         LOGGER('respasdasdas', resp.data)
         setCount(resp.data.payload.count as number)
@@ -78,6 +81,7 @@ const UserManaging = () => {
       axios
         .put(API.API_SET_ACTIVE_USER + `/${elem.username}?nettype=${net}`, {
           active: 1,
+          nettype: net,
         })
         .then((res) => {
           if (res.data.status === 'OK') {
@@ -87,7 +91,7 @@ const UserManaging = () => {
             alert('Falied')
           }
         })
-        .catch((err) => { })
+        .catch((err) => {})
     }
   }
   const onclick_user_unactive_btn = (elem: any) => {
@@ -96,6 +100,7 @@ const UserManaging = () => {
       axios
         .put(API.API_SET_ACTIVE_USER + `/${elem.username}?nettype=${net}`, {
           active: 0,
+          nettype: net,
         })
         .then((res) => {
           if (res.data.status === 'OK') {
@@ -106,7 +111,7 @@ const UserManaging = () => {
             alert('Falied')
           }
         })
-        .catch((err) => { })
+        .catch((err) => {})
     }
   }
 

@@ -50,6 +50,7 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DELINQUENCY_DISCOUNT_FACTOR_BP: ballot_delinquency * 100,
+          nettype: net,
         })
         .then((resp) => {
           let { status, respdata } = resp.data
@@ -67,6 +68,7 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(API.API_PUTTIME + `?nettype=${net}`, {
           BALLOT_DRAW_FRACTION_BP: ballot_draw_fraction * 100,
+          nettype: net,
         })
         .then((resp) => {
           let { status, respdata } = resp.data
@@ -177,9 +179,9 @@ const ManageAuctionDaily = (props: any) => {
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateDraw}
                         onChange={(newValue) => {
-                          console.log("newValue", newValue);
-                          console.log("newValue", moment(newValue).unix());
-                          setSelectedCurrentDateDraw(newValue);
+                          console.log('newValue', newValue)
+                          console.log('newValue', moment(newValue).unix())
+                          setSelectedCurrentDateDraw(newValue)
                         }}
                       />
                     </LocalizationProvider>
@@ -197,9 +199,9 @@ const ManageAuctionDaily = (props: any) => {
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateClose}
                         onChange={(newValue) => {
-                          console.log("newValue", newValue);
-                          console.log("newValue", moment(newValue).unix());
-                          setSelectedCurrentDateClose(newValue);
+                          console.log('newValue', newValue)
+                          console.log('newValue', moment(newValue).unix())
+                          setSelectedCurrentDateClose(newValue)
                         }}
                       />
                     </LocalizationProvider>
@@ -451,8 +453,8 @@ const ManageAuctionDaily = (props: any) => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-            // placeholder={feecollector_pay}
-            // defaultValue={feecollector_pay}
+              // placeholder={feecollector_pay}
+              // defaultValue={feecollector_pay}
             />
             <button
               style={{
@@ -502,8 +504,8 @@ const ManageAuctionDaily = (props: any) => {
                 marginRight: '5px',
               }}
               placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
-            // placeholder={feecollector_delinquent}
-            // defaultValue={feecollector_delinquent}
+              // placeholder={feecollector_delinquent}
+              // defaultValue={feecollector_delinquent}
             />
             <button
               style={{
@@ -538,6 +540,7 @@ const ManageAuctionDaily = (props: any) => {
         BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
           selectedCurrentDateClose,
         ).unix(),
+        nettype: net,
       })
       .then((resp) => {
         let { status, respdata } = resp.data
@@ -554,6 +557,7 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(API.API_PUTSTATE + `/BALLOT_PERIODIC_DRAW_ACTIVE?nettype=${net}`, {
           BALLOT_PERIODIC_DRAW_ACTIVE: '1',
+          nettype: net,
         })
         .then((resp) => {
           console.log('asdioajosd', resp)
@@ -567,6 +571,7 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(API.API_PUTSTATE + `/BALLOT_PERIODIC_DRAW_ACTIVE?nettype=${net}`, {
           BALLOT_PERIODIC_DRAW_ACTIVE: '0',
+          nettype: net,
         })
         .then((resp) => {
           let { status, respdata } = resp.data
@@ -582,9 +587,10 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(
           API.API_PUTSTATE +
-          `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
+            `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
           {
             BALLOT_PERIODIC_PAYMENTDUE_ACTIVE: '1',
+            nettype: net,
           },
         )
         .then((resp) => {
@@ -598,9 +604,10 @@ const ManageAuctionDaily = (props: any) => {
       axios
         .put(
           API.API_PUTSTATE +
-          `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
+            `/BALLOT_PERIODIC_PAYMENTDUE_ACTIVE?nettype=${net}`,
           {
             BALLOT_PERIODIC_PAYMENTDUE_ACTIVE: '0',
+            nettype: net,
           },
         )
         .then((resp) => {
