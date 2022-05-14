@@ -24,6 +24,7 @@ import { TimePicker } from '@mui/lab'
 import { LOGGER } from '../../utils/common'
 import { query_noarg } from '../../utils/contract-calls'
 import { addresses } from '../../configs/addresses'
+import SetErrorBar from '../../modals/SetErrorBar/SetErrorBar'
 import { net } from '../../configs/net'
 
 const ForceAdvanceRound = (props: any) => {
@@ -36,6 +37,9 @@ const ForceAdvanceRound = (props: any) => {
             if (res.data && res.data.respdata) {
                 console.log(res);
                 let { value_ } = res.data.respdata;
+
+                SetErrorBar("Current Round Number: " + value_)
+
                 setCurrentRoundNum(value_);
             }
         } catch (err) {
@@ -48,6 +52,7 @@ const ForceAdvanceRound = (props: any) => {
             if (res.data && res.data.respdata) {
                 console.log(res);
                 let { value_ } = res.data.respdata;
+                SetErrorBar("Current Round State: " + value_)
                 setCurrentRoundState(value_);
             }
         } catch (err) {
@@ -60,6 +65,8 @@ const ForceAdvanceRound = (props: any) => {
             const res = await axios.post(API.API_ALLOCATE_ITEMS + `?nettype=${net}`, { roundstate: currentRoundState })
             if (res) {
                 console.log(res);
+                queryCurrentRoundNum();
+                queryCurrentRoundState();
             }
         } catch (err) {
             console.log(err);
@@ -71,6 +78,7 @@ const ForceAdvanceRound = (props: any) => {
             const res = await axios.post(API.API_INITIALIZE_ROUNDS + `?nettype=${net}`, { rounds: currentRoundNum })
             if (res) {
                 console.log(res);
+                SetErrorBar("Status: " + res.data.status);
             }
         } catch (err) {
             console.log(err);
