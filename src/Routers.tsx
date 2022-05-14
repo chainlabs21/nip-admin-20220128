@@ -25,6 +25,7 @@ import ManageAuction from './page/nft-managing/ManageAuction'
 import RoundList from './page/round-list/RoundList'
 import SignIn from './page/sign-in/SignIn'
 import ManageAuctionDaily from './page/nft-managing/ManageAuctionDaily'
+import ForceAdvanceRound from './page/nft-managing/ForceAdvanceRound'
 import LogFeePayments from './page/nft-managing/LogFeePayments'
 const Routers = () => {
   return (
@@ -68,6 +69,7 @@ const Routers = () => {
       <Route path="/banner-management" element={<BannerManagement />} />
       <Route path="/manage-auction" element={<ManageAuction />} />
       <Route path="/manage-auction-daily" element={<ManageAuctionDaily />} />
+      <Route path="/manually-force-advance-round" element={<ForceAdvanceRound />} />
       <Route path="/logfeepayments" element={<LogFeePayments />} />
 
       <Route path="/" element={<Main />} />

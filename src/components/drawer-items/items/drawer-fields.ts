@@ -50,6 +50,7 @@ export const drawerFields = [
       { title: '연체 해소', params: 'matching-able-list' },
       { title: '라운드이력', params: 'round-list' },
       { title: '일단위 라운드 관리', params: 'manage-auction-daily' },
+      { title: '수동으로 라운드 진행', params: 'manually-force-advance-round' },
     ],
   },
   {
