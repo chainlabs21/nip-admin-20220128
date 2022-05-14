@@ -27,6 +27,61 @@ import { addresses } from '../../configs/addresses'
 import { net } from '../../configs/net'
 
 const ForceAdvanceRound = (props: any) => {
+    const [currentRoundNum, setCurrentRoundNum] = useState<any>(0);
+    const [currentRoundState, setCurrentRoundState] = useState<any>(0)
+
+    const queryCurrentRoundNum = async () => {
+        try {
+            const res = await axios.get(API.API_CURRENT_ROUND_NUM + `?nettype=${net}`)
+            if (res.data && res.data.respdata) {
+                console.log(res);
+                let { value_ } = res.data.respdata;
+                setCurrentRoundNum(value_);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    const queryCurrentRoundState = async () => {
+        try {
+            const res = await axios.get(API.API_CURRENT_ROUND_STATE + `?nettype=${net}`)
+            if (res.data && res.data.respdata) {
+                console.log(res);
+                let { value_ } = res.data.respdata;
+                setCurrentRoundState(value_);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+    const allocateItems = async () => {
+        try {
+            const res = await axios.post(API.API_ALLOCATE_ITEMS + `?nettype=${net}`, { roundstate: currentRoundState })
+            if (res) {
+                console.log(res);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+    const initializeRounds = async () => {
+        try {
+            const res = await axios.post(API.API_INITIALIZE_ROUNDS + `?nettype=${net}`, { rounds: currentRoundNum })
+            if (res) {
+                console.log(res);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
+
+    useEffect(() => {
+        queryCurrentRoundNum();
+        queryCurrentRoundState();
+    }, [])
 
 
     return (
@@ -38,21 +93,23 @@ const ForceAdvanceRound = (props: any) => {
                 <p>Current Round Number</p>
                 <p>Current Round State</p>
                 <div style={{ display: 'flex', alignItems: "center", justifyContent: "space-around", width: "100%" }}>
-                    <p>1</p>
-                    <p>0</p>
+                    <p>{currentRoundNum}</p>
+                    <p>{currentRoundState}</p>
                 </div>
             </div >
 
             <div style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}>
-                <Button sx={{ width: '162px', height: '44px' }}
+                <Button onClick={() => allocateItems()} sx={{ width: '162px', height: '44px' }}
                     variant="outlined">Allocate Items</Button>
                 <Button
+                    onClick={() => allocateItems()}
                     sx={{ marginLeft: '30px', width: '162px', height: '44px' }}
                     variant="contained"
                 >
                     Close payment
                 </Button>
                 <Button
+                    onClick={() => initializeRounds()}
                     sx={{ marginLeft: '30px', width: '172px', height: '44px' }}
                     variant="outlined"
                 >
