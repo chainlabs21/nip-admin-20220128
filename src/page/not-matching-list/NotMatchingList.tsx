@@ -27,9 +27,7 @@ const tableSet = [
   {
     field: 'createdat',
   },
-  {
-    field: 'updatedat',
-  },
+//  {    field: 'updatedat',  },
   {
     field: 'username',
   },
@@ -48,9 +46,7 @@ const tableSet = [
   {
     field: 'currencyaddress',
   },
-  {
-    field: 'statusstr',
-  },
+//  {    field: 'statusstr',  },
   {
     field: 'roundnumber',
   },
@@ -123,18 +119,18 @@ const NotMatchingList = () => {
           let list = list_raw.map((elem: any, index: any) => {
             return [
               { field: elem['id'] },
-              { field: elem['createdat']?.split('T')[0] },
-              { field: elem['updatedat']?.split('T')[0] },
-              { field: strDot(elem['username'], 2, 23) },
-              { field: elem['itemid'] },
-              { field: strDot(elem['seller'], 2, 23) },
+              { field: elem['createdat']?.split(/\./)[0] },
+  //            { field: elem['updatedat']?.split('T')[0] },
+              { field: elem['username'] },
+              { field: elem['itemid']?.substr(0,10)+'...' },
+              { field: elem['seller'] },
               { field: elem['amount'] },
               { field: elem['currency'] },
-              { field: strDot(elem['currencyaddress'], 2, 23) },
-              { field: elem['statusstr'] },
+              { field: elem['currencyaddress']?.substr(0,10)+'...'   },
+//              { field: elem['statusstr'] },
               { field: elem['roundnumber'] },
               { field: elem['duetime']?.split('T')[0] },
-              { field: elem['nettype'] },
+//              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)

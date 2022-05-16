@@ -12,7 +12,6 @@ interface ITableDefault {
   checkFields?: any[]
   listlist?: any[]
 }
-
 const TableDefaultUserManaging: React.FC<ITableDefault> = ({
   columns,
   testFields,
