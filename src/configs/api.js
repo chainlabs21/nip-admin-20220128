@@ -28,6 +28,8 @@ const API = {
   API_CURRENT_ROUND_STATE: `${URL}/ballot/roundstate`,
   API_ALLOCATE_ITEMS: `${URL}/ballot/advance/roundstate`,
   API_INITIALIZE_ROUNDS: `${URL}/ballot/init/rounds`,
+  API_MANUAL_PAYITEM: `${URL}/ballot/manual/payitem`,
+  API_MANUAL_PAYDELINQUENCY: `${URL}/ballot/manual/paydelinquency`,
 }
 // /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }

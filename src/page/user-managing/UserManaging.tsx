@@ -17,6 +17,7 @@ import { SelectChangeEvent } from '@mui/material'
 import { CSVLink } from 'react-csv'
 import Toggle from 'react-toggle'
 import { net } from '../../configs/net'
+
 // import moment from 'moment'
 const tableSet = [
   { field: 'id' },
@@ -203,7 +204,7 @@ const UserManaging = () => {
                       </td>
 
                       <td className="nft-td" rowSpan={1}>
-                        {elem.username}
+                        {strDot(elem.username, 15)}
                       </td>
                       <td className="nft-td">{elem.email}</td>
                       <td className="nft-td">{elem.nickname}</td>

@@ -27,7 +27,7 @@ const tableSet = [
   {
     field: 'createdat',
   },
-//  {    field: 'updatedat',  },
+  //  {    field: 'updatedat',  },
   {
     field: 'username',
   },
@@ -46,7 +46,7 @@ const tableSet = [
   {
     field: 'currencyaddress',
   },
-//  {    field: 'statusstr',  },
+  //  {    field: 'statusstr',  },
   {
     field: 'roundnumber',
   },
@@ -106,9 +106,13 @@ const NotMatchingList = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_DELINQUENCIES + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
+      .get(
+        API.API_DELINQUENCIES +
+          `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+        {
+          params: { date0: value[0], date1: value[1], searchkey },
+        },
+      )
       .then((resp) => {
         LOGGER('', resp.data)
         setCount(resp.data.payload.count as number)
@@ -116,25 +120,8 @@ const NotMatchingList = () => {
         console.log('list_raw')
         console.log(list_raw)
         if (status == 'OK') {
-          let list = list_raw.map((elem: any, index: any) => {
-            return [
-              { field: elem['id'] },
-              { field: elem['createdat']?.split(/\./)[0] },
-  //            { field: elem['updatedat']?.split('T')[0] },
-              { field: elem['username'] },
-              { field: elem['itemid']?.substr(0,10)+'...' },
-              { field: elem['seller'] },
-              { field: elem['amount'] },
-              { field: elem['currency'] },
-              { field: elem['currencyaddress']?.substr(0,10)+'...'   },
-//              { field: elem['statusstr'] },
-              { field: elem['roundnumber'] },
-              { field: elem['duetime']?.split('T')[0] },
-//              { field: elem['nettype'] },
-            ]
-          })
-          LOGGER('', list)
-          setlistlist(list)
+          LOGGER('', list_raw)
+          setlistlist(list_raw)
           setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
@@ -142,6 +129,20 @@ const NotMatchingList = () => {
   useEffect(() => {
     fetchData()
   }, [page, rows, value, searchkey])
+
+  const onClick_ManauallyPay_Btn = (uuid: any) => {
+    axios
+      .post(API.API_MANUAL_PAYDELINQUENCY + `/${uuid}?nettype=${net}`)
+      .then((resp) => {
+        if (resp.data.status === 'OK') {
+          alert('Succeed')
+          fetchData()
+        } else {
+          alert('Fail')
+        }
+      })
+      .catch((error: any) => console.log(error))
+  }
 
   return (
     <>
@@ -194,31 +195,63 @@ const NotMatchingList = () => {
                 <ContainedButton subject="EXCEL" />
               </article>
             </div>
-            <TabPanel value="1">
-              <TableDefaultUserManaging
-                listlist={listlist}
-                columns={tableSet}
-                testFields={testField}
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  margin: '20px 0 0 0',
-                }}
-              >
-                {totalPages > 1 ? (
-                  <Pagination
-                    onChange={(e, v) => {
-                      setPage(v - 1)
-                    }}
-                    count={totalPages}
-                  />
-                ) : (
-                  ''
-                )}
-              </div>
-            </TabPanel>
+            <div>
+              <table className="nft-table">
+                <thead className="nft-th">
+                  <tr>
+                    <td className="nft-td" rowSpan={2}>
+                      ID
+                    </td>
+                    <td className="nft-td">createdat</td>
+                    <td className="nft-td">username</td>
+                    <td className="nft-td">itemid</td>
+                    <td className="nft-td">uuid</td>
+                    <td className="nft-td">amount</td>
+                    <td className="nft-td">roundnumber</td>
+                    <td className="nft-td">duetimeunix</td>
+                    <td className="nft-td">duetime</td>
+                    <td className="nft-td">manually pay</td>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {listlist &&
+                    listlist.map((elem: any, idx: number) => (
+                      <tr key={idx}>
+                        <td className="nft-td" rowSpan={1}>
+                          {elem.id}
+                        </td>
+
+                        <td className="nft-td" rowSpan={1}>
+                          {elem.createdat.split('.')[0]}
+                        </td>
+                        <td className="nft-td">{strDot(elem.username, 15)}</td>
+                        <td className="nft-td">{strDot(elem.itemid, 10)}</td>
+
+                        <td className="nft-td">{elem.uuid}</td>
+                        <td className="nft-td">{elem.amount}</td>
+                        <td className="nft-td">{elem.roundnumber}</td>
+                        <td className="nft-td"> {elem.duetimeunix}</td>
+                        <td className="nft-td"> {elem.duetime}</td>
+                        <td className="nft-td" rowSpan={1}>
+                          <button
+                            style={{
+                              marginRight: '20px',
+                              height: '40px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => {
+                              onClick_ManauallyPay_Btn(elem.uuid)
+                            }}
+                          >
+                            manually pay
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </TabContext>
         </Box>
       </Papers>
