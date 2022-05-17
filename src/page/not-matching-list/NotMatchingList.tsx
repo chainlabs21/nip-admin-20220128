@@ -205,7 +205,7 @@ const NotMatchingList = () => {
                     <td className="nft-td">createdat</td>
                     <td className="nft-td">username</td>
                     <td className="nft-td">itemid</td>
-                    <td className="nft-td">uuid</td>
+
                     <td className="nft-td">amount</td>
                     <td className="nft-td">roundnumber</td>
                     <td className="nft-td">duetimeunix</td>
@@ -225,10 +225,9 @@ const NotMatchingList = () => {
                         <td className="nft-td" rowSpan={1}>
                           {elem.createdat.split('.')[0]}
                         </td>
-                        <td className="nft-td">{strDot(elem.username, 15)}</td>
-                        <td className="nft-td">{strDot(elem.itemid, 10)}</td>
+                        <td className="nft-td">{elem.username}</td>
+                        <td className="nft-td">{elem.itemid}</td>
 
-                        <td className="nft-td">{elem.uuid}</td>
                         <td className="nft-td">{elem.amount}</td>
                         <td className="nft-td">{elem.roundnumber}</td>
                         <td className="nft-td"> {elem.duetimeunix}</td>

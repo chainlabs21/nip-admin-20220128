@@ -97,9 +97,13 @@ const MatchingStatus = () => {
 
   const fetchData = () => {
     axios
-      .get(API.API_LOGSALES + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
-        params: { date0: value[0], date1: value[1], searchkey },
-      })
+      .get(
+        API.API_LOGSALES +
+          `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+        {
+          params: { date0: value[0], date1: value[1], searchkey },
+        },
+      )
       .then((resp) => {
         LOGGER('', resp.data)
         // setCount(resp.data.payload.count as number)
@@ -110,7 +114,7 @@ const MatchingStatus = () => {
             return [
               { field: elem['id'] },
               { field: strDot(elem['createdat'], 10) },
-              { field: strDot(elem['username'], 2, 23) },
+              { field: elem['username'] },
               { field: elem['itemid'] },
               { field: elem['amount'] },
               { field: elem['currency'] },
