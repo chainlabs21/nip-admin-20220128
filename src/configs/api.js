@@ -24,6 +24,10 @@ const API = {
   API_GET_ITEMSTATS: `${URL}/itemstats`,
   API_SET_ACTIVE_USER: `${URL}/users/user_active`,
   API_GET_LOG_FEEPAYMENTS: `${URL}/queries/rows/logfeepayments/nettype`,
+  API_CURRENT_ROUND_NUM: `${URL}/queries/singlerow/settings/key_/BALLOT_PERIODIC_ROUNDNUMBER`,
+  API_CURRENT_ROUND_STATE: `${URL}/ballot/roundstate`,
+  API_ALLOCATE_ITEMS: `${URL}/ballot/advance/roundstate`,
+  API_INITIALIZE_ROUNDS: `${URL}/ballot/init/rounds`,
 }
 // /rows/:tablename/:fieldname/:fieldval/:offset/:limit/:orderkey/:orderval
 export { API }

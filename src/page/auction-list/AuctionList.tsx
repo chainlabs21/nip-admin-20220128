@@ -15,36 +15,16 @@ import TableDefaultUserManaging from '../../components/table/TableDefaultUserMan
 import { Select, MenuItem } from '@mui/material'
 import { net } from '../../configs/net'
 const tableSet = [
-  {
-    field: 'id',
-  },
-  {
-    field: 'createdat',
-  },
-  {
-    field: 'username',
-  },
-  {
-    field: 'itemid',
-  },
-  {
-    field: 'amount',
-  },
-  {
-    field: 'statusstr',
-  },
-  {
-    field: 'roundnumber',
-  },
-  {
-    field: 'duetimeunix',
-  },
-  {
-    field: 'duetime',
-  },
-  {
-    field: 'nettype',
-  },
+  {    field: 'id',  }, // 0
+  {    field: 'createdat',  }, // 1
+  {    field: 'username',  }, // 2
+  {    field: 'itemid',  }, // 3
+  {    field: 'amount',  }, // 4
+//  {    field: 'statusstr',  }, // 5
+  {    field: 'roundnumber',  },
+  {    field: 'duetimeunix',  },
+  {    field: 'duetime',  },
+  {    field: 'Manual pay',  },
 ]
 
 const testField = [
@@ -87,11 +67,11 @@ const AuctionList = () => {
   const [searchkey, setSearchKey] = useState<any>('')
   const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
     setRows(event.target.value)
-  }
-
+	}
+	
   const fetchData = () => {
     axios
-      .get(API.API_RECEIVABLES + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
+      .get( API.API_RECEIVABLES + `/${net}/${page * rows}/${rows}/id/DESC?nettype=${net}`, {
         params: { date0: value[0], date1: value[1], searchkey },
       })
       .then((resp) => {
@@ -100,24 +80,24 @@ const AuctionList = () => {
         let { status, list: list_raw } = resp.data
         console.log('list_raw')
         console.log(list_raw)
-        if (status == 'OK') {
-          let list = list_raw.map((elem: any, index: any) => {
+        if ( status == 'OK' ) {
+          let list = list_raw.map(( elem: any, index: any ) => {
             return [
-              { field: elem['id'] },
-              { field: strDot(elem['createdat'], 10) },
-              { field: strDot(elem['username'], 2, 23) },
-              { field: elem['itemid'] },
-              { field: elem['amount'] },
-              { field: elem['statusstr'] },
+              { field: elem['id'] }, // 0
+              { field: elem['createdat']?.split(/\./)[0] } , // strDot( elem['createdat'], 10) }, // 1
+              { field: elem['username'] } , // strDot(elem['username'], 2, 23) }, // 2
+              { field: elem['itemid']?.substr(0,10) +'...' }, // 3
+              { field: elem['amount'] }, // 4
+//              { field: elem['statusstr'] },
               { field: elem['roundnumber'] },
               { field: elem['duetimeunix'] },
-              { field: strDot(elem['duetime'], 10) },
-              { field: elem['nettype'] },
+              { field: elem['duetime'] } , // strDot( elem['duetime'], 10) },
+//              { field: elem['nettype'] },
             ]
           })
           LOGGER('', list)
           setlistlist(list)
-          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
+          setTotalPages( Math.ceil ((resp.data.payload.count as number) / rows))
         }
       })
   }
@@ -181,7 +161,7 @@ const AuctionList = () => {
             </div>
             <TabPanel value="1">
               <TableDefaultUserManaging
-                listlist={listlist}
+                listlist= { listlist }
                 columns={tableSet}
                 testFields={testField}
               />
