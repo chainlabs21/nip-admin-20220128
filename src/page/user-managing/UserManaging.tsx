@@ -17,6 +17,7 @@ import { SelectChangeEvent } from '@mui/material'
 import { CSVLink } from 'react-csv'
 import Toggle from 'react-toggle'
 import { net } from '../../configs/net'
+import { useNavigate } from 'react-router-dom'
 
 // import moment from 'moment'
 const tableSet = [
@@ -32,6 +33,7 @@ const tableSet = [
 
 const UserManaging = () => {
   //	let [ testField , settestField ]=useState( [] )
+  const navigate = useNavigate()
   let [listlist, setlistlist] = useState<any>([])
 
   const [csv, setCsv] = useState([])
@@ -87,7 +89,7 @@ const UserManaging = () => {
         .then((res) => {
           if (res.data.status === 'OK') {
             alert('succed modify userInfo')
-            window.location.reload()
+            fetchdata()
           } else {
             alert('Falied')
           }
@@ -107,7 +109,7 @@ const UserManaging = () => {
           if (res.data.status === 'OK') {
             alert('succed modify userInfo')
 
-            window.location.reload()
+            fetchdata()
           } else {
             alert('Falied')
           }
@@ -185,12 +187,11 @@ const UserManaging = () => {
                   </td>
                   <td className="nft-td">username</td>
                   <td className="nft-td">email</td>
-                  <td className="nft-td">nickname</td>
+                  <td className="nft-td">nickName</td>
                   <td className="nft-td">staked</td>
-                  <td className="nft-td">myreferercode</td>
                   <td className="nft-td">가입일</td>
-                  <td className="nft-td">delinquent</td>
                   <td className="nft-td">nettype</td>
+                  <td className="nft-td">상세보기</td>
                   <td className="nft-td">계정활성화</td>
                 </tr>
               </thead>
@@ -209,16 +210,27 @@ const UserManaging = () => {
                       <td className="nft-td">{elem.email}</td>
                       <td className="nft-td">{elem.nickname}</td>
                       <td className="nft-td">{elem.isstaked}</td>
-                      <td className="nft-td">{elem.referer}</td>
                       <td className="nft-td"> {strDot(elem.createdat, 10)}</td>
-                      <td className="nft-td"> {elem.isdelinquent}</td>
                       <td className="nft-td"> {elem.nettype}</td>
+                      <td className="nft-td">
+                        <button
+                          style={{ marginLeft: '55px', cursor: 'pointer' }}
+                          onClick={() => {
+                            navigate('/user-managing_detail', {
+                              state: elem.username,
+                            })
+                          }}
+                        >
+                          상세보기
+                        </button>
+                      </td>
+
                       <td className="nft-td" rowSpan={1}>
                         <td className="nft-td">
                           {elem.active ? '활성' : '비활성'}
                         </td>
                         <button
-                          style={{ marginRight: '20px' }}
+                          style={{ marginRight: '20px', cursor: 'pointer' }}
                           onClick={() => {
                             onclick_user_active_btn(elem)
                           }}
@@ -226,6 +238,7 @@ const UserManaging = () => {
                           활성화
                         </button>
                         <button
+                          style={{ cursor: 'pointer' }}
                           onClick={() => {
                             onclick_user_unactive_btn(elem)
                           }}

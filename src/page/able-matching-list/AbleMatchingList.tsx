@@ -112,7 +112,7 @@ const AbleMatchingList = () => {
               { field: elem['createdat']?.split('T')[0] },
               { field: elem['username'] },
               { field: elem['itemid'] },
-              { field: elem['amount'] },
+              { field: elem['amount'] * 10 },
               { field: elem['currency'] },
               { field: elem['currencyaddress'] },
               { field: elem['statusstr'] },

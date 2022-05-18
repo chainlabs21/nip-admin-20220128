@@ -84,6 +84,8 @@ const ForceAdvanceRound = (props: any) => {
       if (res) {
         console.log(res)
         SetErrorBar('Status: ' + res.data.status)
+        queryCurrentRoundNum()
+        queryCurrentRoundState()
       }
     } catch (err) {
       console.log(err)

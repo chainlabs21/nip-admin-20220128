@@ -20,74 +20,6 @@ import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import { net } from '../../configs/net'
 
-const tableSet = [
-  {
-    field: 'id',
-  },
-  {
-    field: 'createdat',
-  },
-  //  {    field: 'updatedat',  },
-  {
-    field: 'username',
-  },
-  {
-    field: 'itemid',
-  },
-  {
-    field: 'seller',
-  },
-  {
-    field: 'amount',
-  },
-  {
-    field: 'currency',
-  },
-  {
-    field: 'currencyaddress',
-  },
-  //  {    field: 'statusstr',  },
-  {
-    field: 'roundnumber',
-  },
-  {
-    field: 'duetime',
-  },
-  {
-    field: 'nettype',
-  },
-]
-
-const testField = [
-  {
-    field: '1',
-  },
-  {
-    field: 'Moong #11',
-  },
-  {
-    field: '100 USDT',
-  },
-  {
-    field: 'Success',
-  },
-  {
-    field: '100',
-  },
-  {
-    field: 'https://nip1.net',
-  },
-  {
-    field: '2022-02-02',
-  },
-  {
-    field: '2022-02-02',
-  },
-  {
-    field: '2022-02-02',
-  },
-]
-
 const NotMatchingList = () => {
   const [value, setValue] = React.useState('1')
   let [listlist, setlistlist] = useState([])
@@ -216,7 +148,7 @@ const NotMatchingList = () => {
 
                 <tbody>
                   {listlist &&
-                    listlist.map((elem: any, idx: number) => (
+                    listlist?.map((elem: any, idx: number) => (
                       <tr key={idx}>
                         <td className="nft-td" rowSpan={1}>
                           {elem.id}
@@ -228,7 +160,7 @@ const NotMatchingList = () => {
                         <td className="nft-td">{elem.username}</td>
                         <td className="nft-td">{elem.itemid}</td>
 
-                        <td className="nft-td">{elem.amount}</td>
+                        <td className="nft-td">{elem.amount * 10}</td>
                         <td className="nft-td">{elem.roundnumber}</td>
                         <td className="nft-td"> {elem.duetimeunix}</td>
                         <td className="nft-td"> {elem.duetime}</td>
@@ -250,6 +182,24 @@ const NotMatchingList = () => {
                     ))}
                 </tbody>
               </table>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                margin: '20px 0 0 0',
+              }}
+            >
+              {totalPages > 1 ? (
+                <Pagination
+                  onChange={(e, v) => {
+                    setPage(v - 1)
+                  }}
+                  count={totalPages}
+                />
+              ) : (
+                ''
+              )}
             </div>
           </TabContext>
         </Box>

@@ -116,7 +116,7 @@ const MatchingStatus = () => {
               { field: strDot(elem['createdat'], 10) },
               { field: elem['username'] },
               { field: elem['itemid'] },
-              { field: elem['amount'] },
+              { field: parseInt(elem['amount']).toFixed(2) },
               { field: elem['currency'] },
               { field: elem['statusstr'] },
               { field: elem['roundnumber'] },

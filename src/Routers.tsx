@@ -27,6 +27,7 @@ import SignIn from './page/sign-in/SignIn'
 import ManageAuctionDaily from './page/nft-managing/ManageAuctionDaily'
 import ForceAdvanceRound from './page/nft-managing/ForceAdvanceRound'
 import LogFeePayments from './page/nft-managing/LogFeePayments'
+import UserManagingDetail from './page/user-managing/UserDetailInfo'
 const Routers = () => {
   return (
     <Routes>
@@ -44,6 +45,7 @@ const Routers = () => {
       />
 
       <Route path="/user-managing" element={<UserManaging />} />
+      <Route path="/user-managing_detail" element={<UserManagingDetail />} />
       <Route path="/user-transaction" element={<UserTranSaction />} />
 
       <Route path="/nft-register" element={<NftRegister />} />
@@ -69,7 +71,10 @@ const Routers = () => {
       <Route path="/banner-management" element={<BannerManagement />} />
       <Route path="/manage-auction" element={<ManageAuction />} />
       <Route path="/manage-auction-daily" element={<ManageAuctionDaily />} />
-      <Route path="/manually-force-advance-round" element={<ForceAdvanceRound />} />
+      <Route
+        path="/manually-force-advance-round"
+        element={<ForceAdvanceRound />}
+      />
       <Route path="/logfeepayments" element={<LogFeePayments />} />
 
       <Route path="/" element={<Main />} />

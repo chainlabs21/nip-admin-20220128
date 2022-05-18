@@ -68,7 +68,6 @@ const AuctionList = () => {
         }
       })
       .catch((error: any) => console.log(error))
-    alert('Fail')
   }
 
   return (
@@ -153,7 +152,9 @@ const AuctionList = () => {
                         </td>
                         <td className="nft-td">{elem.username}</td>
                         <td className="nft-td">{elem.itemid}</td>
-                        <td className="nft-td">{elem.amount}</td>
+                        <td className="nft-td">
+                          {parseInt(elem.amount).toFixed(2)}
+                        </td>
                         <td className="nft-td">{elem.roundnumber}</td>
                         <td className="nft-td"> {elem.duetimeunix}</td>
                         <td className="nft-td"> {elem.duetime}</td>
