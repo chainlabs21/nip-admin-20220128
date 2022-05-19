@@ -205,7 +205,7 @@ const UserManaging = () => {
                       </td>
 
                       <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
+                        {elem.username}
                       </td>
                       <td className="nft-td">{elem.email}</td>
                       <td className="nft-td">{elem.nickname}</td>
@@ -214,7 +214,7 @@ const UserManaging = () => {
                       <td className="nft-td"> {elem.nettype}</td>
                       <td className="nft-td">
                         <button
-                          style={{ marginLeft: '55px', cursor: 'pointer' }}
+                          style={{ marginLeft: '13px', cursor: 'pointer' }}
                           onClick={() => {
                             navigate('/user-managing_detail', {
                               state: elem.username,

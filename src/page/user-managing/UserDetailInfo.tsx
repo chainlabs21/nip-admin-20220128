@@ -6,7 +6,7 @@ import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
 import TableDefault from '../../components/table/TableDefault'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
-import Papers from '../../components/paper/Papers'
+import Papers, { PapersOne } from '../../components/paper/Papers'
 import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import { Pagination } from '@mui/material'
 import axios from 'axios'
@@ -18,6 +18,14 @@ import { CSVLink } from 'react-csv'
 import Toggle from 'react-toggle'
 import { net } from '../../configs/net'
 import { useLocation } from 'react-router-dom'
+import {
+  browserName,
+  browserVersion,
+  isChrome,
+  isFirefox,
+  isSafari,
+  isEdge,
+} from 'react-device-detect'
 // import moment from 'moment'
 
 const tableSet = [
@@ -78,17 +86,42 @@ const UserManagingDetail = () => {
     fetchdata()
   }, [address])
 
+  const onClick_tx_open_window = (txhash: any, nettype: any) => {
+    if (nettype === 'ETH_TESTNET') {
+      if (isChrome) {
+        window.open(`https://ropsten.etherscan.io/tx/${txhash}`, '_blank')
+      }
+      if (isSafari) {
+        window.open(`https://ropsten.etherscan.io/tx/${txhash}`, '_blank')
+      }
+      if (isEdge) {
+        window.open(`https://ropsten.etherscan.io/tx/${txhash}`, '_blank')
+      }
+    }
+    if (nettype === 'BSC_MAINNET') {
+      if (isChrome) {
+        window.open(`https://www.bscscan.com/tx/${txhash}`, '_blank')
+      }
+      if (isSafari) {
+        window.open(`https://www.bscscan.com/tx/${txhash}`, '_blank')
+      }
+      if (isEdge) {
+        window.open(`https://www.bscscan.com/tx/${txhash}`, '_blank')
+      }
+    }
+  }
+
   return (
     <>
-      <Papers title="회원상세정보">
+      <PapersOne title="회원상세정보">
         <section
           style={{
-            padding: '1rem',
+            padding: '3rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Info'</p>
+          <p style={{ fontSize: '30px' }}>Info</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '100rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td" rowSpan={2}>
@@ -108,13 +141,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listlist?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td">
                         {elem.active === 0 ? '비활성' : '활성'}
                       </td>
@@ -141,9 +170,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Ballots'</p>
+          <p style={{ fontSize: '30px' }}>Ballots</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '140rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td" rowSpan={2}>
@@ -167,13 +196,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listBallots?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td">
                         {elem.active === 0 ? '비활성' : '활성'}
                       </td>
@@ -227,9 +252,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Circulations'</p>
+          <p style={{ fontSize: '30px' }}>Circulations</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td" rowSpan={2}>
@@ -253,13 +278,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listCirculations?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td">
                         {elem.active === 0 ? '비활성' : '활성'}
                       </td>
@@ -313,9 +334,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Delinquencies'</p>
+          <p style={{ fontSize: '30px' }}>Delinquencies</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td" rowSpan={2}>
@@ -338,13 +359,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listDelinquencies?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td">{elem.countchangehands}</td>
                       <td className="nft-td">{strDot(elem.itemid, 10)}</td>
 
@@ -387,9 +404,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'ItemBalances'</p>
+          <p style={{ fontSize: '30px' }}>ItemBalances</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td" rowSpan={2}>
@@ -449,9 +466,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Logactions'</p>
+          <p style={{ fontSize: '30px' }}>Logactions</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -481,13 +498,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listLogactions.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td"> {elem.actiontype}</td>
                       <td className="nft-td"> {elem.actionname}</td>
                       <td className="nft-td"> {strDot(elem.seller, 15)}</td>
@@ -497,7 +510,15 @@ const UserManagingDetail = () => {
                       <td className="nft-td">{strDot(elem.itemid, 10)}</td>
                       <td className="nft-td"> {elem.priceunit}</td>
                       <td className="nft-td"> {elem.typestr}</td>
-                      <td className="nft-td">{strDot(elem.txhash, 10)}</td>
+                      <td
+                        className="nft-td"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onClick_tx_open_window(elem.txhash, elem.nettype)
+                        }}
+                      >
+                        {strDot(elem.txhash, 10)}
+                      </td>
                       <td className="nft-td"> {elem.price}</td>
                       <td className="nft-td">{strDot(elem.from_, 15)}</td>
                       <td className="nft-td">{strDot(elem.to_, 15)}</td>
@@ -524,9 +545,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Logdelinquents'</p>
+          <p style={{ fontSize: '30px' }}>Logdelinquents</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -550,13 +571,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listLogdelinquents?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td">{strDot(elem.itemid, 10)}</td>
                       <td className="nft-td"> {elem.amount}</td>
                       <td className="nft-td"> {elem.currency}</td>
@@ -567,7 +584,16 @@ const UserManagingDetail = () => {
                       <td className="nft-td"> {elem.statusstr}</td>
                       <td className="nft-td"> {elem.status}</td>
                       <td className="nft-td"> {elem.roundnumber}</td>
-                      <td className="nft-td"> {strDot(elem.txhash, 15)}</td>
+                      <td
+                        className="nft-td"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onClick_tx_open_window(elem.txhash, elem.nettype)
+                        }}
+                      >
+                        {' '}
+                        {strDot(elem.txhash, 15)}
+                      </td>
                       <td className="nft-td"> {elem.active}</td>
                       <td className="nft-td"> {elem.nettype}</td>
                       <td className="nft-td">
@@ -596,9 +622,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Logfeepayments'</p>
+          <p style={{ fontSize: '30px' }}>Logfeepayments</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -621,13 +647,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listLogfeepayments?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td"> {elem.amount}</td>
                       <td className="nft-td"> {elem.typestr}</td>
                       <td className="nft-td"> {elem.paymeansname}</td>
@@ -635,7 +657,16 @@ const UserManagingDetail = () => {
                         {' '}
                         {strDot(elem.paymeansaddress, 15)}
                       </td>
-                      <td className="nft-td"> {strDot(elem.txhash, 15)}</td>
+                      <td
+                        className="nft-td"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onClick_tx_open_window(elem.txhash, elem.nettype)
+                        }}
+                      >
+                        {' '}
+                        {strDot(elem.txhash, 15)}
+                      </td>
                       <td className="nft-td"> {elem.active}</td>
                       <td className="nft-td"> {elem.nettype}</td>
                       <td className="nft-td">
@@ -664,9 +695,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Logitembalances'</p>
+          <p style={{ fontSize: '30px' }}>Logitembalances</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -687,13 +718,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listLogitembalances?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td"> {strDot(elem.itemid, 15)}</td>
                       <td className="nft-td"> {elem.status}</td>
                       <td className="nft-td"> {elem.buyprice}</td>
@@ -730,9 +757,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Logpayments'</p>
+          <p style={{ fontSize: '30px' }}>Logpayments</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -753,13 +780,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listLogpayments?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td"> {strDot(elem.itemid, 15)}</td>
                       <td className="nft-td"> {elem.status}</td>
                       <td className="nft-td">
@@ -799,9 +822,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Logsales'</p>
+          <p style={{ fontSize: '30px' }}>Logsales</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -826,13 +849,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listLogsales.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td"> {strDot(elem.itemid, 15)}</td>
                       <td className="nft-td"> {elem.amount}</td>
                       <td className="nft-td"> {elem.currency}</td>
@@ -843,7 +862,16 @@ const UserManagingDetail = () => {
                       <td className="nft-td"> {elem.statusstr}</td>
                       <td className="nft-td"> {elem.status}</td>
                       <td className="nft-td"> {elem.roundnumber}</td>
-                      <td className="nft-td"> {strDot(elem.txhash, 15)}</td>
+                      <td
+                        className="nft-td"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onClick_tx_open_window(elem.txhash, elem.nettype)
+                        }}
+                      >
+                        {' '}
+                        {strDot(elem.txhash, 15)}
+                      </td>
                       <td className="nft-td"> {elem.active}</td>
                       <td className="nft-td"> {strDot(elem.seller, 15)}</td>
                       <td className="nft-td"> {elem.nettype}</td>
@@ -873,9 +901,9 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Receivables'</p>
+          <p style={{ fontSize: '30px' }}>Receivables</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
@@ -900,13 +928,9 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listReceivalbes?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
                       <td className="nft-td"> {strDot(elem.itemid, 15)}</td>
                       <td className="nft-td">
                         {' '}
@@ -950,23 +974,15 @@ const UserManagingDetail = () => {
             padding: '1rem',
           }}
         >
-          <p style={{ fontSize: '30px' }}>'Transactions'</p>
+          <p style={{ fontSize: '30px' }}>Transactions</p>
           <div>
-            <table className="nft-table">
+            <table className="nft-table" style={{ width: '160rem' }}>
               <thead className="nft-th">
                 <tr>
                   <td className="nft-td">순서</td>
                   <td className="nft-td">Username</td>
-                  <td className="nft-td">Itemid</td>
                   <td className="nft-td">Txhash</td>
-                  <td className="nft-td">Type</td>
                   <td className="nft-td">Typestr</td>
-                  <td className="nft-td">Active</td>
-                  <td className="nft-td">Status</td>
-                  <td className="nft-td">Amount</td>
-                  <td className="nft-td">Currency</td>
-                  <td className="nft-td">Currencyaddress</td>
-                  <td className="nft-td">Address</td>
                   <td className="nft-td">Nettype</td>
                   <td className="nft-td">생성일</td>
                   <td className="nft-td">수정일</td>
@@ -977,33 +993,23 @@ const UserManagingDetail = () => {
                 {listlist &&
                   listTransactions?.map((elem: any, idx: number) => (
                     <tr key={idx}>
-                      <td className="nft-td" rowSpan={1}>
-                        {elem.id}
-                      </td>
+                      <td className="nft-td">{elem.id}</td>
+                      <td className="nft-td">{strDot(elem.username, 15)}</td>
 
-                      <td className="nft-td" rowSpan={1}>
-                        {strDot(elem.username, 15)}
-                      </td>
-                      <td className="nft-td" rowSpan={1}>
+                      <td
+                        className="nft-td"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onClick_tx_open_window(elem.txhash, elem.nettype)
+                        }}
+                      >
                         {strDot(elem.txhash, 15)}
                       </td>
-                      <td className="nft-td"> {strDot(elem.itemid, 15)}</td>
-                      <td className="nft-td"> {elem.type}</td>
+
                       <td className="nft-td"> {elem.typestr}</td>
 
-                      <td className="nft-td"> {elem.active}</td>
-                      <td className="nft-td"> {elem.status}</td>
-                      <td className="nft-td">
-                        {' '}
-                        {parseInt(elem.amount).toFixed(2)}
-                      </td>
-                      <td className="nft-td"> {elem.currency}</td>
-                      <td className="nft-td">
-                        {' '}
-                        {strDot(elem.currencyaddress, 15)}
-                      </td>
                       <td className="nft-td"> {elem.nettype}</td>
-                      <td className="nft-td"> {strDot(elem.address, 15)}</td>
+
                       <td className="nft-td">
                         {' '}
                         {elem.createdat.split('.')[0]}
@@ -1025,7 +1031,7 @@ const UserManagingDetail = () => {
             }}
           ></div>
         </section>
-      </Papers>
+      </PapersOne>
     </>
   )
 }

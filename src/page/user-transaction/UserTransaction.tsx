@@ -13,79 +13,14 @@ import { API } from '../../configs/api'
 import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
 import moment from 'moment'
 import { net } from '../../configs/net'
-
-const tableSet = [
-  {
-    field: 'id',
-  },
-  {
-    field: 'createdat',
-  },
-  {
-    field: 'username',
-  },
-  {
-    field: 'amount',
-  },
-  {
-    field: 'address',
-  },
-  {
-    field: 'currency',
-  },
-  {
-    field: 'itemid',
-  },
-
-  {
-    field: 'txhash',
-  },
-  {
-    field: 'status',
-  },
-  {
-    field: 'typestr',
-  },
-  {
-    field: 'nettype',
-  },
-]
-
-const testField = [
-  {
-    field: '1',
-  },
-  {
-    field: 'kong #112',
-  },
-  {
-    field: '168 USDT',
-  },
-  {
-    field: '경매',
-  },
-  {
-    field: '완료',
-  },
-  {
-    field: '211 USDT',
-  },
-  {
-    field: '0.7 USDT',
-  },
-  {
-    field: '0.3 USDT',
-  },
-  {
-    field: '0xb6..2x',
-  },
-  {
-    field: '0xb6..2x',
-  },
-  {
-    field: '2022-02-02',
-  },
-]
+import {
+  browserName,
+  browserVersion,
+  isChrome,
+  isFirefox,
+  isSafari,
+  isEdge,
+} from 'react-device-detect'
 
 const UserTranSaction = () => {
   //	let [ testField , settestField ]=useState( [] )
@@ -116,24 +51,9 @@ const UserTranSaction = () => {
         let { status, list: list_raw } = resp.data
         if (status == 'OK') {
           // settestField ( list )
-          let list = list_raw.map((elem: any) => {
-            return [
-              { field: elem['id'] },
-              { field: moment(elem['createdat']).format('YYYY-MM-DD') },
-              { field: strDot(elem['username'], 20, 0) },
-              { field: elem['amount'] },
-              { field: elem['address'] },
-              { field: elem['currency'] },
-              { field: elem['itemid'] },
 
-              { field: strDot(elem['txhash'], 20) },
-              { field: elem['status'] },
-              { field: elem['typestr'] },
-              { field: elem['nettype'] },
-            ]
-          })
-          LOGGER('', list)
-          setlistlist(list)
+          LOGGER('', list_raw)
+          setlistlist(list_raw)
           setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
@@ -147,9 +67,34 @@ const UserTranSaction = () => {
     console.log(totalPages)
   }, [page, rows, value, searchkey])
 
+  const onClick_tx_open_window = (txhash: any, nettype: any) => {
+    if (nettype === 'ETH_TESTNET') {
+      if (isChrome) {
+        window.open(`https://ropsten.etherscan.io/tx/${txhash}`, '_blank')
+      }
+      if (isSafari) {
+        window.open(`https://ropsten.etherscan.io/tx/${txhash}`, '_blank')
+      }
+      if (isEdge) {
+        window.open(`https://ropsten.etherscan.io/tx/${txhash}`, '_blank')
+      }
+    }
+    if (nettype === 'BSC_MAINNET') {
+      if (isChrome) {
+        window.open(`https://www.bscscan.com/tx/${txhash}`, '_blank')
+      }
+      if (isSafari) {
+        window.open(`https://www.bscscan.com/tx/${txhash}`, '_blank')
+      }
+      if (isEdge) {
+        window.open(`https://www.bscscan.com/tx/${txhash}`, '_blank')
+      }
+    }
+  }
+
   return (
     <>
-      <Papers title="회원상세">
+      <Papers title="Transaction">
         <section
           style={{
             width: '100%',
@@ -199,11 +144,45 @@ const UserTranSaction = () => {
           </section>
 
           <div>
-            <TableDefaultUserManaging
-              listlist={listlist}
-              columns={tableSet}
-              testFields={testField}
-            />
+            <table className="nft-table">
+              <thead className="nft-th">
+                <tr>
+                  <td className="nft-td" rowSpan={2}>
+                    순서
+                  </td>
+                  <td className="nft-td">username</td>
+                  <td className="nft-td">txhash</td>
+                  <td className="nft-td">typestr</td>
+
+                  <td className="nft-td">생성일</td>
+                  <td className="nft-td">nettype</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                {listlist &&
+                  listlist.map((elem: any, idx: number) => (
+                    <tr key={idx}>
+                      <td className="nft-td">{elem.id}</td>
+
+                      <td className="nft-td">{elem.username}</td>
+                      <td
+                        className="nft-td"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          onClick_tx_open_window(elem.txhash, elem.nettype)
+                        }}
+                      >
+                        {elem.txhash}
+                      </td>
+                      <td className="nft-td">{elem.typestr}</td>
+
+                      <td className="nft-td"> {strDot(elem.createdat, 10)}</td>
+                      <td className="nft-td"> {elem.nettype}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
           <div
             style={{
