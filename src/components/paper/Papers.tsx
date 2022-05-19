@@ -40,14 +40,14 @@ export const PapersOne: React.FC<IPapers> = ({ children, title }) => {
   return (
     <Paper
       sx={{
-        p: 2,
+        marginLeft: '44rem',
         maxWidth: '1000rem',
         maxHeight: '500rem',
         overflowY: 'scroll',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        width: '95rem',
+        width: '140rem',
       }}
     >
       <Typography

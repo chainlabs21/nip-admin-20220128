@@ -116,7 +116,7 @@ const UserManagingDetail = () => {
       <PapersOne title="회원상세정보">
         <section
           style={{
-            padding: '3rem',
+            padding: '1rem',
           }}
         >
           <p style={{ fontSize: '30px' }}>Info</p>
