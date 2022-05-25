@@ -531,22 +531,22 @@ const ManageAuctionDaily = (props: any) => {
     },
   ]
   const onclickSubmitCurrentRoundBtn = () => {
-    setisloader_00(true)
     axios
       .put(API.API_PUTTIME + `?nettype=${net}`, {
-        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
+        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment.unix(
           selectedCurrentDateDraw,
-        ).unix(),
-        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
+        ),
+        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment.unix(
           selectedCurrentDateClose,
-        ).unix(),
+        ),
         nettype: net,
       })
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status === 'OK') {
           alert('저장이 완료 되었습니다.')
-          // window.location.reload()
+
+          window.location.reload()
         }
       })
   }

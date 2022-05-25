@@ -1,4 +1,4 @@
-const URL = 'https://nftinfinity.world:34825' // nips1.net:34815'
+const URL = 'https://nftinfinity.world:34925' // nips1.net:34815'
 
 const API = {
   API_TXS_STAKE: URL + '/queries/rows_v1/transactions/typestr/STAKE', // /:offset/:limit/:orderkey/:orderval
