@@ -86,14 +86,10 @@ const ManageAuctionDaily = (props: any) => {
         LOGGER('resp1', resp)
         setGetBALLOT(respdata)
         setSelectedCurrentDateDraw(
-          moment(respdata.BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS).format(
-            'hh:mm',
-          ),
+          moment.unix(respdata.BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS),
         )
         setSelectedCurrentDateClose(
-          moment(
-            respdata.BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS,
-          ).format('hh:mm'),
+          moment.unix(respdata.BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS),
         )
         setChecked(respdata.BALLOT_PERIODIC_DRAW_ACTIVE === '1' ? true : false)
         setCheckedPay(
@@ -534,12 +530,12 @@ const ManageAuctionDaily = (props: any) => {
   const onclickSubmitCurrentRoundBtn = () => {
     axios
       .put(API.API_PUTTIME + `?nettype=${net}`, {
-        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment.unix(
+        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
           selectedCurrentDateDraw,
-        ),
-        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment.unix(
+        ).unix(),
+        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
           selectedCurrentDateClose,
-        ),
+        ).unix(),
         nettype: net,
       })
       .then((resp) => {
