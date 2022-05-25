@@ -157,6 +157,17 @@ function DashboardContent() {
                 color: 'black',
                 marginRight: '30px',
               }}
+            >
+              BSC_MAINNET
+            </Button>
+            <Button
+              sx={{
+                cursor: 'pointer',
+                width: '150px',
+                bgcolor: 'text.disabled',
+                color: 'black',
+                marginRight: '30px',
+              }}
               onClick={() => navigate('/sign-in')}
             >
               로그인
@@ -214,10 +225,20 @@ function DashboardContent() {
           <Toolbar />
 
           <Container
-            sx={{ mt: 4, mb: 4, ml: 25, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", width: '100%', height: "100vh" }}
+            sx={{
+              mt: 4,
+              mb: 4,
+              ml: 25,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              width: '100%',
+              height: '100vh',
+            }}
           >
             <Routers />
-            <Copyright sx={{ pt: 4, paddingBottom: "10px" }} />
+            <Copyright sx={{ pt: 4, paddingBottom: '10px' }} />
           </Container>
         </Box>
       </Box>

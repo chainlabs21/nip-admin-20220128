@@ -32,9 +32,6 @@ const ManageAuctionDaily = (props: any) => {
     useState<any>()
   const [ballot_delinquency, setBallot_delinquency] = useState<any>()
   const [ballot_draw_fraction, setBallot_draw_fraction] = useState<any>()
-  const [feecollector_staker, setFeecollector_staker] = useState<any>()
-  const [feecollector_pay, setFeecollector_pay] = useState<any>()
-  const [feecollector_delinquent, setFeecollector_delinquent] = useState<any>()
   const [checked, setChecked] = useState<any>(
     getBALLOT?.BALLOT_PERIODIC_DRAW_ACTIVE === '1' ? true : false,
   )
@@ -89,10 +86,14 @@ const ManageAuctionDaily = (props: any) => {
         LOGGER('resp1', resp)
         setGetBALLOT(respdata)
         setSelectedCurrentDateDraw(
-          moment.unix(respdata.BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS),
+          moment(respdata.BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS).format(
+            'hh:mm',
+          ),
         )
         setSelectedCurrentDateClose(
-          moment.unix(respdata.BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS),
+          moment(
+            respdata.BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS,
+          ).format('hh:mm'),
         )
         setChecked(respdata.BALLOT_PERIODIC_DRAW_ACTIVE === '1' ? true : false)
         setCheckedPay(
@@ -171,7 +172,7 @@ const ManageAuctionDaily = (props: any) => {
             >
               <tbody>
                 <tr>
-                  <td style={thtdStyle}>할당 </td>
+                  <td style={thtdStyle}>할당 : (KST기준) </td>
                   <td style={thtdStyle}>
                     할당시간 :{' '}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -191,7 +192,7 @@ const ManageAuctionDaily = (props: any) => {
                   <td style={thtdStyle}>... : </td>
                 </tr>
                 <tr>
-                  <td style={thtdStyle}>마감</td>
+                  <td style={thtdStyle}>마감 : (KST기준)</td>
                   <td style={thtdStyle}>
                     마감시각 :{' '}
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -531,22 +532,22 @@ const ManageAuctionDaily = (props: any) => {
     },
   ]
   const onclickSubmitCurrentRoundBtn = () => {
-    setisloader_00(true)
     axios
       .put(API.API_PUTTIME + `?nettype=${net}`, {
-        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
+        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment.unix(
           selectedCurrentDateDraw,
-        ).unix(),
-        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
+        ),
+        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment.unix(
           selectedCurrentDateClose,
-        ).unix(),
+        ),
         nettype: net,
       })
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status === 'OK') {
           alert('저장이 완료 되었습니다.')
-          // window.location.reload()
+
+          window.location.reload()
         }
       })
   }
