@@ -31,6 +31,7 @@ const ManageAuctionDaily = (props: any) => {
   const [selectedCurrentDateClose, setSelectedCurrentDateClose] =
     useState<any>()
   const [ballot_delinquency, setBallot_delinquency] = useState<any>()
+  const [maxRound, setMaxRound] = useState<any>()
   const [ballot_draw_fraction, setBallot_draw_fraction] = useState<any>()
   const [feecollector_staker, setFeecollector_staker] = useState<any>()
   const [feecollector_pay, setFeecollector_pay] = useState<any>()
@@ -44,6 +45,8 @@ const ManageAuctionDaily = (props: any) => {
   let [isloader_00, setisloader_00] = useState(false)
   let [isloader_01, setisloader_01] = useState(false)
   let [isloader_02, setisloader_02] = useState(false)
+
+  console.log('maxround', maxRound)
 
   const onclickSubmitballot_delinquency = () => {
     if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
@@ -82,6 +85,25 @@ const ManageAuctionDaily = (props: any) => {
     }
   }
 
+  const onclickSubmit_max_round_to_reach_def_fun_btn = () => {
+    if (maxRound >= 0 && maxRound <= 17) {
+      axios
+        .put(API.API_PUTTIME + `?nettype=${net}`, {
+          MAX_ROUND_TO_REACH_DEF: maxRound,
+          nettype: net,
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('범위 값은 0에서 17 라운드까지입니다.')
+    }
+  }
+
   const fetchData = async () => {
     axios.get(API.API_BALLOT + `/?nettype=${net}`).then((resp) => {
       let { status, respdata } = resp.data
@@ -98,6 +120,7 @@ const ManageAuctionDaily = (props: any) => {
         setCheckedPay(
           respdata.BALLOT_PERIODIC_PAYMENTDUE_ACTIVE === '1' ? true : false,
         )
+        setMaxRound(respdata.MAX_ROUND_TO_REACH_DEF)
         setBallot_draw_fraction(respdata.BALLOT_DRAW_FRACTION_BP / 100)
 
         setBallot_delinquency(
@@ -298,6 +321,72 @@ const ManageAuctionDaily = (props: any) => {
                 }}
               >
                 범위 값은 0%에서 50%까지입니다.
+              </article>
+            </article>
+          </div>
+        )
+      },
+    },
+    {
+      content: () => (
+        <hr
+          style={{
+            marginTop: '3rem',
+          }}
+        />
+      ),
+    },
+    {
+      content: () => {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '1rem',
+            }}
+          >
+            <article style={{ width: '30%' }}>MAX ROUND 설정</article>
+            <article style={{ width: '70%' }}>
+              <OutlinedInput
+                type="number"
+                id="outlined-adornment-weight"
+                aria-describedby="outlined-weight-helper-text"
+                inputProps={{ 'aria-label': 'weight' }}
+                // placeholder={`현재 설정 라운드 : ${maxRound} 라운드`}
+                // defaultValue={maxRound}
+                onChange={(e) => {
+                  setMaxRound(e.target.value)
+                }}
+                sx={{
+                  width: '450px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  marginLeft: '5px',
+                  marginRight: '5px',
+                }}
+              />
+              <button
+                style={{
+                  width: '7rem',
+                  marginTop: '2rem',
+                  marginLeft: '5rem',
+                  // marginRight: '2rem',
+                }}
+                onClick={() => {
+                  onclickSubmit_max_round_to_reach_def_fun_btn()
+                }}
+              >
+                저장
+              </button>
+              <article
+                style={{
+                  width: '30%',
+                  marginTop: '0.3rem',
+                  marginLeft: 'rem',
+                }}
+              >
+                라운드는 0에서 17까지 입니다.
               </article>
             </article>
           </div>
