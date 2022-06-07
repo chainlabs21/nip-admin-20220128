@@ -67,9 +67,9 @@ const ForceAdvanceRound = (props: any) => {
         roundstate: currentRoundState,
       })
       if (res) {
-        console.log(res)
         queryCurrentRoundNum()
         queryCurrentRoundState()
+        console.log('1')
       }
     } catch (err) {
       console.log(err)

@@ -46,8 +46,6 @@ const ManageAuctionDaily = (props: any) => {
   let [isloader_01, setisloader_01] = useState(false)
   let [isloader_02, setisloader_02] = useState(false)
 
-  console.log('maxround', maxRound)
-
   const onclickSubmitballot_delinquency = () => {
     if (ballot_delinquency >= 0 && ballot_delinquency <= 100) {
       axios
@@ -88,7 +86,7 @@ const ManageAuctionDaily = (props: any) => {
   const onclickSubmit_max_round_to_reach_def_fun_btn = () => {
     if (maxRound >= 0 && maxRound <= 17) {
       axios
-        .put(API.API_PUTTIME + `?nettype=${net}`, {
+        .put(API.API_PUTSTATE + `/MAX_ROUND_TO_REACH_DEF?nettype=${net}`, {
           MAX_ROUND_TO_REACH_DEF: maxRound,
           nettype: net,
         })
@@ -133,43 +131,6 @@ const ManageAuctionDaily = (props: any) => {
     fetchData()
   }, [])
 
-  // const contract_fatchData = async () => {
-  //   try {
-  //     setisloader_00(true)
-  //     setisloader_01(true)
-  //     setisloader_02(true)
-  //     query_noarg({
-  //       contractaddress: addresses.contract_stake, // ETH_TESTNET.
-  //       abikind: 'STAKE',
-  //       methodname: '_feecollector',
-  //     }).then((resp) => {
-  //       LOGGER('stake', resp)
-  //       setisloader_00(false)
-  //       setFeecollector_staker(resp)
-  //     })
-  //     query_noarg({
-  //       contractaddress: addresses.contract_pay_for_assigned_item, // ETH_TESTNET.
-  //       abikind: 'PAY',
-  //       methodname: '_feecollector',
-  //     }).then((resp) => {
-  //       LOGGER('pay', resp)
-  //       setisloader_01(false)
-  //       setFeecollector_pay(resp)
-  //     })
-  //     query_noarg({
-  //       contractaddress: addresses.payment_for_delinquency, // ETH_TESTNET.
-  //       abikind: 'DELINQUENT',
-  //       methodname: '_feecollector',
-  //     }).then((resp) => {
-  //       LOGGER('delinquent', resp)
-  //       setisloader_02(false)
-  //       setFeecollector_delinquent(resp)
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
   const onReset = () => {
     window.location.reload()
   }
@@ -202,8 +163,6 @@ const ManageAuctionDaily = (props: any) => {
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateDraw}
                         onChange={(newValue) => {
-                          console.log('newValue', newValue)
-                          console.log('newValue', moment(newValue).unix())
                           setSelectedCurrentDateDraw(newValue)
                         }}
                       />
@@ -222,8 +181,6 @@ const ManageAuctionDaily = (props: any) => {
                         renderInput={(props) => <TextField {...props} />}
                         value={selectedCurrentDateClose}
                         onChange={(newValue) => {
-                          console.log('newValue', newValue)
-                          console.log('newValue', moment(newValue).unix())
                           setSelectedCurrentDateClose(newValue)
                         }}
                       />
@@ -619,16 +576,24 @@ const ManageAuctionDaily = (props: any) => {
       },
     },
   ]
+
+  // console.log(
+  //   'BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS',
+  //   moment(selectedCurrentDateDraw).unix(),
+  // )
+  console.log(
+    'BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS',
+    moment(selectedCurrentDateClose).unix(),
+  )
   const onclickSubmitCurrentRoundBtn = () => {
     axios
       .put(API.API_PUTTIME + `?nettype=${net}`, {
-        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment.unix(
+        BALLOT_PERIODIC_DRAW_TIMEOFDAY_INSECONDS: moment(
           selectedCurrentDateDraw,
-        ),
-        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment.unix(
+        ).unix(),
+        BALLOT_PERIODIC_PAYMENTDUE_TIMEOFDAY_INSECONDS: moment(
           selectedCurrentDateClose,
-        ),
-        nettype: net,
+        ).unix(),
       })
       .then((resp) => {
         let { status, respdata } = resp.data
@@ -641,7 +606,6 @@ const ManageAuctionDaily = (props: any) => {
   }
 
   const onclick_put_BALLOT_PERIODIC_DRAW_ACTIVE_btn = (e: any) => {
-    console.log('asdoijasdo', e.target.checked)
     if (e.target.checked) {
       axios
         .put(API.API_PUTSTATE + `/BALLOT_PERIODIC_DRAW_ACTIVE?nettype=${net}`, {
@@ -649,7 +613,6 @@ const ManageAuctionDaily = (props: any) => {
           nettype: net,
         })
         .then((resp) => {
-          console.log('asdioajosd', resp)
           let { status, respdata } = resp.data
           if (status === 'OK') {
             alert('저장이 완료 되었습니다.')
