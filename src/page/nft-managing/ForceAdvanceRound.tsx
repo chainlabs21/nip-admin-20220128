@@ -30,6 +30,8 @@ import { net } from '../../configs/net'
 const ForceAdvanceRound = (props: any) => {
   const [currentRoundNum, setCurrentRoundNum] = useState<any>(0)
   const [currentRoundState, setCurrentRoundState] = useState<any>(0)
+  const [maxRound, setMaxRound] = useState<any>()
+  const [maxKingKongRound, setMaxKingKongRound] = useState<any>()
 
   const queryCurrentRoundNum = async () => {
     try {
@@ -64,7 +66,21 @@ const ForceAdvanceRound = (props: any) => {
   const allocateItems = async () => {
     try {
       const res = await axios.post(API.API_ALLOCATE_ITEMS + `?nettype=${net}`, {
-        roundstate: currentRoundState,
+        roundstate: 0,
+      })
+      if (res) {
+        queryCurrentRoundNum()
+        queryCurrentRoundState()
+        console.log('1')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const closeAllocateItems = async () => {
+    try {
+      const res = await axios.post(API.API_ALLOCATE_ITEMS + `?nettype=${net}`, {
+        roundstate: 1,
       })
       if (res) {
         queryCurrentRoundNum()
@@ -95,6 +111,62 @@ const ForceAdvanceRound = (props: any) => {
   useEffect(() => {
     queryCurrentRoundNum()
     queryCurrentRoundState()
+  }, [])
+
+  const onclickSubmit_max_round_to_reach_def_fun_btn = () => {
+    if (maxRound >= 0 && maxRound <= 17) {
+      axios
+        .put(API.API_PUTSTATE + `/MAX_ROUND_TO_REACH_DEF?nettype=${net}`, {
+          MAX_ROUND_TO_REACH_DEF: maxRound,
+          nettype: net,
+        })
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('범위 값은 0에서 17 라운드까지입니다.')
+    }
+  }
+  const onclickSubmit_max_kingkong_round_to_reach_def_fun_btn = () => {
+    if (maxKingKongRound >= 0 && maxKingKongRound <= 17) {
+      axios
+        .put(
+          API.API_PUTSTATE +
+            `/COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND?nettype=${net}`,
+          {
+            COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND: maxKingKongRound,
+            nettype: net,
+          },
+        )
+        .then((resp) => {
+          let { status, respdata } = resp.data
+          if (status === 'OK') {
+            alert('저장이 완료 되었습니다.')
+            window.location.reload()
+          }
+        })
+    } else {
+      alert('범위 값은 0에서 17 라운드까지입니다.')
+    }
+  }
+
+  const fetchData = async () => {
+    axios.get(API.API_BALLOT + `/?nettype=${net}`).then((resp) => {
+      let { status, respdata } = resp.data
+      if (status == 'OK') {
+        LOGGER('resp1', resp)
+
+        setMaxRound(respdata.MAX_ROUND_TO_REACH_DEF)
+        setMaxKingKongRound(respdata.COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND)
+      }
+    })
+  }
+  useEffect(() => {
+    fetchData()
   }, [])
 
   return (
@@ -134,7 +206,94 @@ const ForceAdvanceRound = (props: any) => {
           <p>{currentRoundState === '0' ? '할당대기' : '마감대기'}</p>
         </div>
       </div>
-
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        <article style={{ width: '30%' }}>MAX ROUND 설정</article>
+        <article style={{ width: '70%' }}>
+          <OutlinedInput
+            type="number"
+            id="outlined-adornment-weight"
+            aria-describedby="outlined-weight-helper-text"
+            inputProps={{ 'aria-label': 'weight' }}
+            placeholder={`현재 설정 라운드 : ${maxRound} 라운드`}
+            defaultValue={maxRound}
+            onChange={(e) => {
+              setMaxRound(e.target.value)
+            }}
+            sx={{
+              width: '450px',
+              height: '38px',
+              borderRadius: '12px',
+              marginLeft: '5px',
+              marginRight: '5px',
+            }}
+          />
+          <article style={{ marginLeft: '10px' }}>
+            라운드는 0에서 17까지 입니다.
+          </article>
+          <button
+            style={{
+              width: '7rem',
+              marginTop: '2rem',
+              marginLeft: '5rem',
+              // marginRight: '2rem',
+            }}
+            onClick={() => {
+              onclickSubmit_max_round_to_reach_def_fun_btn()
+            }}
+          >
+            저장
+          </button>
+        </article>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        <article style={{ width: '30%' }}>
+          COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND
+        </article>
+        <article style={{ width: '70%' }}>
+          <OutlinedInput
+            type="number"
+            id="outlined-adornment-weight"
+            aria-describedby="outlined-weight-helper-text"
+            inputProps={{ 'aria-label': 'weight' }}
+            placeholder={`현재 설정 라운드 : ${maxKingKongRound} 라운드`}
+            defaultValue={maxRound}
+            onChange={(e) => {
+              setMaxKingKongRound(e.target.value)
+            }}
+            sx={{
+              width: '450px',
+              height: '38px',
+              borderRadius: '12px',
+              marginLeft: '100px',
+              marginRight: '5px',
+            }}
+          />
+          <article style={{ marginLeft: '10px' }}>
+            라운드는 0에서 17까지 입니다.
+          </article>
+          <button
+            style={{
+              width: '7rem',
+              marginTop: '2rem',
+              marginLeft: '5rem',
+              // marginRight: '2rem',
+            }}
+            onClick={() => {
+              onclickSubmit_max_kingkong_round_to_reach_def_fun_btn()
+            }}
+          >
+            저장
+          </button>
+        </article>
+      </div>
       <div style={{ display: 'flex', marginTop: '50px', marginBottom: '50px' }}>
         <Button
           disabled={currentRoundState === '0' ? false : true}
@@ -146,7 +305,7 @@ const ForceAdvanceRound = (props: any) => {
         </Button>
         <Button
           disabled={currentRoundState === '1' ? false : true}
-          onClick={() => allocateItems()}
+          onClick={() => closeAllocateItems()}
           sx={{ marginLeft: '30px', width: '162px', height: '44px' }}
           variant="contained"
         >

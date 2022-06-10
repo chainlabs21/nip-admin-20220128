@@ -133,7 +133,8 @@ const AuctionList = () => {
                     <td className="nft-td">itemid</td>
                     <td className="nft-td">amount</td>
                     <td className="nft-td">roundnumber</td>
-                    <td className="nft-td">duetimeunix</td>
+
+                    <td className="nft-td">group_</td>
                     <td className="nft-td">duetime</td>
                     <td className="nft-td">manually pay</td>
                   </tr>
@@ -156,7 +157,7 @@ const AuctionList = () => {
                           {parseInt(elem.amount).toFixed(2)}
                         </td>
                         <td className="nft-td">{elem.roundnumber}</td>
-                        <td className="nft-td"> {elem.duetimeunix}</td>
+                        <td className="nft-td"> {elem.group_}</td>
                         <td className="nft-td"> {elem.duetime}</td>
                         <td className="nft-td" rowSpan={1}>
                           <button
