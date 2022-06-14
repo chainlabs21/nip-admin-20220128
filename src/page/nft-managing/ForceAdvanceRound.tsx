@@ -277,7 +277,8 @@ const ForceAdvanceRound = (props: any) => {
             }}
           />
           <article style={{ marginLeft: '10px' }}>
-            라운드는 0에서 17까지 입니다.
+            *51라운드가 되면 해당 구매자에 시리즈 콩 157.35불과 킹콩 372불이
+            할당 됩니다.
           </article>
           <button
             style={{
