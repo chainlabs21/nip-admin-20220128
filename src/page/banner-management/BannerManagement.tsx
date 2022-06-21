@@ -208,7 +208,7 @@ const BannerManagement = () => {
                       <TableCell>{dateFormat}</TableCell>
                       <TableCell>
                         <Switch
-                          checked={item.active === 1 ? true : false}
+                          checked={item.isinuse === 1 ? true : false}
                           onChange={(e: any) => {
                             onToggle(index, e.target.checked, item.uuid)
                           }}
