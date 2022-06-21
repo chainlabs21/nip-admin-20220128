@@ -114,44 +114,35 @@ const ForceAdvanceRound = (props: any) => {
   }, [])
 
   const onclickSubmit_max_round_to_reach_def_fun_btn = () => {
-    if (maxRound >= 0 && maxRound <= 17) {
-      axios
-        .put(API.API_PUTSTATE + `/MAX_ROUND_TO_REACH_DEF?nettype=${net}`, {
-          MAX_ROUND_TO_REACH_DEF: maxRound,
-          nettype: net,
-        })
-        .then((resp) => {
-          let { status, respdata } = resp.data
-          if (status === 'OK') {
-            alert('저장이 완료 되었습니다.')
-            window.location.reload()
-          }
-        })
-    } else {
-      alert('범위 값은 0에서 17 라운드까지입니다.')
-    }
+    axios
+      .put(API.API_PUTSTATE + `/MAX_ROUND_TO_REACH_DEF?nettype=${net}`, {
+        MAX_ROUND_TO_REACH_DEF: maxRound,
+        nettype: net,
+      })
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status === 'OK') {
+          alert('저장이 완료 되었습니다.')
+          window.location.reload()
+        }
+      })
   }
   const onclickSubmit_max_kingkong_round_to_reach_def_fun_btn = () => {
-    if (maxKingKongRound >= 0 && maxKingKongRound <= 17) {
-      axios
-        .put(
-          API.API_PUTSTATE +
-            `/COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND?nettype=${net}`,
-          {
-            COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND: maxKingKongRound,
-            nettype: net,
-          },
-        )
-        .then((resp) => {
-          let { status, respdata } = resp.data
-          if (status === 'OK') {
-            alert('저장이 완료 되었습니다.')
-            window.location.reload()
-          }
-        })
-    } else {
-      alert('범위 값은 0에서 17 라운드까지입니다.')
-    }
+    axios
+      .put(
+        API.API_PUTSTATE + `/COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND?nettype=${net}`,
+        {
+          COUNT_KONGS_TO_ASSIGN_ON_MAX_ROUND: maxKingKongRound,
+          nettype: net,
+        },
+      )
+      .then((resp) => {
+        let { status, respdata } = resp.data
+        if (status === 'OK') {
+          alert('저장이 완료 되었습니다.')
+          window.location.reload()
+        }
+      })
   }
 
   const fetchData = async () => {
@@ -263,7 +254,7 @@ const ForceAdvanceRound = (props: any) => {
             id="outlined-adornment-weight"
             aria-describedby="outlined-weight-helper-text"
             inputProps={{ 'aria-label': 'weight' }}
-            placeholder={`현재 설정 라운드 : ${maxKingKongRound} 라운드`}
+            placeholder={`현재 킹콩 -> 콩 분배 개수 : ${maxKingKongRound} 개`}
             defaultValue={maxRound}
             onChange={(e) => {
               setMaxKingKongRound(e.target.value)
@@ -276,10 +267,7 @@ const ForceAdvanceRound = (props: any) => {
               marginRight: '5px',
             }}
           />
-          <article style={{ marginLeft: '10px' }}>
-            *51라운드가 되면 해당 구매자에 시리즈 콩 157.35불과 킹콩 372불이
-            할당 됩니다.
-          </article>
+          <article style={{ marginLeft: '10px' }}></article>
           <button
             style={{
               width: '7rem',

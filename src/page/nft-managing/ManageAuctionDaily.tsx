@@ -284,72 +284,7 @@ const ManageAuctionDaily = (props: any) => {
         )
       },
     },
-    {
-      content: () => (
-        <hr
-          style={{
-            marginTop: '3rem',
-          }}
-        />
-      ),
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '1rem',
-            }}
-          >
-            <article style={{ width: '30%' }}>MAX ROUND 설정</article>
-            <article style={{ width: '70%' }}>
-              <OutlinedInput
-                type="number"
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{ 'aria-label': 'weight' }}
-                // placeholder={`현재 설정 라운드 : ${maxRound} 라운드`}
-                // defaultValue={maxRound}
-                onChange={(e) => {
-                  setMaxRound(e.target.value)
-                }}
-                sx={{
-                  width: '450px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  marginLeft: '5px',
-                  marginRight: '5px',
-                }}
-              />
-              <button
-                style={{
-                  width: '7rem',
-                  marginTop: '2rem',
-                  marginLeft: '5rem',
-                  // marginRight: '2rem',
-                }}
-                onClick={() => {
-                  onclickSubmit_max_round_to_reach_def_fun_btn()
-                }}
-              >
-                저장
-              </button>
-              <article
-                style={{
-                  width: '30%',
-                  marginTop: '0.3rem',
-                  marginLeft: 'rem',
-                }}
-              >
-                라운드는 0에서 17까지 입니다.
-              </article>
-            </article>
-          </div>
-        )
-      },
-    },
+
     {
       content: () => (
         <hr
@@ -449,7 +384,7 @@ const ManageAuctionDaily = (props: any) => {
                 marginRight: '5px',
               }}
               readOnly
-              placeholder="0xdd9938393815bCe3695956CAc73c3123AA1f6b1d"
+              placeholder="0xb6d630B3DEeb8B74E743d0a68678933F1fD536Dc"
             />
             <button
               style={{
@@ -498,7 +433,7 @@ const ManageAuctionDaily = (props: any) => {
                 marginLeft: '5px',
                 marginRight: '5px',
               }}
-              placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
+              placeholder="0xaa86CBa96795F21d391F0CB69d9320E9cbdde795"
               // placeholder={feecollector_pay}
               // defaultValue={feecollector_pay}
             />
@@ -549,7 +484,7 @@ const ManageAuctionDaily = (props: any) => {
                 marginLeft: '5px',
                 marginRight: '5px',
               }}
-              placeholder="0xa6d9B48b3D869271fF84F9E62B9E48986EE3Aa7b"
+              placeholder="0xaa86CBa96795F21d391F0CB69d9320E9cbdde795"
               // placeholder={feecollector_delinquent}
               // defaultValue={feecollector_delinquent}
             />

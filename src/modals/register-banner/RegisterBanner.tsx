@@ -23,6 +23,24 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
   const [imageBase64, setImageBase64] = useState<any>('')
   const [imageTitle, setImageTitle] = useState<String>('')
 
+  function onChangeBannerImg(e: any) {
+    const maxSize = 50 * 1024 * 1024
+    let file = e.target.files[0]
+    if (file.size > maxSize) {
+      alert('File size is too large')
+      return
+    }
+    setImageTitle(file.name)
+    console.log('file name', file)
+    let reader = new FileReader()
+    reader.onloadend = function (e: any) {
+      console.log('base64', e.target.result)
+      setImageBase64(e.target.result)
+    }
+    reader.readAsDataURL(file)
+    console.log('e.target.result', imageBase64)
+  }
+
   const bannerManagementBody = [
     {
       content: () => {
@@ -32,226 +50,65 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
               display: 'flex',
               alignItems: 'center',
               padding: '1rem',
-              width: '100%',
             }}
           >
-            <article style={{ width: '100%' }}>배너 위치</article>
-            <article style={{ width: '100%', display: 'flex' }}>
-              <select
-                style={{
-                  width: '160px',
-                  height: '38px',
-                  borderRadius: '12px',
-                  border: '1px solid #D9D9D9',
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                }}
-                name="token"
-              >
-                <option value="">선택</option>
-                <option value="nip">???</option>
-                <option value="???">???</option>
-              </select>
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '1rem',
-              width: '100%',
-            }}
-          >
-            <article style={{ width: '30%' }}>노출 기간</article>
-            <article style={{ width: '70%', display: 'flex' }}>
-              <input
-                type="date"
-                id="start"
-                name="trip-start"
-                value="2022-02-02"
-                min="2022-02-02"
-                max="2022-03-03"
-                style={{
-                  width: '430px',
-                  height: '40px',
-                  borderRadius: '12px',
-                  border: '1px solid #D9D9D9',
-                  textAlign: 'center',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '1rem',
-            }}
-          >
-            <article style={{ width: '30%' }}>URL</article>
-            <article style={{ width: '70%', display: 'flex' }}>
-              <OutlinedInput
-                id="outlined-adornment-weight"
-                aria-describedby="outlined-weight-helper-text"
-                inputProps={{
-                  'aria-label': 'weight',
-                }}
-                sx={{
-                  width: '430px',
-                  height: '40px',
-                  borderRadius: '12px',
-                }}
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '1rem',
-            }}
-          >
-            <article style={{ width: '30%' }}>PC 배너</article>
+            <article style={{ width: '30%' }}>배너 등록</article>
             <article
               style={{ width: '70%', display: 'flex', flexDirection: 'column' }}
             >
-              <div
-                style={{
-                  width: '430px',
-                  height: '40px',
-                  borderRadius: '12px',
-                  border: '1px solid #D9D9D9',
-                }}
-              />
-              {/* style={{
-                  width: '80px',
-                  height: '40px',
-                  backgroundColor: 'white',
-                  color: '#004CE0',
-                  marginLeft: '8px',
-                  cursor: 'pointer',
-                }} */}
-
               <input
                 style={{ margin: '10px' }}
-                onChange={(e: any) => uploadImg(e.target.files[0])}
+                onChange={(e) => onChangeBannerImg(e)}
                 type="file"
-              />
-            </article>
-          </div>
-        )
-      },
-    },
-    {
-      content: () => {
-        return (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              padding: '1rem',
-            }}
-          >
-            <article style={{ width: '30%' }}>모바일 배너</article>
-            <article
-              style={{ width: '70%', display: 'flex', flexDirection: 'column' }}
-            >
-              <div
-                style={{
-                  width: '430px',
-                  height: '40px',
-                  borderRadius: '12px',
-                  border: '1px solid #D9D9D9',
-                }}
-              />
-              {/* <button
-                style={{
-                  width: '80px',
-                  height: '40px',
-                  borderRadius: '12px',
-                  border: '1px solid #004CE0',
-                  backgroundColor: 'white',
-                  color: '#004CE0',
-                  marginLeft: '8px',
-                  cursor: 'pointer',
-                }}
-              >
-                추가
-              </button> */}
-              <input
-                style={{ margin: '10px' }}
-                onChange={(e: any) => uploadImg(e.target.files[0])}
-                type="file"
-              />
+              ></input>
             </article>
           </div>
         )
       },
     },
   ]
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
-  }
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault()
+  //   const data = new FormData(event.currentTarget)
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   })
+  // }
 
-  const uploadImg = (file: any) => {
-    if (file.size >= 10 * 1024 * 1024) {
-      alert('파일의 용량이 초과되었습니다')
-      return
-    }
-    console.log('FILE', file.type, file.size, file.name)
-    if (
-      file.type !== 'image/png' &&
-      file.type !== 'image/jpg' &&
-      file.type !== 'image/jpeg' &&
-      file.type !== 'image/gif'
-    ) {
-      alert('파일의 형식을 확인 해 주세요')
-      return
-    }
-    setImageTitle(file.name)
-    formData.append('file', file)
-    let reader = new FileReader()
+  // const uploadImg = (file: any) => {
+  //   if (file.size >= 10 * 1024 * 1024) {
+  //     alert('파일의 용량이 초과되었습니다')
+  //     return
+  //   }
+  //   console.log('FILE', file.type, file.size, file.name)
+  //   if (
+  //     file.type !== 'image/png' &&
+  //     file.type !== 'image/jpg' &&
+  //     file.type !== 'image/jpeg' &&
+  //     file.type !== 'image/gif'
+  //   ) {
+  //     alert('파일의 형식을 확인 해 주세요')
+  //     return
+  //   }
+  //   setImageTitle(file.name)
+  //   formData.append('file', file)
+  //   let reader = new FileReader()
 
-    reader.onloadend = function () {
-      var b64 = reader.result
-      console.log('base64 ', b64)
-      setImageBase64(b64)
-    }
-    reader.readAsDataURL(file)
-  }
+  //   reader.onloadend = function () {
+  //     var b64 = reader.result
+  //     console.log('base64 ', b64)
+  //     setImageBase64(b64)
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
 
   const postBanner = () => {
     let data = {
       imagepc: imageBase64,
-      imagemobile: imageBase64,
       writer: 'admin00',
       isinuse: '1',
       filenamepc: imageTitle,
-      filenamemobile: imageTitle,
       nettype: net,
     }
     if (uuid) {
@@ -259,6 +116,7 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
         .put(API.API_POST_BANNER + '/' + uuid + `?nettype=${net}`, data)
         .then((res) => {
           console.log(res)
+          handleClose()
         })
         .catch((err) => console.log(err))
     } else {
@@ -266,10 +124,11 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
         .post(API.API_POST_BANNER + `?nettype=${net}`, data)
         .then((res) => {
           console.log(res)
+          handleClose()
+          window.location.reload()
         })
         .catch((err) => console.log(err))
     }
-    handleClose()
   }
 
   return (
@@ -292,7 +151,7 @@ const RegisterBanner: React.FC<ID> = ({ uuid, handleClose }) => {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
               <PaperBodyContent fields={bannerManagementBody} />

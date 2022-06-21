@@ -19,6 +19,7 @@ import { drawerFields } from '../../components/drawer-items/items/drawer-fields'
 import navi_logo from '../../assets/images/navi-logo.png'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
+import { net } from '../../configs/net'
 
 function Copyright(props: any) {
   return (
@@ -158,7 +159,7 @@ function DashboardContent() {
                 marginRight: '30px',
               }}
             >
-              ETH_TESTNET
+              {net}
             </Button>
             <Button
               sx={{

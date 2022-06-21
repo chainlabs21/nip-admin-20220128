@@ -20,17 +20,25 @@ import axios from 'axios'
 import RegisterBanner from '../../modals/register-banner/RegisterBanner'
 import moment from 'moment'
 import { net } from '../../configs/net'
+import { SelectChangeEvent } from '@mui/material'
+import { Switch } from '@mui/material'
 
 const BannerManagement = () => {
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState([])
+  const [data, setData]: any = useState([])
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [uuid, setUuid] = useState<String>('')
+  const [page, setPage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [rows, setRows] = useState<any>(10)
+  const [searchkey, setSearchKey] = useState<any>('')
 
   useEffect(() => {
     axios
-      .get(API.API_BANNER(0, 10) + `?nettype=${net}`)
+      .get(API.API_BANNER(page * rows, rows) + `?nettype=${net}`, {
+        params: { searchkey },
+      })
       .then((res: any) => {
         console.log('banner data', res)
         if (res && res.data) {
@@ -40,9 +48,48 @@ const BannerManagement = () => {
         let { list } = res.data
         console.log('list', list)
         setData(list)
+        setTotalPages(Math.ceil((res.data.payload.count as number) / rows))
       })
       .catch((err) => console.log(err))
   }, [])
+
+  const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
+    setRows(event.target.value)
+  }
+
+  const onToggle = (id: any, value: any, uuid: any) => {
+    console.log('uuid', uuid)
+    setData(
+      data.map((item: any, index: any) =>
+        index === id ? { ...item, active: value } : { ...item },
+      ),
+    )
+    if (uuid) {
+      axios
+        .put(API.API_POST_BANNER + '/' + uuid + `?nettype=${net}`, {
+          isinuse: value === true ? 1 : 0,
+        })
+        .then((res) => {
+          console.log(res)
+          alert('변경완료')
+          window.location.reload()
+        })
+        .catch((err) => console.log(err))
+    }
+    // axios
+    //   .put(api.API_PUT_ADMINS_ROLE + `?nettype=${net}`, {
+    //     id: itemId,
+    //     active: value === true ? 1 : 0,
+    //   })
+    //   .then((resp) => {
+    //     let { status, respdata } = resp.data;
+    //     if (status === "OK") {
+    //       alert("저장이 완료 되었습니다.");
+    //       window.location.reload();
+    //     }
+    //   });
+    alert('OK')
+  }
 
   return (
     <>
@@ -114,7 +161,7 @@ const BannerManagement = () => {
                   console.log(value)
                 }}
               />
-              <Searches searchState={(e) => console.log(e)} />
+              <Searches searchState={(e) => setSearchKey(e)} />
               <ContainedButton
                 handleOpen={handleOpen}
                 subject="등록"
@@ -132,32 +179,25 @@ const BannerManagement = () => {
                   </TableCell> */}
 
                   <TableCell>순서</TableCell>
-                  <TableCell>위치</TableCell>
-                  <TableCell>URL</TableCell>
-                  <TableCell>이미지(PC)</TableCell>
+
                   <TableCell>이미지(Mobile)</TableCell>
-                  <TableCell>기간</TableCell>
+                  <TableCell>등록날짜</TableCell>
                   <TableCell>상태</TableCell>
                 </TableRow>
               </TableHead>
 
-              {data.map((item: any, index) => {
-                let dateFormat = moment(item.updatedat).format('lll')
+              {data.map((item: any, index: any) => {
+                let dateFormat = moment(item.createdat).format('YYYY-MM-DD')
                 return (
                   <TableBody key={index}>
                     <TableRow
                       style={{ cursor: 'pointer' }}
                       onClick={() => {
                         setUuid(item.uuid)
-                        handleOpen()
                       }}
                     >
-                      <TableCell>
-                        <CheckBox />
-                      </TableCell>
                       <TableCell>{item.id}</TableCell>
-                      <TableCell>main_rolling_banner</TableCell>
-                      <TableCell>https://nips.net</TableCell>
+
                       <TableCell>
                         <img
                           width="200px"
@@ -165,19 +205,14 @@ const BannerManagement = () => {
                           alt="banner_pc"
                         />
                       </TableCell>
-                      <TableCell>
-                        <img
-                          width="200px"
-                          src={item.imageurlmobile}
-                          alt="banner_mobile"
-                        />
-                      </TableCell>
                       <TableCell>{dateFormat}</TableCell>
                       <TableCell>
-                        <FormControlLabel
-                          control={<Android12Switch defaultChecked />}
-                          label=""
-                        />
+                        <Switch
+                          checked={item.active === 1 ? true : false}
+                          onChange={(e: any) => {
+                            onToggle(index, e.target.checked, item.uuid)
+                          }}
+                        />{' '}
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -186,15 +221,18 @@ const BannerManagement = () => {
             </Table>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              margin: '20px 0 0 0',
-            }}
-          >
-            <Pagination count={10} showFirstButton showLastButton />
-          </div>
+          {totalPages > 1 ? (
+            <Pagination
+              onChange={(e, v) => {
+                setPage(v - 1)
+              }}
+              count={totalPages}
+              showFirstButton
+              showLastButton
+            />
+          ) : (
+            ''
+          )}
         </section>
       </Papers>
     </>

@@ -1,4 +1,14 @@
-const URL = 'https://nftinfinity.world:34925' // nips1.net:34815, 34925'
+// const URL = 'https://nftinfinity.world:34925' // nips1.net:34815, 34925'
+import { net } from './net'
+
+let URL
+
+const url = {
+  ETH_TESTNET: 'https://nftinfinity.world:34925',
+  BSC_MAINNET: 'https://nftinfinity.world:34825',
+}
+
+URL = url[net]
 
 const API = {
   API_TXS_STAKE: URL + '/queries/rows_v1/transactions/typestr/STAKE', // /:offset/:limit/:orderkey/:orderval
