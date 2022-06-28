@@ -161,10 +161,10 @@ const BannerManagement = () => {
                   console.log(value)
                 }}
               />
-              <Searches searchState={(e) => setSearchKey(e)} />
+
               <ContainedButton
                 handleOpen={handleOpen}
-                subject="등록"
+                subject="배너등록"
                 setUuid={setUuid}
               />
             </article>

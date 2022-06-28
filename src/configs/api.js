@@ -11,7 +11,7 @@ const url = {
 URL = url[net]
 
 const API = {
-  API_TXS_STAKE: URL + '/queries/rows_v1/transactions/typestr/STAKE', // /:offset/:limit/:orderkey/:orderval
+  API_TXS_STAKE: URL + '/queries/rows/logstakes/active/1', // /:offset/:limit/:orderkey/:orderval
   API_USERS: URL + '/queries/rows/users/nettype', // /:offset/:limit/:orderkey/:orderval
   API_USER_DETAIL: URL + '/users/info', // /:offset/:limit/:orderkey/:orderval
   API_GET_BALLOT: URL + '/queries/rows/ballots/nettype', // /:offset/:limit/:orderkey/:orderval

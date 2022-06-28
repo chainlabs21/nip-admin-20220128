@@ -20,16 +20,6 @@ import { net } from '../../configs/net'
 import { useNavigate } from 'react-router-dom'
 
 // import moment from 'moment'
-const tableSet = [
-  { field: 'id' },
-  { field: 'username' },
-  { field: 'email' },
-  { field: 'nickname' },
-  { field: 'staked' },
-  { field: 'myreferercode' },
-  { field: '가입일' },
-  { field: '계정활성화' },
-]
 
 const UserManaging = () => {
   //	let [ testField , settestField ]=useState( [] )

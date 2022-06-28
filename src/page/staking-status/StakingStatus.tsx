@@ -1,265 +1,237 @@
 import React, { useEffect, useState } from 'react'
 import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker'
-import Papers from '../../components/paper/Papers'
-import Box from '@mui/material/Box'
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Pagination, Tab } from '@mui/material'
-// import TableDe fault from '../../components/table/TableD efault'
-import TableDefaultListlist from '../../components/table/TableDefaultListlist'
-
+import { TextField, Box } from '@mui/material'
 import SelectViewer from '../../components/select-viewer/SelectViewer'
-import { Select, MenuItem } from '@mui/material'
-import { SelectChangeEvent } from '@mui/material'
-import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
 import Searches from '../../components/input/search/Searches'
 import ContainedButton from '../../components/input/button/ContainedButton'
-import { API } from '../../configs/api'
+import TableDefault from '../../components/table/TableDefault'
+import TableDefaultUserManaging from '../../components/table/TableDefaultUserManaging'
+import Papers from '../../components/paper/Papers'
+import BasicDateRangePicker from '../../components/date-range/DateRangePicker'
+import { Pagination } from '@mui/material'
 import axios from 'axios'
-import { strDot } from '../../utils/common'
+import { API } from '../../configs/api'
+import { LOGGER, strDot } from '../../utils/common'
+import { Select, MenuItem } from '@mui/material'
+import { SelectChangeEvent } from '@mui/material'
 import { CSVLink } from 'react-csv'
+import Toggle from 'react-toggle'
 import { net } from '../../configs/net'
+import { useNavigate } from 'react-router-dom'
 
-const LOGGER = console.log
-const tableSet = [
-  { field: 'id' }, // 0
-  { field: 'createdat' }, // 1
-  { field: 'amount' }, // 2
-  { field: 'username' },
-  { field: 'currency' }, // 3
-  { field: 'currency-addr' }, // 4
-  { field: 'status' }, // 5
-  { field: 'txhash' },
-  { field: 'netType' },
-  //  {    field: 'Roi',  },
-  //{    field: '스테이킹 시작일',  },
-  //  {    field: '스테이킹 마감일',  },
-]
-const testField = [
-  { field: '1' },
-  { field: 'Moong #11' },
-  { field: 'soejf@gmail.com' },
-  { field: '0xb6...2ef0' },
-  { field: '100일' },
-  { field: '100 USDT' },
-  { field: '30%' },
-  { field: '2022-02-02' },
-  { field: '2022-02-02' },
-]
 const StakingStatus = () => {
+  //	let [ testField , settestField ]=useState( [] )
+  const navigate = useNavigate()
+  let [listlist, setlistlist] = useState<any>([])
+
+  const [csv, setCsv] = useState([])
+  const [value, setValue] = useState<DateRange<Date>>([null, null])
   const [count, setCount] = useState(0)
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
   const [rows, setRows] = useState<any>(10)
-  const [datevalue, setDateValue] = useState<DateRange<Date>>([null, null])
-  const [value, setValue] = React.useState('1')
-  //	let [ test Field , settes tField ]= useState ( [] )
-  let [listlist, setlistlist] = useState([])
-  const [csv, setCsv] = useState([])
-  const [searchkey, setSearchKey] = useState<String>('')
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue)
+  const [searchkey, setSearchKey] = useState<any>('')
+  const [isOpen, setMenu] = useState(false) // 메뉴의 초기값을 false로 설정
+
+  const toggleMenu = () => {
+    setMenu((isOpen) => !isOpen) // on,off 개념 boolean
   }
+
   const handleRows = (event: SelectChangeEvent<{ value: any }>) => {
     setRows(event.target.value)
   }
+
   const fetchdata = async () => {
-    let resp = await axios.get(
-      `${API.API_TXS_STAKE}/${page * rows}/${rows}/id/DESC?nettype=${net}`,
-    )
-    LOGGER('', resp.data)
+    axios
+      .get(
+        API.API_TXS_STAKE + `/${page * rows}/${rows}/id/DESC?nettype=${net}`,
+        {
+          params: { date0: value[0], date1: value[1], searchkey },
+        },
+      )
+      .then((resp) => {
+        LOGGER('respasdasdas', resp.data)
+        setCount(resp.data.payload.count as number)
+        let { status, list: list_raw } = resp.data
+        if (status == 'OK') {
+          //		settestField ( list )
+          setlistlist(resp.data.list)
 
-    let { status, list: list_raw } = resp.data
-    if (status == 'OK') {
-      //				settest Field ( list )
-      setCount(resp.data.payload.count as number)
-      setTotalPages(resp.data.payload.count / rows)
-      let list = list_raw.map((elem: any) => {
-        return [
-          { field: elem['id'] }, // 0
-          { field: elem['createdat']?.split('T')[0] }, // 1
-          { field: elem['amount'] }, // 2
-          { field: strDot(elem['username'], 20, 0) },
-          { field: elem['currency'] }, // 3
-          { field: strDot(elem['currencyaddress'], 8, 0) }, // 4
-          { field: elem['status'] == 1 ? 'Ok' : 'Err' }, // 5
-          { field: strDot(elem['txhash'], 20, 0) }, // 6
-          { field: elem['nettype'] }, // 7
-        ]
-      })
-
-      let csvList = list_raw.map((el: any) => {
-        return {
-          id: el.id,
-          createdat: el.createdat,
-          amount: el.amount,
-          username: el.username,
-          currency: el.currency,
-          currencyaddress: el.currencyaddress,
-          status: el.status,
-          // status: el.status == 1 ? 'Ok' : 'Err',
-          txhash: el.txhash,
-          nettype: el.nettype,
+          setTotalPages(Math.ceil((resp.data.payload.count as number) / rows))
         }
       })
-      LOGGER('F4wjxixHX2', list)
-      setlistlist(list)
-      setCsv(csvList)
+  }
+
+  useEffect(() => {
+    fetchdata()
+  }, [page, rows, value, searchkey])
+
+  const onclick_user_active_btn = (elem: any) => {
+    console.log('asodijfoasidj', elem)
+    if (listlist) {
+      axios
+        .put(API.API_SET_ACTIVE_USER + `/${elem.username}?nettype=${net}`, {
+          active: 1,
+          nettype: net,
+        })
+        .then((res) => {
+          if (res.data.status === 'OK') {
+            alert('succed modify userInfo')
+            fetchdata()
+          } else {
+            alert('Falied')
+          }
+        })
+        .catch((err) => {})
     }
   }
-  useEffect(() => {
-    fetchdata()
-  }, [])
-  useEffect(() => {
-    setTotalPages(count / rows)
-    fetchdata()
-    console.log(totalPages)
-  }, [page, rows, datevalue, searchkey])
+  const onclick_user_unactive_btn = (elem: any) => {
+    console.log('asodijfoasidj', elem)
+    if (listlist) {
+      axios
+        .put(API.API_SET_ACTIVE_USER + `/${elem.username}?nettype=${net}`, {
+          active: 0,
+          nettype: net,
+        })
+        .then((res) => {
+          if (res.data.status === 'OK') {
+            alert('succed modify userInfo')
+
+            fetchdata()
+          } else {
+            alert('Falied')
+          }
+        })
+        .catch((err) => {})
+    }
+  }
+
   return (
     <>
-      <Papers>
-        <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={value}>
-            <Box>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                <Tab label="스테이킹 현황" value="1" />
-                <Tab
-                  label="스왑 현황"
-                  value="2"
-                  onClick={(evt: any) => {
-                    evt.preventDefault()
-                    evt.stopPropagation()
-                    LOGGER('abc')
-                  }}
-                />
-              </TabList>
-            </Box>
-
-            <section
+      <Papers title="스테이킹 현황">
+        <section
+          style={{
+            padding: '1rem',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <article
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                width: '150px',
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  width: '350px',
-                }}
-              >
-                <article style={{ width: '100%' }}>
-                  <Select
-                    id="RowsSelectLabel"
-                    value={rows}
-                    onChange={handleRows}
-                  >
-                    <MenuItem value={10}>10개씩 보기</MenuItem>
-                    <MenuItem value={20}>20개씩 보기</MenuItem>
-                  </Select>
-                </article>
+              <Select id="RowsSelectLabel" value={rows} onChange={handleRows}>
+                <MenuItem value={10}>10개씩 보기</MenuItem>
+                <MenuItem value={20}>20개씩 보기</MenuItem>
+              </Select>
+            </article>
 
-                <article style={{ width: '100%', marginLeft: '8px' }}>
-                  <SelectViewer
-                    title="입찰 신청자 수"
-                    menu={[
-                      { value: 1, label: '1' },
-                      { value: 2, label: '2' },
-                    ]}
-                  />
-                </article>
-              </div>
-
-              <article
-                style={{
-                  marginLeft: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  width: '700px',
+            <article
+              style={{
+                marginLeft: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                width: '700px',
+              }}
+            >
+              <BasicDateRangePicker
+                dateState={(value) => {
+                  setValue(value)
                 }}
-              >
-                <BasicDateRangePicker
-                  dateState={(value) => {
-                    setDateValue(value)
-                  }}
-                />
-                <Searches searchState={(e) => setSearchKey(e)} />
-                <CSVLink
-                  data={csv}
-                  filename={'staking_status.csv'}
-                  target="_blank"
-                  style={{
-                    textDecoration: 'none',
-                    color: '#ffffff',
-                    padding: '15px',
-                    borderRadius: '5px',
-                    backgroundColor: '#1A76D2',
-                    width: '200px',
-                    textAlign: 'center',
-                  }}
-                >
-                  등록
-                </CSVLink>
-                {/* <ContainedButton subject="등록" /> */}
-              </article>
-            </section>
-            <TabPanel value="1">
-              <TableDefaultListlist
-                columns={tableSet}
-                testFields={testField}
-                listlist={listlist}
               />
-              <div
+              <Searches searchState={(e) => setSearchKey(e)} />
+              <CSVLink
+                data={csv}
+                filename={'user_data.csv'}
+                target="_blank"
                 style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  margin: '20px 0 0 0',
+                  textDecoration: 'none',
+                  color: '#ffffff',
+                  padding: '15px',
+                  borderRadius: '5px',
+                  backgroundColor: '#1A76D2',
+                  width: '200px',
+                  textAlign: 'center',
                 }}
               >
-                {totalPages > 1 ? (
-                  <Pagination
-                    onChange={(e, v) => {
-                      setPage(v - 1)
-                    }}
-                    count={totalPages}
-                    showFirstButton
-                    showLastButton
-                  />
-                ) : (
-                  ''
-                )}
-              </div>
-            </TabPanel>
-          </TabContext>
-        </Box>
+                등록
+              </CSVLink>
+              {/* <ContainedButton subject="EXCEL" /> */}
+            </article>
+          </div>
+          <div>
+            <table className="nft-table">
+              <thead className="nft-th">
+                <tr>
+                  <td className="nft-td" rowSpan={2}>
+                    순서
+                  </td>
+                  <td className="nft-td">address</td>
+                  <td className="nft-td">amount</td>
+                  <td className="nft-td">txhash</td>
+                  <td className="nft-td">status</td>
+                  <td className="nft-td">createdat</td>
+
+                  <td className="nft-td">typestr</td>
+                  <td className="nft-td">nettype</td>
+                </tr>
+              </thead>
+
+              <tbody>
+                {listlist &&
+                  listlist.map((elem: any, idx: number) => (
+                    <tr key={idx}>
+                      <td className="nft-td" rowSpan={1}>
+                        {elem.id}
+                      </td>
+
+                      <td className="nft-td" rowSpan={1}>
+                        {elem.username}
+                      </td>
+                      <td className="nft-td">{elem.amount}</td>
+                      <td className="nft-td">{elem.txhash}</td>
+                      <td className="nft-td">
+                        {elem.status ? '활성화' : '비활성화'}
+                      </td>
+                      <td className="nft-td"> {strDot(elem.createdat, 10)}</td>
+                      <td className="nft-td"> {elem.typestr}</td>
+                      <td className="nft-td"> {elem.nettype}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '20px 0 0 0',
+            }}
+          >
+            {totalPages > 1 ? (
+              <Pagination
+                onChange={(e, v) => {
+                  setPage(v - 1)
+                }}
+                count={totalPages}
+                showFirstButton
+                showLastButton
+              />
+            ) : (
+              ''
+            )}
+          </div>
+        </section>
       </Papers>
     </>
   )
 }
 
 export default StakingStatus
-const swapSet = [
-  { field: '순서' },
-  { field: '몬스터 이름' },
-  { field: '계정' },
-  { field: '지갑주소' },
-  { field: '상태' },
-  { field: '-' },
-  { field: '-' },
-  { field: '-' },
-  { field: '날짜' },
-]
-const swapField = [
-  { field: '1' },
-  { field: 'Moong #11' },
-  { field: 'soejf@gmail.com' },
-  { field: '0xb6...2ef0' },
-  { field: 'Swap' },
-  { field: '-' },
-  { field: '-' },
-  { field: '-' },
-  { field: '2022-02-02' },
-]
