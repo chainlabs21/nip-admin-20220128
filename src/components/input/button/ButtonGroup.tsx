@@ -124,18 +124,12 @@ export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
-          axios
-            .post(API.API_MQ + `?nettype=${net}`, {
-              BALLOT_PERIODIC_ACTIVE: '1',
-            })
-            .then((resp) => {
-              let { status, respdata } = resp.data
-              if (status == 'OK') {
-                console.log('mqSTART')
-                console.log(resp)
-                window.location.reload()
-              }
-            })
+          let { status, respdata } = resp.data
+          if (status == 'OK') {
+            console.log('mqSTART')
+            console.log(resp)
+            window.location.reload()
+          }
         }
       })
   }
@@ -147,18 +141,12 @@ export const Button_Periodic: React.FC<ButtonTitles> = ({ first, second }) => {
       .then((resp) => {
         let { status, respdata } = resp.data
         if (status == 'OK') {
-          axios
-            .post(API.API_MQ + `?nettype=${net}`, {
-              BALLOT_PERIODIC_ACTIVE: '0',
-            })
-            .then((resp) => {
-              let { status, respdata } = resp.data
-              if (status == 'OK') {
-                console.log('mqPUASE')
-                console.log(resp)
-                window.location.reload()
-              }
-            })
+          let { status, respdata } = resp.data
+          if (status == 'OK') {
+            console.log('mqPUASE')
+            console.log(resp)
+            window.location.reload()
+          }
         }
       })
   }
